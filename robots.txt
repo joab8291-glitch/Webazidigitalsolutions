@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /webazi-admin.html
+Disallow: /admin/
 
-Sitemap: https://webazi-digital.netlify.app/sitemap.xml
+Sitemap: https://webazidigitalsolutions.vercel.app/sitemap.xml
