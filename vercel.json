@@ -1,10 +1,7 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/webazi.html" },
-    { "source": "/admin", "destination": "/webazi-admin.html" }
-  ],
-  "redirects": [
-    { "source": "/((?!webazi|admin|404|robots|sitemap|_redirects).*)", "destination": "/404.html", "statusCode": 404 }
+    { "source": "/admin", "destination": "/admin/index.html" },
+    { "source": "/admin/", "destination": "/admin/index.html" }
   ],
   "headers": [
     {
