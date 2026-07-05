@@ -1,7 +1,7 @@
 {
   "rewrites": [
-    { "source": "/admin", "destination": "/admin/index.html" },
-    { "source": "/admin/", "destination": "/admin/index.html" }
+    { "source": "/admin", "destination": "/webazi-admin.html" },
+    { "source": "/admin/", "destination": "/webazi-admin.html" }
   ],
   "headers": [
     {
