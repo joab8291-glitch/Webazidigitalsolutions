@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Webazi Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+:root{
+  --navy:#0D1B3E;--orange:#FF6B00;--orange2:#FF9A3C;
+  --bg:#0a1128;--bg2:#111e3a;--card:#152244;
+  --text:#fff;--sub:rgba(255,255,255,.6);--border:rgba(255,255,255,.08);
+  --green:#00C853;--red:#FF5252;--yellow:#FFD600;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* ── LOGIN ── */
+.login-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px;}
+.login-box{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:48px 40px;width:100%;max-width:380px;text-align:center;}
+.login-logo{width:64px;height:64px;background:var(--navy);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
+.login-box h2{font-size:1.3rem;font-weight:800;margin-bottom:6px;}
+.login-box p{color:var(--sub);font-size:.82rem;margin-bottom:28px;}
+.login-fg{margin-bottom:16px;text-align:left;}
+.login-fg label{display:block;font-size:.78rem;font-weight:700;color:var(--sub);margin-bottom:6px;}
+.login-fg input{width:100%;padding:13px 16px;border:1.5px solid var(--border);border-radius:12px;background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;font-size:.88rem;outline:none;}
+.login-fg input:focus{border-color:var(--orange);}
+.login-btn{width:100%;padding:14px;border-radius:25px;border:none;background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;font-family:'Poppins',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;margin-top:6px;}
+.login-err{color:var(--red);font-size:.8rem;margin-top:10px;display:none;}
+
+/* ── ADMIN LAYOUT ── */
+.admin-layout{display:flex;min-height:100vh;}
+.sidebar{width:260px;background:var(--navy);padding:24px 0;flex-shrink:0;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100;}
+.sidebar-logo{display:flex;align-items:center;gap:12px;padding:0 24px 28px;border-bottom:1px solid var(--border);}
+.sidebar-logo-icon{width:42px;height:42px;background:rgba(255,255,255,.07);border-radius:10px;display:flex;align-items:center;justify-content:center;}
+.sidebar-logo span{font-size:1rem;font-weight:800;color:#fff;}
+.sidebar-logo small{display:block;font-size:.6rem;color:var(--sub);letter-spacing:2px;}
+.sidebar-nav{padding:20px 0;}
+.snav-label{font-size:.65rem;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,.25);padding:0 24px;margin:16px 0 8px;text-transform:uppercase;}
+.snav-item{display:flex;align-items:center;gap:12px;padding:12px 24px;color:rgba(255,255,255,.55);cursor:pointer;transition:.2s;font-size:.87rem;font-weight:500;border-left:3px solid transparent;}
+.snav-item:hover{background:rgba(255,255,255,.04);color:#fff;}
+.snav-item.active{background:rgba(255,107,0,.1);color:var(--orange);border-left-color:var(--orange);}
+.snav-item i{width:18px;font-size:.9rem;}
+.sidebar-bottom{padding:20px 24px;border-top:1px solid var(--border);margin-top:auto;}
+.logout-btn{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.4);font-size:.84rem;cursor:pointer;background:none;border:none;font-family:'Poppins',sans-serif;}
+.logout-btn:hover{color:var(--red);}
+
+.main{margin-left:260px;padding:32px;flex:1;}
+
+/* ── TOP ── */
+.toprow{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;flex-wrap:wrap;gap:12px;}
+.toprow h1{font-size:1.3rem;font-weight:800;}
+.toprow p{color:var(--sub);font-size:.82rem;margin-top:2px;}
+
+/* ── STATS ── */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;margin-bottom:32px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px;display:flex;align-items:center;gap:16px;}
+.stat-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+.stat-card h3{font-size:1.7rem;font-weight:900;}
+.stat-card p{font-size:.75rem;color:var(--sub);}
+
+/* ── TABLE ── */
+.section-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;margin-bottom:24px;}
+.section-card h2{font-size:1rem;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.section-card h2 i{color:var(--orange);}
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;align-items:center;}
+.search-box{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:8px 14px;flex:1;min-width:200px;}
+.search-box input{background:none;border:none;color:var(--text);font-family:'Poppins',sans-serif;font-size:.86rem;outline:none;flex:1;}
+.search-box i{color:var(--sub);}
+.filter-sel{padding:9px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;font-size:.83rem;outline:none;}
+.btn-add{display:flex;align-items:center;gap:8px;padding:9px 18px;border-radius:25px;background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;border:none;font-family:'Poppins',sans-serif;font-weight:700;font-size:.83rem;cursor:pointer;}
+table{width:100%;border-collapse:collapse;font-size:.83rem;}
+th{text-align:left;padding:12px 14px;color:var(--sub);font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid var(--border);}
+td{padding:14px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;}
+tr:hover td{background:rgba(255,255,255,.02);}
+.code-badge{display:inline-block;background:rgba(255,107,0,.1);color:var(--orange);padding:4px 10px;border-radius:8px;font-size:.75rem;font-weight:700;letter-spacing:.5px;}
+.status-badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:700;}
+.s-received{background:rgba(255,214,0,.1);color:var(--yellow);}
+.s-progress{background:rgba(255,107,0,.1);color:var(--orange);}
+.s-review{background:rgba(0,176,255,.1);color:#00B0FF;}
+.s-launched{background:rgba(0,200,83,.1);color:var(--green);}
+.action-btns{display:flex;gap:8px;}
+.act-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--sub);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.78rem;transition:.2s;}
+.act-btn:hover{border-color:var(--orange);color:var(--orange);}
+.act-btn.del:hover{border-color:var(--red);color:var(--red);}
+.empty-state{text-align:center;padding:48px;color:var(--sub);}
+.empty-state i{font-size:2rem;margin-bottom:12px;color:rgba(255,255,255,.15);}
+
+/* ── MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:5000;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px;width:100%;max-width:460px;position:relative;}
+.modal h3{font-size:1rem;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+.modal h3 i{color:var(--orange);}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--sub);font-size:1rem;cursor:pointer;}
+.fg{margin-bottom:16px;}
+.fg label{display:block;font-size:.78rem;font-weight:700;color:var(--sub);margin-bottom:6px;}
+.fg input,.fg select,.fg textarea{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;font-size:.86rem;outline:none;transition:.2s;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--orange);}
+.fg textarea{height:90px;resize:none;}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.modal-btns{display:flex;gap:10px;margin-top:20px;}
+.btn-save{flex:1;padding:13px;border-radius:25px;border:none;background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;font-family:'Poppins',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;}
+.btn-cancel{flex:1;padding:13px;border-radius:25px;border:1px solid var(--border);background:none;color:var(--sub);font-family:'Poppins',sans-serif;font-weight:600;font-size:.9rem;cursor:pointer;}
+
+/* ── COPY BTN ── */
+.copy-code{cursor:pointer;margin-left:6px;color:var(--sub);font-size:.75rem;}
+.copy-code:hover{color:var(--orange);}
+
+/* ── PAGE PANELS ── */
+.admin-page{display:none;}
+.admin-page.active{display:block;}
+
+/* ── SETTINGS ── */
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.setting-item{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:20px;}
+.setting-item h4{font-size:.88rem;font-weight:700;margin-bottom:6px;}
+.setting-item p{font-size:.78rem;color:var(--sub);margin-bottom:12px;}
+
+/* ── INVOICE ── */
+.inv-preview{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.3);}
+.inv-hdr{background:#0D1B3E;padding:28px 32px;display:flex;justify-content:space-between;align-items:flex-start;}
+.inv-brand{font-size:1.1rem;font-weight:900;color:#fff;}
+.inv-brand span{color:#FF6B00;}
+.inv-brand small{display:block;font-size:.6rem;color:rgba(255,255,255,.4);letter-spacing:2px;margin-top:2px;}
+.inv-brand .inv-from{margin-top:12px;font-size:.75rem;color:rgba(255,255,255,.5);line-height:1.65;font-weight:400;}
+.inv-titl{text-align:right;}
+.inv-titl h1{font-size:1.6rem;font-weight:900;color:#fff;letter-spacing:2px;}
+.inv-titl .inum{color:#FF6B00;font-size:.82rem;font-weight:700;margin-top:3px;}
+.inv-titl .idate{color:rgba(255,255,255,.45);font-size:.75rem;margin-top:2px;}
+.inv-stat-badge{display:inline-block;padding:3px 12px;border-radius:20px;font-size:.68rem;font-weight:700;margin-top:6px;}
+.ist-unpaid{background:rgba(255,82,82,.2);color:#FF5252;}
+.ist-partial{background:rgba(255,107,0,.2);color:#FF6B00;}
+.ist-paid{background:rgba(0,200,83,.2);color:#00C853;}
+.inv-body-wrap{padding:28px 32px;background:#fff;}
+.inv-parties{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:22px;}
+.inv-party h5{font-size:.65rem;font-weight:700;color:#FF6B00;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.inv-party p{font-size:.82rem;color:#5A6272;line-height:1.65;}
+.inv-party strong{color:#0D1B3E;}
+.inv-tbl{width:100%;border-collapse:collapse;font-size:.82rem;margin-bottom:20px;}
+.inv-tbl th{background:#0D1B3E;color:#fff;padding:9px 12px;text-align:left;font-size:.7rem;letter-spacing:.5px;}
+.inv-tbl th:last-child,.inv-tbl td:last-child{text-align:right;}
+.inv-tbl td{padding:9px 12px;border-bottom:1px solid #f0f4f8;color:#5A6272;}
+.inv-tbl tr:nth-child(even) td{background:#fafbfd;}
+.inv-tots{display:flex;justify-content:flex-end;margin-bottom:18px;}
+.inv-tots-box{width:220px;font-size:.83rem;}
+.itr{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0f4f8;}
+.itr.grand{border-top:2px solid #FF6B00;border-bottom:none;font-weight:800;color:#0D1B3E;font-size:.95rem;padding-top:8px;}
+.itr.grand .iamt{color:#FF6B00;}
+.inv-pay{background:#f8fafc;border-radius:10px;padding:16px 18px;margin-bottom:16px;}
+.inv-pay h5{font-size:.68rem;font-weight:700;color:#FF6B00;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
+.ipr{display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:5px;color:#5A6272;}
+.ipr strong{color:#0D1B3E;}
+.inv-note{background:#fffbf7;border-left:3px solid #FF6B00;padding:12px 16px;border-radius:0 8px 8px 0;margin-bottom:16px;}
+.inv-note h5{font-size:.65rem;font-weight:700;color:#FF6B00;letter-spacing:1px;margin-bottom:5px;text-transform:uppercase;}
+.inv-note p{font-size:.8rem;color:#5A6272;line-height:1.65;}
+.inv-ftr{background:#0D1B3E;padding:14px 32px;display:flex;justify-content:space-between;align-items:center;}
+.inv-ftr p{color:rgba(255,255,255,.35);font-size:.72rem;}
+.inv-ftr .ty{color:#FF6B00;font-weight:700;font-size:.8rem;}
+.item-irow{display:grid;grid-template-columns:2fr 55px 90px 26px;gap:8px;margin-bottom:8px;align-items:center;}
+.item-irow input{padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;font-size:.81rem;outline:none;}
+.item-irow input:focus{border-color:var(--orange);}
+.idel-btn{background:rgba(255,82,82,.15);border:none;color:#FF5252;width:26px;height:26px;border-radius:6px;cursor:pointer;font-size:.78rem;display:flex;align-items:center;justify-content:center;}
+.iadd-btn{width:100%;padding:8px;border-radius:10px;border:1px dashed rgba(255,107,0,.4);background:none;color:var(--orange);font-family:'Poppins',sans-serif;font-size:.8rem;cursor:pointer;margin-bottom:12px;}
+.inv-actions{display:flex;gap:10px;margin-top:16px;}
+.inv-actions button{flex:1;padding:11px;border-radius:25px;border:none;font-family:'Poppins',sans-serif;font-weight:700;font-size:.83rem;cursor:pointer;}
+.btn-print{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;}
+.btn-wa-inv{background:#25D366;color:#fff;}
+.inv-grid{display:grid;grid-template-columns:320px 1fr;gap:24px;align-items:start;}
+@media(max-width:900px){.inv-grid{grid-template-columns:1fr;}}
+@media print{
+  .admin-layout,.sidebar,.toprow,.inv-grid > div:first-child{display:none!important;}
+  .inv-preview{box-shadow:none;border-radius:0;}
+  body{background:#fff;}
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  .sidebar{width:100%;height:auto;position:relative;}
+  .main{margin-left:0;}
+  .admin-layout{flex-direction:column;}
+  .settings-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <svg viewBox="0 0 32 32" fill="none" width="28" height="28">
+        <rect x="2" y="3" width="3" height="26" rx="1.5" fill="#FF6B00"/>
+        <rect x="27" y="3" width="3" height="26" rx="1.5" fill="#FF6B00"/>
+        <polyline points="7,7 7,25 16,16 25,25 25,7" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h2>Webazi Admin</h2>
+    <p>Sign in to manage your projects</p>
+    <div class="login-fg"><label>Username</label><input type="text" id="loginUser" placeholder="Admin username"/></div>
+    <div class="login-fg"><label>Password</label><input type="password" id="loginPass" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <button class="login-btn" onclick="doLogin()">Sign In</button>
+    <p class="login-err" id="loginErr">❌ Invalid credentials. Try again.</p>
+  </div>
+</div>
+
+<!-- ADMIN LAYOUT -->
+<div class="admin-layout" id="adminLayout" style="display:none;">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">
+        <svg viewBox="0 0 32 32" fill="none" width="26" height="26">
+          <rect x="2" y="3" width="3" height="26" rx="1.5" fill="#FF6B00"/>
+          <rect x="27" y="3" width="3" height="26" rx="1.5" fill="#FF6B00"/>
+          <polyline points="7,7 7,25 16,16 25,25 25,7" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div><span>Webazi</span><small>ADMIN PANEL</small></div>
+    </div>
+    <div class="sidebar-nav">
+      <div class="snav-label">Main</div>
+      <div class="snav-item active" onclick="showAdmin('dashboard')"><i class="fas fa-th-large"></i> Dashboard</div>
+      <div class="snav-item" onclick="showAdmin('projects')"><i class="fas fa-tasks"></i> All Projects</div>
+      <div class="snav-item" onclick="showAdmin('create')"><i class="fas fa-plus-circle"></i> New Project</div>
+      <div class="snav-label">Manage</div>
+      <div class="snav-item" onclick="showAdmin('received')"><i class="fas fa-inbox"></i> Received</div>
+      <div class="snav-item" onclick="showAdmin('inprogress')"><i class="fas fa-cog"></i> In Progress</div>
+      <div class="snav-item" onclick="showAdmin('review')"><i class="fas fa-eye"></i> Under Review</div>
+      <div class="snav-item" onclick="showAdmin('launched')"><i class="fas fa-rocket"></i> Launched</div>
+      <div class="snav-label">Invoices</div>
+      <div class="snav-item" onclick="showAdmin('invoices')"><i class="fas fa-file-invoice"></i> All Invoices</div>
+      <div class="snav-item" onclick="showAdmin('create-invoice')"><i class="fas fa-plus-circle"></i> New Invoice</div>
+      <div class="snav-label">System</div>
+      <div class="snav-item" onclick="showAdmin('settings')"><i class="fas fa-cog"></i> Settings</div>
+    </div>
+    <div class="sidebar-bottom">
+      <button class="logout-btn" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+
+    <!-- DASHBOARD -->
+    <div class="admin-page active" id="page-dashboard">
+      <div class="toprow">
+        <div><h1>Dashboard</h1><p>Welcome back, Joab 👋</p></div>
+        <button class="btn-add" onclick="showAdmin('create')"><i class="fas fa-plus"></i> New Project</button>
+      </div>
+      <div class="stats-row" id="dashStats"></div>
+      <div class="section-card">
+        <h2><i class="fas fa-clock"></i> Recent Projects</h2>
+        <div id="recentList"></div>
+      </div>
+    </div>
+
+    <!-- ALL PROJECTS -->
+    <div class="admin-page" id="page-projects">
+      <div class="toprow">
+        <div><h1>All Projects</h1><p>Manage and update all client projects</p></div>
+        <button class="btn-add" onclick="showAdmin('create')"><i class="fas fa-plus"></i> New Project</button>
+      </div>
+      <div class="section-card">
+        <div class="toolbar">
+          <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Search by code, client or service..." oninput="renderProjects()"/></div>
+          <select class="filter-sel" id="filterStatus" onchange="renderProjects()">
+            <option value="">All Statuses</option>
+            <option>Received</option>
+            <option>In Progress</option>
+            <option>Under Review</option>
+            <option>Launched</option>
+          </select>
+        </div>
+        <div id="projectsTableWrap"></div>
+      </div>
+    </div>
+
+    <!-- CREATE PROJECT -->
+    <div class="admin-page" id="page-create">
+      <div class="toprow"><div><h1>New Project</h1><p>Create a project code for a new client</p></div></div>
+      <div class="section-card" style="max-width:500px;">
+        <h2><i class="fas fa-plus-circle"></i> Project Details</h2>
+        <div class="fg"><label>Client Name *</label><input type="text" id="new-client" placeholder="e.g. Mary Kamau"/></div>
+        <div class="fg"><label>Phone / WhatsApp</label><input type="tel" id="new-phone" placeholder="+254 7XX XXX XXX"/></div>
+        <div class="fg"><label>Service *</label>
+          <select id="new-service">
+            <option>Starter Website (KES 20,000)</option>
+            <option>Business Website (KES 25,000)</option>
+            <option>Professional Website (KES 30,000)</option>
+            <option>Enterprise Website (KES 50,000)</option>
+            <option>SEO Optimisation</option>
+            <option>Social Media Management</option>
+            <option>Graphics & Brand Design</option>
+            <option>M-Pesa Integration</option>
+            <option>All-In-One Bundle</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="fg"><label>Initial Status</label>
+          <select id="new-status">
+            <option>Received</option>
+            <option>In Progress</option>
+            <option>Under Review</option>
+            <option>Launched</option>
+          </select>
+        </div>
+        <div class="fg"><label>Note to Client</label><textarea id="new-note" placeholder="Optional message shown to client when they track..."></textarea></div>
+        <div class="fg"><label>Custom Code (optional)</label><input type="text" id="new-code" placeholder="Leave blank to auto-generate"/></div>
+        <button class="btn-save" onclick="createProject()" style="width:100%;">Generate Project Code</button>
+        <div id="create-result" style="display:none;margin-top:20px;background:rgba(0,200,83,.08);border:1px solid rgba(0,200,83,.2);border-radius:14px;padding:20px;text-align:center;">
+          <p style="color:var(--sub);font-size:.8rem;margin-bottom:8px;">Project Code Generated</p>
+          <h2 id="generated-code" style="color:var(--orange);font-size:1.8rem;letter-spacing:2px;"></h2>
+          <p style="color:var(--sub);font-size:.78rem;margin-top:6px;">Share this code with your client via WhatsApp</p>
+          <div style="display:flex;gap:10px;margin-top:16px;">
+            <button class="btn-save" onclick="copyGeneratedCode()" style="flex:1;">Copy Code</button>
+            <button class="btn-save" onclick="sendCodeViaWA()" style="flex:1;background:linear-gradient(135deg,#25D366,#1da851);">Send via WhatsApp</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATUS FILTER PAGES -->
+    <div class="admin-page" id="page-received">
+      <div class="toprow"><div><h1><i class="fas fa-inbox" style="color:var(--yellow);margin-right:8px;"></i>Received</h1><p>New quote requests pending action</p></div></div>
+      <div class="section-card"><div id="received-list"></div></div>
+    </div>
+    <div class="admin-page" id="page-inprogress">
+      <div class="toprow"><div><h1><i class="fas fa-cog" style="color:var(--orange);margin-right:8px;"></i>In Progress</h1><p>Projects currently being built</p></div></div>
+      <div class="section-card"><div id="inprogress-list"></div></div>
+    </div>
+    <div class="admin-page" id="page-review">
+      <div class="toprow"><div><h1><i class="fas fa-eye" style="color:#00B0FF;margin-right:8px;"></i>Under Review</h1><p>Projects awaiting client feedback</p></div></div>
+      <div class="section-card"><div id="review-list"></div></div>
+    </div>
+    <div class="admin-page" id="page-launched">
+      <div class="toprow"><div><h1><i class="fas fa-rocket" style="color:var(--green);margin-right:8px;"></i>Launched</h1><p>Completed and live projects</p></div></div>
+      <div class="section-card"><div id="launched-list"></div></div>
+    </div>
+
+    <!-- INVOICES LIST -->
+    <div class="admin-page" id="page-invoices">
+      <div class="toprow">
+        <div><h1>All Invoices</h1><p>View and manage all client invoices</p></div>
+        <button class="btn-add" onclick="showAdmin('create-invoice')"><i class="fas fa-plus"></i> New Invoice</button>
+      </div>
+      <div class="section-card">
+        <div class="toolbar">
+          <div class="search-box"><i class="fas fa-search"></i><input type="text" id="inv-search" placeholder="Search by client or invoice number..." oninput="renderInvoices()"/></div>
+          <select class="filter-sel" id="inv-filter" onchange="renderInvoices()">
+            <option value="">All Statuses</option>
+            <option>Unpaid</option>
+            <option>Partial</option>
+            <option>Paid</option>
+          </select>
+        </div>
+        <div id="invoices-table-wrap"></div>
+      </div>
+    </div>
+
+    <!-- CREATE INVOICE -->
+    <div class="admin-page" id="page-create-invoice">
+      <div class="toprow"><div><h1>New Invoice</h1><p>Create a professional invoice for a client</p></div></div>
+      <div class="inv-grid">
+
+        <!-- FORM -->
+        <div class="section-card" style="position:sticky;top:20px;">
+          <h2><i class="fas fa-edit"></i> Invoice Details</h2>
+          <div class="fg-row">
+            <div class="fg"><label>Invoice #</label><input type="text" id="i-num" value="INV-2025-001" oninput="liveInvoice()"/></div>
+            <div class="fg"><label>Date</label><input type="date" id="i-date" oninput="liveInvoice()"/></div>
+          </div>
+          <div class="fg-row">
+            <div class="fg"><label>Due Date</label><input type="date" id="i-due" oninput="liveInvoice()"/></div>
+            <div class="fg"><label>Status</label>
+              <select id="i-status" onchange="liveInvoice()">
+                <option value="unpaid">Unpaid</option>
+                <option value="partial">Partial</option>
+                <option value="paid">Paid</option>
+              </select>
+            </div>
+          </div>
+          <div class="fg"><label>Client Name</label><input type="text" id="i-cname" placeholder="e.g. Pacific Communications" oninput="liveInvoice()"/></div>
+          <div class="fg"><label>Client Phone</label><input type="tel" id="i-cphone" placeholder="+254 7XX XXX XXX" oninput="liveInvoice()"/></div>
+          <div class="fg"><label>Client Email</label><input type="email" id="i-cemail" placeholder="client@email.com" oninput="liveInvoice()"/></div>
+          <div class="fg"><label>Client Location</label><input type="text" id="i-cloc" placeholder="Nairobi, Kenya" oninput="liveInvoice()"/></div>
+          <div style="font-size:.72rem;font-weight:700;color:var(--sub);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;">Services</div>
+          <div style="display:grid;grid-template-columns:2fr 55px 90px 26px;gap:8px;margin-bottom:6px;">
+            <span style="font-size:.66rem;color:rgba(255,255,255,.25);font-weight:700;text-transform:uppercase;">Description</span>
+            <span style="font-size:.66rem;color:rgba(255,255,255,.25);font-weight:700;text-transform:uppercase;">Qty</span>
+            <span style="font-size:.66rem;color:rgba(255,255,255,.25);font-weight:700;text-transform:uppercase;">KES</span>
+            <span></span>
+          </div>
+          <div id="i-items-list"></div>
+          <button class="iadd-btn" onclick="addInvItem()"><i class="fas fa-plus"></i> Add Service</button>
+          <div class="fg-row">
+            <div class="fg"><label>Tax %</label><input type="number" id="i-tax" value="0" min="0" oninput="liveInvoice()"/></div>
+            <div class="fg"><label>Discount (KES)</label><input type="number" id="i-disc" value="0" min="0" oninput="liveInvoice()"/></div>
+          </div>
+          <div class="fg"><label>Notes / Terms</label><textarea id="i-notes" oninput="liveInvoice()">50% deposit required before work begins. Balance due on delivery. Pay via M-Pesa Till: 9248314 (Webazi Digital Solutions).</textarea></div>
+          <div class="inv-actions">
+            <button class="btn-print" onclick="saveAndPrint()"><i class="fas fa-download"></i> Save & Print</button>
+            <button class="btn-wa-inv" onclick="sendInvWA()"><i class="fab fa-whatsapp"></i> Send via WA</button>
+          </div>
+        </div>
+
+        <!-- LIVE PREVIEW -->
+        <div>
+          <div style="font-size:.8rem;color:var(--sub);margin-bottom:12px;display:flex;align-items:center;gap:6px;"><i class="fas fa-eye" style="color:var(--orange);"></i> Live Preview</div>
+          <div class="inv-preview" id="inv-preview-wrap">
+            <div class="inv-hdr">
+              <div>
+                <div class="inv-brand">WEBAZI <span>Digital</span><small>SOLUTIONS</small></div>
+                <div class="inv-from">Westlands, Nairobi, Kenya<br/>joab8291@gmail.com<br/>+254 729 914 983<br/>webazidigital.com</div>
+              </div>
+              <div class="inv-titl">
+                <h1>INVOICE</h1>
+                <div class="inum" id="pv-num">INV-2025-001</div>
+                <div class="idate" id="pv-date">Date: —</div>
+                <div class="idate" id="pv-due">Due: —</div>
+                <span class="inv-stat-badge ist-unpaid" id="pv-stat">UNPAID</span>
+              </div>
+            </div>
+            <div class="inv-body-wrap">
+              <div class="inv-parties">
+                <div class="inv-party">
+                  <h5>From</h5>
+                  <p><strong>Joab Irungu Ndego</strong><br/>Webazi Digital Solutions<br/>Westlands, Nairobi<br/>joab8291@gmail.com<br/>+254 729 914 983</p>
+                </div>
+                <div class="inv-party">
+                  <h5>Bill To</h5>
+                  <p id="pv-client"><strong>—</strong></p>
+                </div>
+              </div>
+              <table class="inv-tbl">
+                <thead><tr><th>#</th><th>Service</th><th style="text-align:center;">Qty</th><th>Amount (KES)</th></tr></thead>
+                <tbody id="pv-items"></tbody>
+              </table>
+              <div class="inv-tots">
+                <div class="inv-tots-box">
+                  <div class="itr"><span>Subtotal</span><span id="pv-sub">KES 0</span></div>
+                  <div class="itr" id="pv-disc-row" style="display:none;"><span>Discount</span><span id="pv-disc" style="color:#00C853;">- KES 0</span></div>
+                  <div class="itr" id="pv-tax-row" style="display:none;"><span>Tax (<span id="pv-taxp">0</span>%)</span><span id="pv-tax">KES 0</span></div>
+                  <div class="itr grand"><span>Total Due</span><span class="iamt" id="pv-total">KES 0</span></div>
+                </div>
+              </div>
+              <div class="inv-pay">
+                <h5>Payment — M-Pesa</h5>
+                <div class="ipr"><span>Till Number</span><strong>9248314</strong></div>
+                <div class="ipr"><span>Business Name</span><strong>Webazi Digital Solutions</strong></div>
+                <div class="ipr"><span>Reference</span><strong id="pv-ref">Invoice Number</strong></div>
+              </div>
+              <div class="inv-note">
+                <h5>Terms & Notes</h5>
+                <p id="pv-notes">50% deposit required before work begins.</p>
+              </div>
+            </div>
+            <div class="inv-ftr">
+              <span class="ty">Thank you for your business! 🙏</span>
+              <p>webazidigital.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="admin-page" id="page-settings">
+      <div class="toprow"><div><h1>Settings</h1><p>Admin preferences and account</p></div></div>
+      <div class="settings-grid">
+        <div class="setting-item">
+          <h4>Change Password</h4>
+          <p>Update your admin login password</p>
+          <div class="fg"><label>New Password</label><input type="password" id="newPass" placeholder="New password"/></div>
+          <button class="btn-save" onclick="changePassword()" style="width:100%;padding:11px;">Save Password</button>
+        </div>
+        <div class="setting-item">
+          <h4>Business Info</h4>
+          <p>WhatsApp number for auto-sends</p>
+          <div class="fg"><label>WhatsApp Number</label><input type="tel" id="settingsWA" value="+254729914983"/></div>
+          <button class="btn-save" onclick="saveSettings()" style="width:100%;padding:11px;">Save Settings</button>
+        </div>
+        <div class="setting-item">
+          <h4>Data Management</h4>
+          <p>Export or clear project data</p>
+          <div style="display:flex;gap:10px;margin-top:8px;">
+            <button class="btn-save" onclick="exportData()" style="flex:1;padding:11px;">Export JSON</button>
+            <button class="btn-cancel" onclick="clearData()" style="flex:1;padding:11px;border-color:var(--red);color:var(--red);">Clear All</button>
+          </div>
+        </div>
+        <div class="setting-item">
+          <h4>About Panel</h4>
+          <p>Webazi Admin Panel v1.0<br/>Built for Webazi Digital Solutions<br/>Westlands, Nairobi</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+    <h3><i class="fas fa-edit"></i> Update Project</h3>
+    <input type="hidden" id="edit-code"/>
+    <div class="fg"><label>Project Code</label><input type="text" id="edit-code-display" disabled style="opacity:.6;"/></div>
+    <div class="fg-row">
+      <div class="fg"><label>Client Name</label><input type="text" id="edit-client"/></div>
+      <div class="fg"><label>Phone</label><input type="tel" id="edit-phone"/></div>
+    </div>
+    <div class="fg"><label>Service</label><input type="text" id="edit-service"/></div>
+    <div class="fg"><label>Status</label>
+      <select id="edit-status">
+        <option>Received</option>
+        <option>In Progress</option>
+        <option>Under Review</option>
+        <option>Launched</option>
+      </select>
+    </div>
+    <div class="fg"><label>Note to Client</label><textarea id="edit-note" placeholder="Message shown to client when they track..."></textarea></div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" onclick="saveProject()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── AUTH ──
+const ADMIN_PASS_KEY = 'webazi_admin_pass';
+const DEFAULT_PASS   = 'webazi2025';
+
+function getAdminPass(){return localStorage.getItem(ADMIN_PASS_KEY)||DEFAULT_PASS;}
+
+function doLogin(){
+  const u=document.getElementById('loginUser').value.trim();
+  const p=document.getElementById('loginPass').value;
+  if((u==='admin'||u==='joab')&&p===getAdminPass()){
+    sessionStorage.setItem('webazi_admin','1');
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('adminLayout').style.display='flex';
+    loadDashboard();
+  } else {
+    document.getElementById('loginErr').style.display='block';
+  }
+}
+
+function doLogout(){
+  sessionStorage.removeItem('webazi_admin');
+  location.reload();
+}
+
+window.addEventListener('load',()=>{
+  if(sessionStorage.getItem('webazi_admin')==='1'){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('adminLayout').style.display='flex';
+    loadDashboard();
+  }
+});
+
+// ── NAVIGATION ──
+function showAdmin(page){
+  document.querySelectorAll('.admin-page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.snav-item').forEach(i=>i.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('.snav-item').forEach(i=>{
+    if(i.getAttribute('onclick')&&i.getAttribute('onclick').includes(`'${page}'`)) i.classList.add('active');
+  });
+  if(page==='dashboard') loadDashboard();
+  if(page==='projects') renderProjects();
+  if(['received','inprogress','review','launched'].includes(page)) renderFiltered(page);
+  if(page==='invoices') renderInvoices();
+  if(page==='create-invoice') initInvoice();
+}
+
+// ── STORAGE HELPERS ──
+async function getAllProjects(){
+  try{
+    const keys=await window.storage.list('project:',true);
+    if(!keys||!keys.keys) return [];
+    const projects=[];
+    for(const k of keys.keys){
+      try{
+        const r=await window.storage.get(k,true);
+        if(r) projects.push({code:k.replace('project:',''),...JSON.parse(r.value)});
+      }catch(e){}
+    }
+    return projects.sort((a,b)=>new Date(b.created||0)-new Date(a.created||0));
+  }catch(e){return [];}
+}
+
+async function getProject(code){
+  try{
+    const r=await window.storage.get('project:'+code,true);
+    return r?JSON.parse(r.value):null;
+  }catch(e){return null;}
+}
+
+async function saveProjectStorage(code,data){
+  await window.storage.set('project:'+code,JSON.stringify(data),true);
+}
+
+async function deleteProject(code){
+  await window.storage.delete('project:'+code,true);
+}
+
+// ── DASHBOARD ──
+async function loadDashboard(){
+  const projects=await getAllProjects();
+  const counts={Received:0,'In Progress':0,'Under Review':0,Launched:0};
+  projects.forEach(p=>{ if(counts[p.status]!==undefined) counts[p.status]++; });
+  document.getElementById('dashStats').innerHTML=`
+    <div class="stat-card"><div class="stat-icon" style="background:rgba(255,214,0,.1);"><i class="fas fa-inbox" style="color:#FFD600;"></i></div><div><h3>${projects.length}</h3><p>Total Projects</p></div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:rgba(255,107,0,.1);"><i class="fas fa-cog" style="color:var(--orange);"></i></div><div><h3>${counts['In Progress']}</h3><p>In Progress</p></div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:rgba(0,176,255,.1);"><i class="fas fa-eye" style="color:#00B0FF;"></i></div><div><h3>${counts['Under Review']}</h3><p>Under Review</p></div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:rgba(0,200,83,.1);"><i class="fas fa-rocket" style="color:var(--green);"></i></div><div><h3>${counts['Launched']}</h3><p>Launched</p></div></div>
+  `;
+  const recent=projects.slice(0,5);
+  document.getElementById('recentList').innerHTML=recent.length?buildTable(recent):'<div class="empty-state"><i class="fas fa-folder-open"></i><p>No projects yet. Create your first one.</p></div>';
+}
+
+// ── TABLE BUILDER ──
+function statusBadge(s){
+  const map={Received:'s-received','In Progress':'s-progress','Under Review':'s-review',Launched:'s-launched'};
+  return `<span class="status-badge ${map[s]||'s-received'}">${s}</span>`;
+}
+
+function buildTable(projects){
+  if(!projects.length) return '<div class="empty-state"><i class="fas fa-folder-open"></i><p>No projects found.</p></div>';
+  return `<table>
+    <thead><tr><th>Code</th><th>Client</th><th>Service</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead>
+    <tbody>
+    ${projects.map(p=>`<tr>
+      <td><span class="code-badge">${p.code}</span><i class="fas fa-copy copy-code" onclick="copyText('${p.code}')" title="Copy"></i></td>
+      <td><strong>${p.client||'—'}</strong><br/><small style="color:var(--sub);">${p.phone||''}</small></td>
+      <td style="color:var(--sub);font-size:.8rem;">${p.service||'—'}</td>
+      <td>${statusBadge(p.status)}</td>
+      <td style="color:var(--sub);font-size:.78rem;">${p.created?new Date(p.created).toLocaleDateString('en-KE',{day:'2-digit',month:'short',year:'numeric'}):'—'}</td>
+      <td><div class="action-btns">
+        <button class="act-btn" onclick="openEdit('${p.code}')" title="Edit"><i class="fas fa-edit"></i></button>
+        <button class="act-btn" onclick="sendUpdateWA('${p.code}')" title="Notify Client"><i class="fab fa-whatsapp"></i></button>
+        <button class="act-btn del" onclick="confirmDelete('${p.code}')" title="Delete"><i class="fas fa-trash"></i></button>
+      </div></td>
+    </tr>`).join('')}
+    </tbody>
+  </table>`;
+}
+
+// ── ALL PROJECTS ──
+async function renderProjects(){
+  const all=await getAllProjects();
+  const search=(document.getElementById('searchInput')?.value||'').toLowerCase();
+  const filter=document.getElementById('filterStatus')?.value||'';
+  const filtered=all.filter(p=>{
+    const matchSearch=!search||(p.code+p.client+p.service).toLowerCase().includes(search);
+    const matchFilter=!filter||p.status===filter;
+    return matchSearch&&matchFilter;
+  });
+  document.getElementById('projectsTableWrap').innerHTML=buildTable(filtered);
+}
+
+// ── FILTERED PAGES ──
+async function renderFiltered(page){
+  const map={received:'Received',inprogress:'In Progress',review:'Under Review',launched:'Launched'};
+  const all=await getAllProjects();
+  const filtered=all.filter(p=>p.status===map[page]);
+  document.getElementById(page+'-list').innerHTML=buildTable(filtered);
+}
+
+// ── CREATE PROJECT ──
+let lastGeneratedCode='';
+let lastGeneratedClient='';
+let lastGeneratedPhone='';
+
+async function createProject(){
+  const client=document.getElementById('new-client').value.trim();
+  const phone=document.getElementById('new-phone').value.trim();
+  const service=document.getElementById('new-service').value;
+  const status=document.getElementById('new-status').value;
+  const note=document.getElementById('new-note').value.trim();
+  const customCode=document.getElementById('new-code').value.trim().toUpperCase();
+  if(!client){alert('Please enter the client name.');return;}
+  const yr=new Date().getFullYear();
+  const code=customCode||('WBZ-'+yr+'-'+String(Math.floor(Math.random()*900)+100));
+  await saveProjectStorage(code,{client,phone,service,status,note,created:new Date().toISOString()});
+  lastGeneratedCode=code;
+  lastGeneratedClient=client;
+  lastGeneratedPhone=phone;
+  document.getElementById('generated-code').textContent=code;
+  document.getElementById('create-result').style.display='block';
+  document.getElementById('new-client').value='';
+  document.getElementById('new-phone').value='';
+  document.getElementById('new-note').value='';
+  document.getElementById('new-code').value='';
+}
+
+function copyGeneratedCode(){
+  copyText(lastGeneratedCode);
+  alert('Code copied! ✅');
+}
+
+function sendCodeViaWA(){
+  const ph=lastGeneratedPhone||'+254729914983';
+  const text=`Hi ${lastGeneratedClient}! 👋%0A%0AYour Webazi project has been registered.%0A%0A🔖 *Project Code: ${lastGeneratedCode}*%0A%0AUse this code to track your project progress at our website.%0A%0AWe'll keep you updated every step of the way!%0A%0A— Webazi Digital Solutions%0A+254 729 914 983`;
+  window.open(`https://wa.me/${ph.replace(/\D/g,'')}?text=${text}`,'_blank');
+}
+
+// ── EDIT MODAL ──
+async function openEdit(code){
+  const p=await getProject(code);
+  if(!p){alert('Project not found.');return;}
+  document.getElementById('edit-code').value=code;
+  document.getElementById('edit-code-display').value=code;
+  document.getElementById('edit-client').value=p.client||'';
+  document.getElementById('edit-phone').value=p.phone||'';
+  document.getElementById('edit-service').value=p.service||'';
+  document.getElementById('edit-status').value=p.status||'Received';
+  document.getElementById('edit-note').value=p.note||'';
+  document.getElementById('editModal').classList.add('open');
+}
+
+function closeModal(){document.getElementById('editModal').classList.remove('open');}
+
+async function saveProject(){
+  const code=document.getElementById('edit-code').value;
+  const existing=await getProject(code)||{};
+  await saveProjectStorage(code,{
+    ...existing,
+    client:document.getElementById('edit-client').value,
+    phone:document.getElementById('edit-phone').value,
+    service:document.getElementById('edit-service').value,
+    status:document.getElementById('edit-status').value,
+    note:document.getElementById('edit-note').value,
+    updated:new Date().toISOString()
+  });
+  closeModal();
+  renderProjects();
+  loadDashboard();
+  alert('Project updated! ✅');
+}
+
+// ── NOTIFY CLIENT ──
+function sendUpdateWA(code){
+  const status=prompt('Current status to notify client about?');
+  if(!status) return;
+  const text=`Hi! 👋 Update on your Webazi project.%0A%0A🔖 Code: *${code}*%0A📊 Status: *${encodeURIComponent(status)}*%0A%0ATrack anytime at our website. Let us know if you have questions!%0A%0A— Webazi Digital Solutions`;
+  window.open(`https://wa.me/254729914983?text=${text}`,'_blank');
+}
+
+// ── DELETE ──
+async function confirmDelete(code){
+  if(confirm(`Delete project ${code}? This cannot be undone.`)){
+    await deleteProject(code);
+    renderProjects();
+    loadDashboard();
+    alert('Project deleted.');
+  }
+}
+
+// ── SETTINGS ──
+function changePassword(){
+  const p=document.getElementById('newPass').value;
+  if(!p||p.length<6){alert('Password must be at least 6 characters.');return;}
+  localStorage.setItem(ADMIN_PASS_KEY,p);
+  alert('Password changed successfully! ✅');
+  document.getElementById('newPass').value='';
+}
+
+function saveSettings(){alert('Settings saved! ✅');}
+
+// ── EXPORT ──
+async function exportData(){
+  const projects=await getAllProjects();
+  const blob=new Blob([JSON.stringify(projects,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='webazi-projects-'+new Date().toISOString().slice(0,10)+'.json';
+  a.click();
+}
+
+async function clearData(){
+  if(!confirm('Clear ALL project data? This is permanent!')) return;
+  const keys=await window.storage.list('project:',true);
+  if(keys?.keys) for(const k of keys.keys) await window.storage.delete(k,true);
+  alert('All data cleared.');
+  loadDashboard();
+}
+
+// ── UTILS ──
+function copyText(t){
+  navigator.clipboard.writeText(t).catch(()=>{
+    const el=document.createElement('textarea');
+    el.value=t; document.body.appendChild(el); el.select();
+    document.execCommand('copy'); document.body.removeChild(el);
+  });
+}
+
+// ══════════════════════════════
+// INVOICE SYSTEM
+// ══════════════════════════════
+let invItems = [{desc:'Professional Website Design (15 pages)', qty:1, amount:30000}];
+
+function initInvoice(){
+  const today = new Date();
+  const due   = new Date(); due.setDate(due.getDate()+14);
+  const d = document.getElementById('i-date');
+  const dv = document.getElementById('i-due');
+  if(d) d.value = today.toISOString().split('T')[0];
+  if(dv) dv.value = due.toISOString().split('T')[0];
+  // Auto-increment invoice number from storage
+  const lastNum = parseInt(localStorage.getItem('webazi_inv_num')||'0') + 1;
+  const yr = today.getFullYear();
+  const el = document.getElementById('i-num');
+  if(el) el.value = `INV-${yr}-${String(lastNum).padStart(3,'0')}`;
+  renderInvItems();
+  liveInvoice();
+}
+
+function renderInvItems(){
+  const list = document.getElementById('i-items-list');
+  if(!list) return;
+  list.innerHTML = '';
+  invItems.forEach((item,i)=>{
+    const row = document.createElement('div');
+    row.className = 'item-irow';
+    row.innerHTML = `
+      <input type="text" value="${item.desc}" placeholder="Service description" oninput="invItems[${i}].desc=this.value;liveInvoice()"/>
+      <input type="number" value="${item.qty}" min="1" oninput="invItems[${i}].qty=+this.value;liveInvoice()"/>
+      <input type="number" value="${item.amount}" min="0" oninput="invItems[${i}].amount=+this.value;liveInvoice()"/>
+      <button class="idel-btn" onclick="removeInvItem(${i})"><i class="fas fa-times"></i></button>`;
+    list.appendChild(row);
+  });
+}
+
+function addInvItem(){
+  invItems.push({desc:'',qty:1,amount:0});
+  renderInvItems();
+  liveInvoice();
+}
+
+function removeInvItem(i){
+  if(invItems.length===1) return;
+  invItems.splice(i,1);
+  renderInvItems();
+  liveInvoice();
+}
+
+function liveInvoice(){
+  const num    = document.getElementById('i-num')?.value||'';
+  const date   = document.getElementById('i-date')?.value||'';
+  const due    = document.getElementById('i-due')?.value||'';
+  const status = document.getElementById('i-status')?.value||'unpaid';
+  const cName  = document.getElementById('i-cname')?.value||'—';
+  const cPhone = document.getElementById('i-cphone')?.value||'';
+  const cEmail = document.getElementById('i-cemail')?.value||'';
+  const cLoc   = document.getElementById('i-cloc')?.value||'';
+  const taxPct = +document.getElementById('i-tax')?.value||0;
+  const disc   = +document.getElementById('i-disc')?.value||0;
+  const notes  = document.getElementById('i-notes')?.value||'';
+
+  const set = (id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  const setH = (id,v)=>{const el=document.getElementById(id);if(el)el.innerHTML=v;};
+  const sty = (id,v)=>{const el=document.getElementById(id);if(el)el.style.display=v;};
+
+  set('pv-num', num);
+  set('pv-date', date?'Date: '+fmtD(date):'Date: —');
+  set('pv-due', due?'Due: '+fmtD(due):'Due: —');
+  set('pv-ref', num);
+  set('pv-notes', notes);
+
+  const sb = document.getElementById('pv-stat');
+  if(sb){sb.className=`inv-stat-badge ist-${status}`;sb.textContent=status.toUpperCase();}
+
+  setH('pv-client', `<strong>${cName}</strong>${cEmail?'<br/>'+cEmail:''}${cPhone?'<br/>'+cPhone:''}${cLoc?'<br/>'+cLoc:''}`);
+
+  let sub = 0;
+  const tbody = document.getElementById('pv-items');
+  if(tbody){
+    tbody.innerHTML = '';
+    invItems.forEach((item,i)=>{
+      const lt = (item.qty||1)*(item.amount||0);
+      sub += lt;
+      tbody.innerHTML += `<tr><td style="color:#999;">${i+1}</td><td>${item.desc||'—'}</td><td style="text-align:center;">${item.qty||1}</td><td style="text-align:right;font-weight:600;color:#0D1B3E;">KES ${fmtN(lt)}</td></tr>`;
+    });
+  }
+
+  const taxAmt = Math.round(sub*taxPct/100);
+  const total  = sub - disc + taxAmt;
+
+  set('pv-sub', 'KES '+fmtN(sub));
+  set('pv-total', 'KES '+fmtN(total));
+  if(disc>0){sty('pv-disc-row','flex');set('pv-disc','- KES '+fmtN(disc));}else sty('pv-disc-row','none');
+  if(taxPct>0){sty('pv-tax-row','flex');set('pv-taxp',taxPct);set('pv-tax','KES '+fmtN(taxAmt));}else sty('pv-tax-row','none');
+}
+
+function fmtN(n){return (n||0).toLocaleString('en-KE');}
+function fmtD(d){
+  const dt=new Date(d+'T00:00:00');
+  return dt.toLocaleDateString('en-KE',{day:'2-digit',month:'short',year:'numeric'});
+}
+
+async async function saveAndPrint(){
+  // Save invoice to storage
+  const num = document.getElementById('i-num')?.value||'INV';
+  const cName = document.getElementById('i-cname')?.value||'Client';
+  const total = document.getElementById('pv-total')?.textContent||'';
+  const status = document.getElementById('i-status')?.value||'unpaid';
+  try{
+    await window.storage.set('invoice:'+num, JSON.stringify({
+      num, client:cName, total, status,
+      created:new Date().toISOString()
+    }), true);
+  }catch(e){}
+  // Increment counter
+  const last = parseInt(localStorage.getItem('webazi_inv_num')||'0');
+  localStorage.setItem('webazi_inv_num', last+1);
+  // Print
+  window.print();
+}
+
+function sendInvWA(){
+  const num   = document.getElementById('i-num')?.value||'INV';
+  const cName = document.getElementById('i-cname')?.value||'Client';
+  const phone = document.getElementById('i-cphone')?.value||'254729914983';
+  const total = document.getElementById('pv-total')?.textContent||'';
+  const due   = document.getElementById('i-due')?.value||'';
+  const wa    = phone.replace(/[^0-9]/g,'').replace(/^0/,'254');
+  const text  = `Hello ${encodeURIComponent(cName)}! 👋%0A%0APlease find your invoice from *Webazi Digital Solutions*.%0A%0A📄 Invoice: *${num}*%0A💰 Total: *${encodeURIComponent(total)}*%0A📅 Due: ${due?fmtD(due):'On delivery'}%0A%0A*Pay via M-Pesa:*%0A🔢 Till: *9248314*%0A🏢 Business: Webazi Digital Solutions%0A📝 Reference: ${num}%0A%0AThank you for choosing Webazi! 🙏`;
+  window.open(`https://wa.me/${wa}?text=${text}`,'_blank');
+}
+
+// ── INVOICES LIST ──
+async function renderInvoices(){
+  const search = (document.getElementById('inv-search')?.value||'').toLowerCase();
+  const filter = document.getElementById('inv-filter')?.value||'';
+  try{
+    const keys = await window.storage.list('invoice:',true);
+    if(!keys?.keys||!keys.keys.length){
+      document.getElementById('invoices-table-wrap').innerHTML='<div class="empty-state"><i class="fas fa-file-invoice"></i><p>No invoices yet. Create your first one.</p></div>';
+      return;
+    }
+    const invoices=[];
+    for(const k of keys.keys){
+      try{const r=await window.storage.get(k,true);if(r)invoices.push(JSON.parse(r.value));}catch(e){}
+    }
+    const filtered = invoices.filter(inv=>{
+      const ms = !search||(inv.num+inv.client).toLowerCase().includes(search);
+      const mf = !filter||inv.status===filter.toLowerCase();
+      return ms&&mf;
+    });
+    if(!filtered.length){
+      document.getElementById('invoices-table-wrap').innerHTML='<div class="empty-state"><i class="fas fa-search"></i><p>No invoices match your search.</p></div>';
+      return;
+    }
+    const statMap={unpaid:'<span class="status-badge s-received">UNPAID</span>',partial:'<span class="status-badge s-progress">PARTIAL</span>',paid:'<span class="status-badge s-launched">PAID</span>'};
+    let html=`<table><thead><tr><th>Invoice #</th><th>Client</th><th>Total</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead><tbody>`;
+    filtered.forEach(inv=>{
+      html+=`<tr>
+        <td><span class="code-badge">${inv.num}</span></td>
+        <td><strong>${inv.client}</strong></td>
+        <td style="font-weight:700;color:var(--orange);">${inv.total}</td>
+        <td>${statMap[inv.status]||''}</td>
+        <td style="color:var(--sub);font-size:.78rem;">${inv.created?new Date(inv.created).toLocaleDateString('en-KE',{day:'2-digit',month:'short',year:'numeric'}):'—'}</td>
+        <td><div class="action-btns">
+          <button class="act-btn" onclick="markPaid('${inv.num}')" title="Mark Paid"><i class="fas fa-check"></i></button>
+          <button class="act-btn del" onclick="deleteInvoice('${inv.num}')" title="Delete"><i class="fas fa-trash"></i></button>
+        </div></td>
+      </tr>`;
+    });
+    html+='</tbody></table>';
+    document.getElementById('invoices-table-wrap').innerHTML=html;
+  }catch(e){
+    document.getElementById('invoices-table-wrap').innerHTML='<div class="empty-state"><i class="fas fa-exclamation-circle"></i><p>Could not load invoices.</p></div>';
+  }
+}
+
+async function markPaid(num){
+  try{
+    const r = await window.storage.get('invoice:'+num,true);
+    if(r){
+      const inv=JSON.parse(r.value);
+      inv.status='paid';
+      await window.storage.set('invoice:'+num,JSON.stringify(inv),true);
+      renderInvoices();
+      alert(`Invoice ${num} marked as paid ✅`);
+    }
+  }catch(e){}
+}
+
+async function deleteInvoice(num){
+  if(!confirm(`Delete invoice ${num}?`)) return;
+  try{
+    await window.storage.delete('invoice:'+num,true);
+    renderInvoices();
+  }catch(e){}
+}
+// ══════════════════════════════
+document.getElementById('editModal').addEventListener('click',function(e){
+  if(e.target===this) closeModal();
+});
+
+// Enter key to login
+document.getElementById('loginPass')?.addEventListener('keydown',e=>{if(e.key==='Enter') doLogin();});
+</script>
+</body>
+</html>
