@@ -202,7 +202,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <div class="login-fg"><label>Username</label><input type="text" id="loginUser" placeholder="Admin username"/></div>
     <div class="login-fg"><label>Password</label><input type="password" id="loginPass" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
     <button class="login-btn" onclick="doLogin()">Sign In</button>
-    <p class="login-err" id="loginErr">❌ Invalid credentials. Try again.</p>
+    <p class="login-err" id="loginErr">Invalid credentials. Try again.</p>
   </div>
 </div>
 
@@ -248,7 +248,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <!-- DASHBOARD -->
     <div class="admin-page active" id="page-dashboard">
       <div class="toprow">
-        <div><h1>Dashboard</h1><p>Welcome back, Joab 👋</p></div>
+        <div><h1>Dashboard</h1><p>Welcome back, Joab</p></div>
         <button class="btn-add" onclick="showAdmin('create')"><i class="fas fa-plus"></i> New Project</button>
       </div>
       <div class="stats-row" id="dashStats"></div>
@@ -459,7 +459,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
               </div>
             </div>
             <div class="inv-ftr">
-              <span class="ty">Thank you for your business! 🙏</span>
+              <span class="ty">Thank you for your business!</span>
               <p>webazidigital.com</p>
             </div>
           </div>
@@ -701,12 +701,12 @@ async function createProject(){
 
 function copyGeneratedCode(){
   copyText(lastGeneratedCode);
-  alert('Code copied! ✅');
+  alert('Code copied!');
 }
 
 function sendCodeViaWA(){
   const ph=lastGeneratedPhone||'+254729914983';
-  const text=`Hi ${lastGeneratedClient}! 👋%0A%0AYour Webazi project has been registered.%0A%0A🔖 *Project Code: ${lastGeneratedCode}*%0A%0AUse this code to track your project progress at our website.%0A%0AWe'll keep you updated every step of the way!%0A%0A— Webazi Digital Solutions%0A+254 729 914 983`;
+  const text=`Hi ${lastGeneratedClient}!%0A%0AYour Webazi project has been registered.%0A%0A*Project Code: ${lastGeneratedCode}*%0A%0AUse this code to track your project progress at our website.%0A%0AWe'll keep you updated every step of the way!%0A%0A— Webazi Digital Solutions%0A+254 729 914 983`;
   window.open(`https://wa.me/${ph.replace(/\D/g,'')}?text=${text}`,'_blank');
 }
 
@@ -738,14 +738,14 @@ async function saveProject(){
   closeModal();
   await renderProjects();
   await loadDashboard();
-  alert('Project updated! ✅');
+  alert('Project updated!');
 }
 
 // ── NOTIFY CLIENT ──
 function sendUpdateWA(code){
   const status=prompt('Current status to notify client about?');
   if(!status) return;
-  const text=`Hi! 👋 Update on your Webazi project.%0A%0A🔖 Code: *${code}*%0A📊 Status: *${encodeURIComponent(status)}*%0A%0ATrack anytime at our website. Let us know if you have questions!%0A%0A— Webazi Digital Solutions`;
+  const text=`Hi! Update on your Webazi project.%0A%0ACode: *${code}*%0AStatus: *${encodeURIComponent(status)}*%0A%0ATrack anytime at our website. Let us know if you have questions!%0A%0A— Webazi Digital Solutions`;
   window.open(`https://wa.me/254729914983?text=${text}`,'_blank');
 }
 
@@ -764,11 +764,11 @@ function changePassword(){
   const p=document.getElementById('newPass').value;
   if(!p||p.length<6){alert('Password must be at least 6 characters.');return;}
   localStorage.setItem(ADMIN_PASS_KEY,p);
-  alert('Password changed successfully! ✅');
+  alert('Password changed successfully!');
   document.getElementById('newPass').value='';
 }
 
-function saveSettings(){alert('Settings saved! ✅');}
+function saveSettings(){alert('Settings saved!');}
 
 // ── EXPORT ──
 async function exportData(){
@@ -927,7 +927,7 @@ function sendInvWA(){
   const total = document.getElementById('pv-total')?.textContent||'';
   const due   = document.getElementById('i-due')?.value||'';
   const wa    = phone.replace(/[^0-9]/g,'').replace(/^0/,'254');
-  const text  = `Hello ${encodeURIComponent(cName)}! 👋%0A%0APlease find your invoice from *Webazi Digital Solutions*.%0A%0A📄 Invoice: *${num}*%0A💰 Total: *${encodeURIComponent(total)}*%0A📅 Due: ${due?fmtD(due):'On delivery'}%0A%0A*Pay via M-Pesa:*%0A🔢 Till: *9248314*%0A🏢 Business: Webazi Digital Solutions%0A📝 Reference: ${num}%0A%0AThank you for choosing Webazi! 🙏`;
+  const text  = `Hello ${encodeURIComponent(cName)}!%0A%0APlease find your invoice from *Webazi Digital Solutions*.%0A%0AInvoice: *${num}*%0ATotal: *${encodeURIComponent(total)}*%0ADue: ${due?fmtD(due):'On delivery'}%0A%0A*Pay via M-Pesa:*%0ATill: *9248314*%0ABusiness: Webazi Digital Solutions%0AReference: ${num}%0A%0AThank you for choosing Webazi!`;
   window.open(`https://wa.me/${wa}?text=${text}`,'_blank');
 }
 
@@ -984,7 +984,7 @@ function markPaid(num){
       inv.status='paid';
       localStorage.setItem('invoice:'+num,JSON.stringify(inv));
       renderInvoices();
-      alert(`Invoice ${num} marked as paid ✅`);
+      alert(`Invoice ${num} marked as paid`);
     }
   }catch(e){}
 }
