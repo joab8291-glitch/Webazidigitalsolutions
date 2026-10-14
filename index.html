@@ -410,6 +410,39 @@ footer{background:#070e20;padding:70px 5% 28px;}
 .visitor-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.3);color:#00C853;padding:6px 14px;border-radius:20px;font-size:.75rem;font-weight:600;margin-top:16px;}
 .visitor-badge .pulse-dot{width:8px;height:8px;background:#00C853;border-radius:50%;animation:pulse2 1.5s infinite;}
 @keyframes pulse2{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+/* VIEWPORT FIT PATCH — preserve existing design while preventing horizontal overflow */
+html,body{width:100%;max-width:100%;overflow-x:clip}
+*,*::before,*::after{box-sizing:border-box}
+img,video,iframe,canvas,svg{max-width:100%}
+button,input,select,textarea{max-width:100%}
+.grid-3,.grid-4,.grid-2,.vgrid,.process-grid,.port-grid,.tgrid,.bgrid,.ci-grid,.ggrid,.fgrid{min-width:0}
+.grid-3,.grid-4,.vgrid,.process-grid,.port-grid,.tgrid,.bgrid,.ggrid,.fgrid{grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+.hero-content,.sec,.card,.pcard,.price-card,.tracker-box,.booking-box,.calc-box,.contact-methods,.fbot{min-width:0}
+.hero-content h1,.sec-title,.sec-sub,.card p,.pcard-over h4,p,a,li,button{overflow-wrap:anywhere}
+.cmp-table{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+@media(max-width:600px){
+  .sec,.sec-sm{padding-left:16px;padding-right:16px}
+  .hero-content{width:100%;padding:76px 16px 48px}
+  .hero-content h1{font-size:clamp(1.9rem,9vw,2.8rem)}
+  .hero-content p{font-size:.95rem}
+  .hero-btns{width:100%;gap:10px}
+  .hero-btns>*{max-width:100%;white-space:normal}
+  .hero-stats{gap:16px;padding-top:24px;margin-top:32px}
+  .grid-3,.grid-4,.grid-2,.vgrid,.process-grid,.port-grid,.tgrid,.bgrid,.ci-grid,.ggrid,.fgrid{grid-template-columns:minmax(0,1fr);gap:16px}
+  .card,.price-card,.tracker-box,.booking-box,.calc-box{padding:22px 18px}
+  .nl-form{width:100%}
+  .nl-form input{min-width:0;width:100%}
+  .sticky-quote{left:12px;bottom:12px;padding:11px 14px;max-width:calc(100vw - 24px);font-size:.78rem}
+  .back-top,.wa-popup{right:12px}
+  .back-top{bottom:72px}
+  .wa-popup{max-width:min(260px,calc(100vw - 24px))}
+  .drawer{width:min(280px,100vw)}
+}
+@media(min-width:601px) and (max-width:900px){
+  .grid-3,.grid-4,.vgrid,.process-grid,.port-grid,.tgrid,.bgrid,.ggrid,.fgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
 </style>
 <link rel="canonical" href="https://webazidigitalsolutions.vercel.app"/>
 <style media="print">
