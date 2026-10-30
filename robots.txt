@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 
-Sitemap: https://webazidigitalsolutions.vercel.app/sitemap.xml
+Sitemap: https://webazi.co.ke/sitemap.xml
