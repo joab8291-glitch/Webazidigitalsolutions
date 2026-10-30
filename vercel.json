@@ -1,7 +1,11 @@
 {
   "rewrites": [
     { "source": "/admin", "destination": "/webazi-admin.html" },
-    { "source": "/admin/", "destination": "/webazi-admin.html" }
+    { "source": "/admin/", "destination": "/webazi-admin.html" },
+    { "source": "/web-design", "destination": "/web-design.html" },
+    { "source": "/seo-services", "destination": "/seo-services.html" },
+    { "source": "/digital-marketing", "destination": "/digital-marketing.html" },
+    { "source": "/graphic-design", "destination": "/graphic-design.html" }
   ],
   "headers": [
     {
@@ -21,6 +25,12 @@
     },
     {
       "source": "/admin/:path*",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
+      ]
+    },
+    {
+      "source": "/webazi-admin.html",
       "headers": [
         { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
       ]
