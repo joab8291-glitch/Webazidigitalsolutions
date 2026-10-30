@@ -451,6 +451,18 @@ button,input,select,textarea{max-width:100%}
   .grid-3,.grid-4,.vgrid,.process-grid,.port-grid,.tgrid,.bgrid,.ggrid,.fgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
+
+/* Dedicated service-page navigation — compact, on-brand and responsive */
+.service-page-links{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:25px auto 0;max-width:1040px;padding:12px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:linear-gradient(135deg,rgba(21,34,68,.96),rgba(17,30,58,.92));box-shadow:0 12px 30px rgba(0,0,0,.14)}
+.service-page-links .service-page-link{min-width:0;min-height:68px;display:flex;align-items:center;justify-content:flex-start;gap:11px;padding:12px 13px;border:1px solid transparent;border-radius:11px;background:rgba(255,255,255,.025);color:var(--text);text-decoration:none;text-align:left;font-size:.84rem;font-weight:600;line-height:1.35;transition:background .2s,border-color .2s,transform .2s}
+.service-page-links .service-page-link:hover,.service-page-links .service-page-link:focus-visible{background:rgba(255,107,0,.09);border-color:rgba(255,107,0,.38);transform:translateY(-2px);outline:none}
+.service-page-links .service-link-icon{width:38px;height:38px;flex:0 0 38px;display:grid;place-items:center;border-radius:10px;background:rgba(255,107,0,.12);color:var(--orange);font-size:1rem}
+.service-page-links .service-page-link>span:nth-child(2){flex:1;min-width:0}
+.service-page-links .service-page-link small{display:block;color:var(--sub);font-size:.75rem;font-weight:500}
+.service-page-links .service-link-arrow{flex:0 0 auto;color:rgba(255,255,255,.38);font-size:.7rem;margin-left:auto}
+.service-page-links .service-page-link:hover .service-link-arrow{color:var(--orange)}
+@media(max-width:760px){.service-page-links{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:9px;margin-top:20px}.service-page-links .service-page-link{min-height:64px;padding:10px;gap:9px;font-size:.78rem}.service-page-links .service-link-icon{width:34px;height:34px;flex-basis:34px;font-size:.92rem}.service-page-links .service-link-arrow{font-size:.62rem}}
+@media(max-width:360px){.service-page-links{grid-template-columns:1fr}.service-page-links .service-page-link{min-height:58px}}
 </style>
 
 <style media="print">
@@ -680,11 +692,11 @@ button,input,select,textarea{max-width:100%}
       <span class="sec-eyebrow">What We Offer</span>
       <h2 class="sec-title">All Our Services</h2>
       <p class="sec-sub">Comprehensive digital services tailored for Kenyan businesses looking to grow online.</p>
-    <nav aria-label="Explore our dedicated service pages" style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:24px">
-      <a href="/web-design">Website Design &amp; Development</a>
-      <a href="/seo-services">SEO Services</a>
-      <a href="/digital-marketing">Digital Marketing</a>
-      <a href="/graphic-design">Graphic Design &amp; Branding</a>
+    <nav class="service-page-links" aria-label="Explore our dedicated service pages">
+      <a class="service-page-link" href="/web-design"><span class="service-link-icon"><i class="fas fa-laptop-code" aria-hidden="true"></i></span><span>Website Design <small>&amp; Development</small></span><i class="fas fa-arrow-up-right-from-square service-link-arrow" aria-hidden="true"></i></a>
+      <a class="service-page-link" href="/seo-services"><span class="service-link-icon"><i class="fas fa-magnifying-glass-chart" aria-hidden="true"></i></span><span>SEO Services</span><i class="fas fa-arrow-up-right-from-square service-link-arrow" aria-hidden="true"></i></a>
+      <a class="service-page-link" href="/digital-marketing"><span class="service-link-icon"><i class="fas fa-bullhorn" aria-hidden="true"></i></span><span>Digital Marketing</span><i class="fas fa-arrow-up-right-from-square service-link-arrow" aria-hidden="true"></i></a>
+      <a class="service-page-link" href="/graphic-design"><span class="service-link-icon"><i class="fas fa-pen-ruler" aria-hidden="true"></i></span><span>Graphic Design <small>&amp; Branding</small></span><i class="fas fa-arrow-up-right-from-square service-link-arrow" aria-hidden="true"></i></a>
     </nav>
     </div>
     <div class="grid-3">
