@@ -199,8 +199,8 @@ tr:hover td{background:rgba(255,255,255,.02);}
     </div>
     <h2>Webazi Admin</h2>
     <p>Sign in to manage your projects</p>
-    <div class="login-fg"><label>Username</label><input type="text" id="loginUser" placeholder="Admin username"/></div>
-    <div class="login-fg"><label>Password</label><input type="password" id="loginPass" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <div class="login-fg"><label>Email</label><input type="email" id="loginUser" placeholder="Admin email" autocomplete="username"/></div>
+    <div class="login-fg"><label>Password</label><input type="password" id="loginPass" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
     <button class="login-btn" onclick="doLogin()">Sign In</button>
     <p class="login-err" id="loginErr">Invalid credentials. Try again.</p>
   </div>
@@ -533,38 +533,40 @@ tr:hover td{background:rgba(255,255,255,.02);}
 // ── SUPABASE CLIENT ──
 const SUPABASE_URL = 'https://ezyvuipabbhckplhlvxz.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV6eXZ1aXBhYmJoY2twbGhsdnh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg3MjEwMjQsImV4cCI6MjEwNDI5NzAyNH0.ILSsrEwjwFVreMAPcR7k-jmYoDnX0KDHMnmK-QdFb1k';
-const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {auth:{storage:window.sessionStorage,persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
 
-// ── AUTH ──
-const ADMIN_PASS_KEY = 'webazi_admin_pass';
-const DEFAULT_PASS   = 'webazi2025';
-
-function getAdminPass(){return localStorage.getItem(ADMIN_PASS_KEY)||DEFAULT_PASS;}
-
-function doLogin(){
-  const u=document.getElementById('loginUser').value.trim();
-  const p=document.getElementById('loginPass').value;
-  if((u==='admin'||u==='joab')&&p===getAdminPass()){
-    sessionStorage.setItem('webazi_admin','1');
-    document.getElementById('loginScreen').style.display='none';
-    document.getElementById('adminLayout').style.display='flex';
-    loadDashboard();
-  } else {
-    document.getElementById('loginErr').style.display='block';
-  }
+// ── AUTH (Supabase Auth: the server decides who is an admin; nothing secret lives in this file) ──
+function enterAdmin(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('adminLayout').style.display='flex';
+  loadDashboard();
 }
 
-function doLogout(){
-  sessionStorage.removeItem('webazi_admin');
+async function doLogin(){
+  const email=document.getElementById('loginUser').value.trim();
+  const password=document.getElementById('loginPass').value;
+  const err=document.getElementById('loginErr');
+  const btn=document.querySelector('.login-btn');
+  err.style.display='none';
+  if(!email||!password){err.textContent='Enter your email and password.';err.style.display='block';return;}
+  btn.disabled=true;
+  const { error } = await sb.auth.signInWithPassword({email,password});
+  btn.disabled=false;
+  document.getElementById('loginPass').value='';
+  if(error){err.textContent='Invalid credentials. Try again.';err.style.display='block';return;}
+  enterAdmin();
+}
+
+async function doLogout(){
+  try{await sb.auth.signOut();}catch(e){}
   location.reload();
 }
 
-window.addEventListener('load',()=>{
-  if(sessionStorage.getItem('webazi_admin')==='1'){
-    document.getElementById('loginScreen').style.display='none';
-    document.getElementById('adminLayout').style.display='flex';
-    loadDashboard();
-  }
+window.addEventListener('load',async ()=>{
+  try{
+    const { data } = await sb.auth.getSession();
+    if(data&&data.session) enterAdmin();
+  }catch(e){}
 });
 
 // ── NAVIGATION ──
@@ -627,7 +629,7 @@ async function loadDashboard(){
 // ── TABLE BUILDER ──
 function statusBadge(s){
   const map={Received:'s-received','In Progress':'s-progress','Under Review':'s-review',Launched:'s-launched'};
-  return `<span class="status-badge ${map[s]||'s-received'}">${s}</span>`;
+  return `<span class="status-badge ${map[s]||'s-received'}">${esc(s)}</span>`;
 }
 
 function buildTable(projects){
@@ -636,15 +638,15 @@ function buildTable(projects){
     <thead><tr><th>Code</th><th>Client</th><th>Service</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead>
     <tbody>
     ${projects.map(p=>`<tr>
-      <td><span class="code-badge">${p.code}</span><i class="fas fa-copy copy-code" onclick="copyText('${p.code}')" title="Copy"></i></td>
-      <td><strong>${p.client||'—'}</strong><br/><small style="color:var(--sub);">${p.phone||''}</small></td>
-      <td style="color:var(--sub);font-size:.8rem;">${p.service||'—'}</td>
+      <td><span class="code-badge">${esc(p.code)}</span><i class="fas fa-copy copy-code" data-code="${esc(p.code)}" onclick="copyText(this.dataset.code)" title="Copy"></i></td>
+      <td><strong>${esc(p.client||'—')}</strong><br/><small style="color:var(--sub);">${esc(p.phone||'')}</small></td>
+      <td style="color:var(--sub);font-size:.8rem;">${esc(p.service||'—')}</td>
       <td>${statusBadge(p.status)}</td>
       <td style="color:var(--sub);font-size:.78rem;">${p.created_at?new Date(p.created_at).toLocaleDateString('en-KE',{day:'2-digit',month:'short',year:'numeric'}):'—'}</td>
       <td><div class="action-btns">
-        <button class="act-btn" onclick="openEdit('${p.code}')" title="Edit"><i class="fas fa-edit"></i></button>
-        <button class="act-btn" onclick="sendUpdateWA('${p.code}')" title="Notify Client"><i class="fab fa-whatsapp"></i></button>
-        <button class="act-btn del" onclick="confirmDelete('${p.code}')" title="Delete"><i class="fas fa-trash"></i></button>
+        <button class="act-btn" data-code="${esc(p.code)}" onclick="openEdit(this.dataset.code)" title="Edit"><i class="fas fa-edit"></i></button>
+        <button class="act-btn" data-code="${esc(p.code)}" onclick="sendUpdateWA(this.dataset.code)" title="Notify Client"><i class="fab fa-whatsapp"></i></button>
+        <button class="act-btn del" data-code="${esc(p.code)}" onclick="confirmDelete(this.dataset.code)" title="Delete"><i class="fas fa-trash"></i></button>
       </div></td>
     </tr>`).join('')}
     </tbody>
@@ -685,8 +687,7 @@ async function createProject(){
   const note=document.getElementById('new-note').value.trim();
   const customCode=document.getElementById('new-code').value.trim().toUpperCase();
   if(!client){alert('Please enter the client name.');return;}
-  const yr=new Date().getFullYear();
-  const code=customCode||('WBZ-'+yr+'-'+String(Math.floor(Math.random()*900)+100));
+  const code=customCode||genCode();
   await saveProjectStorage(code,{client,phone,service,status,note});
   lastGeneratedCode=code;
   lastGeneratedClient=client;
@@ -707,7 +708,7 @@ function copyGeneratedCode(){
 function sendCodeViaWA(){
   const ph=lastGeneratedPhone||'+254729914983';
   const text=`Hi ${lastGeneratedClient}!%0A%0AYour Webazi project has been registered.%0A%0A*Project Code: ${lastGeneratedCode}*%0A%0AUse this code to track your project progress at our website.%0A%0AWe'll keep you updated every step of the way!%0A%0A— Webazi Digital Solutions%0A+254 729 914 983`;
-  window.open(`https://wa.me/${ph.replace(/\D/g,'')}?text=${text}`,'_blank');
+  window.open(`https://wa.me/${ph.replace(/\D/g,'')}?text=${text}`,'_blank','noopener,noreferrer');
 }
 
 // ── EDIT MODAL ──
@@ -745,8 +746,8 @@ async function saveProject(){
 function sendUpdateWA(code){
   const status=prompt('Current status to notify client about?');
   if(!status) return;
-  const text=`Hi! Update on your Webazi project.%0A%0ACode: *${code}*%0AStatus: *${encodeURIComponent(status)}*%0A%0ATrack anytime at our website. Let us know if you have questions!%0A%0A— Webazi Digital Solutions`;
-  window.open(`https://wa.me/254729914983?text=${text}`,'_blank');
+  const text=`Hi! Update on your Webazi project.%0A%0ACode: *${encodeURIComponent(code)}*%0AStatus: *${encodeURIComponent(status)}*%0A%0ATrack anytime at our website. Let us know if you have questions!%0A%0A— Webazi Digital Solutions`;
+  window.open(`https://wa.me/254729914983?text=${text}`,'_blank','noopener,noreferrer');
 }
 
 // ── DELETE ──
@@ -760,10 +761,11 @@ async function confirmDelete(code){
 }
 
 // ── SETTINGS ──
-function changePassword(){
+async function changePassword(){
   const p=document.getElementById('newPass').value;
-  if(!p||p.length<6){alert('Password must be at least 6 characters.');return;}
-  localStorage.setItem(ADMIN_PASS_KEY,p);
+  if(!p||p.length<12){alert('Use at least 12 characters.');return;}
+  const { error } = await sb.auth.updateUser({password:p});
+  if(error){alert('Could not change password: '+error.message);return;}
   alert('Password changed successfully!');
   document.getElementById('newPass').value='';
 }
@@ -789,6 +791,8 @@ async function clearData(){
 }
 
 // ── UTILS ──
+function esc(v){return String(v==null?'':v).replace(/[&<>"'`]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'}[c]));}
+function genCode(){const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',b=new Uint8Array(6);crypto.getRandomValues(b);return 'WBZ-'+new Date().getFullYear()+'-'+Array.from(b,x=>a[x%32]).join('');}
 function copyText(t){
   navigator.clipboard.writeText(t).catch(()=>{
     const el=document.createElement('textarea');
@@ -826,7 +830,7 @@ function renderInvItems(){
     const row = document.createElement('div');
     row.className = 'item-irow';
     row.innerHTML = `
-      <input type="text" value="${item.desc}" placeholder="Service description" oninput="invItems[${i}].desc=this.value;liveInvoice()"/>
+      <input type="text" value="${esc(item.desc)}" placeholder="Service description" oninput="invItems[${i}].desc=this.value;liveInvoice()"/>
       <input type="number" value="${item.qty}" min="1" oninput="invItems[${i}].qty=+this.value;liveInvoice()"/>
       <input type="number" value="${item.amount}" min="0" oninput="invItems[${i}].amount=+this.value;liveInvoice()"/>
       <button class="idel-btn" onclick="removeInvItem(${i})"><i class="fas fa-times"></i></button>`;
@@ -873,7 +877,7 @@ function liveInvoice(){
   const sb = document.getElementById('pv-stat');
   if(sb){sb.className=`inv-stat-badge ist-${status}`;sb.textContent=status.toUpperCase();}
 
-  setH('pv-client', `<strong>${cName}</strong>${cEmail?'<br/>'+cEmail:''}${cPhone?'<br/>'+cPhone:''}${cLoc?'<br/>'+cLoc:''}`);
+  setH('pv-client', `<strong>${esc(cName)}</strong>${cEmail?'<br/>'+esc(cEmail):''}${cPhone?'<br/>'+esc(cPhone):''}${cLoc?'<br/>'+esc(cLoc):''}`);
 
   let sub = 0;
   const tbody = document.getElementById('pv-items');
@@ -882,7 +886,7 @@ function liveInvoice(){
     invItems.forEach((item,i)=>{
       const lt = (item.qty||1)*(item.amount||0);
       sub += lt;
-      tbody.innerHTML += `<tr><td style="color:#999;">${i+1}</td><td>${item.desc||'—'}</td><td style="text-align:center;">${item.qty||1}</td><td style="text-align:right;font-weight:600;color:#0D1B3E;">KES ${fmtN(lt)}</td></tr>`;
+      tbody.innerHTML += `<tr><td style="color:#999;">${i+1}</td><td>${esc(item.desc||'—')}</td><td style="text-align:center;">${item.qty||1}</td><td style="text-align:right;font-weight:600;color:#0D1B3E;">KES ${fmtN(lt)}</td></tr>`;
     });
   }
 
@@ -928,7 +932,7 @@ function sendInvWA(){
   const due   = document.getElementById('i-due')?.value||'';
   const wa    = phone.replace(/[^0-9]/g,'').replace(/^0/,'254');
   const text  = `Hello ${encodeURIComponent(cName)}!%0A%0APlease find your invoice from *Webazi Digital Solutions*.%0A%0AInvoice: *${num}*%0ATotal: *${encodeURIComponent(total)}*%0ADue: ${due?fmtD(due):'On delivery'}%0A%0A*Pay via M-Pesa:*%0ATill: *9248314*%0ABusiness: Webazi Digital Solutions%0AReference: ${num}%0A%0AThank you for choosing Webazi!`;
-  window.open(`https://wa.me/${wa}?text=${text}`,'_blank');
+  window.open(`https://wa.me/${wa}?text=${text}`,'_blank','noopener,noreferrer');
 }
 
 // ── INVOICES LIST ──
@@ -958,14 +962,14 @@ function renderInvoices(){
     let html=`<table><thead><tr><th>Invoice #</th><th>Client</th><th>Total</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead><tbody>`;
     filtered.forEach(inv=>{
       html+=`<tr>
-        <td><span class="code-badge">${inv.num}</span></td>
-        <td><strong>${inv.client}</strong></td>
-        <td style="font-weight:700;color:var(--orange);">${inv.total}</td>
+        <td><span class="code-badge">${esc(inv.num)}</span></td>
+        <td><strong>${esc(inv.client)}</strong></td>
+        <td style="font-weight:700;color:var(--orange);">${esc(inv.total)}</td>
         <td>${statMap[inv.status]||''}</td>
         <td style="color:var(--sub);font-size:.78rem;">${inv.created?new Date(inv.created).toLocaleDateString('en-KE',{day:'2-digit',month:'short',year:'numeric'}):'—'}</td>
         <td><div class="action-btns">
-          <button class="act-btn" onclick="markPaid('${inv.num}')" title="Mark Paid"><i class="fas fa-check"></i></button>
-          <button class="act-btn del" onclick="deleteInvoice('${inv.num}')" title="Delete"><i class="fas fa-trash"></i></button>
+          <button class="act-btn" data-num="${esc(inv.num)}" onclick="markPaid(this.dataset.num)" title="Mark Paid"><i class="fas fa-check"></i></button>
+          <button class="act-btn del" data-num="${esc(inv.num)}" onclick="deleteInvoice(this.dataset.num)" title="Delete"><i class="fas fa-trash"></i></button>
         </div></td>
       </tr>`;
     });
