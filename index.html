@@ -330,6 +330,12 @@ footer{background:#070e20;padding:70px 5% 28px;}
 #loader.hide{opacity:0;visibility:hidden;}
 .loader-w{width:70px;height:70px;animation:spin 1.2s linear infinite;}
 @keyframes spin{100%{transform:rotate(360deg);}}
+/* INTRO VIDEO (plays over the spinning W; falls back to the W if it can't start) */
+#introVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;opacity:0;transition:opacity .4s;pointer-events:none;}
+#loader.video-on #introVideo{opacity:1;}
+#introSkip{position:absolute;right:20px;bottom:24px;display:none;background:rgba(0,0,0,.45);color:#fff;border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:8px 18px;font:600 .8rem/1 inherit;font-family:inherit;cursor:pointer;letter-spacing:.04em;}
+#introSkip:hover,#introSkip:focus-visible{border-color:#FF6B00;color:#FF6B00;outline:none;}
+#loader.video-on #introSkip{display:block;}
 
 /* STICKY QUOTE BTN */
 .sticky-quote{position:fixed;bottom:26px;left:26px;z-index:998;background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;padding:14px 22px;border-radius:30px;font-weight:700;font-size:.85rem;text-decoration:none;box-shadow:0 6px 24px rgba(255,107,0,.4);display:flex;align-items:center;gap:8px;cursor:pointer;border:none;}
@@ -473,6 +479,11 @@ button,input,select,textarea{max-width:100%}
     <rect x="27" y="3" width="3" height="26" rx="1.5" fill="#FF6B00"/>
     <polyline points="7,7 7,25 16,16 25,25 25,7" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
+  <video id="introVideo" muted playsinline autoplay preload="auto" disablepictureinpicture aria-hidden="true" tabindex="-1">
+    <source src="intro.mp4" type="video/mp4"/>
+    <source src="intro.webm" type="video/webm"/>
+  </video>
+  <button id="introSkip" type="button" aria-label="Skip intro">Skip</button>
 </div>
 
 
@@ -1447,9 +1458,34 @@ document.querySelectorAll('.card,.pstep,.tc,.bc,.vc,.gc,.price-card').forEach(el
   el.style.opacity=0;el.style.transform='translateY(20px)';el.style.transition='opacity .5s ease,transform .5s ease';obs.observe(el);
 });
 // ── LOADER ──
-window.addEventListener('load',()=>{
-  setTimeout(()=>document.getElementById('loader').classList.add('hide'),600);
-});
+// Plays intro.mp4 once per visit. Skipped (classic spinning W) on reduced-motion,
+// data-saver / 2G, repeat visits in the same session, or if the video can't start in time.
+(function(){
+  var loader=document.getElementById('loader'),v=document.getElementById('introVideo'),skip=document.getElementById('introSkip');
+  var done=false,started=false,startTimer;
+  function finish(delay){
+    if(done)return;done=true;
+    try{sessionStorage.setItem('wbzIntro','1');}catch(e){}
+    setTimeout(function(){loader.classList.add('hide');if(v)try{v.pause();}catch(e){}},delay||0);
+  }
+  function classic(){
+    if(document.readyState==='complete')finish(600);
+    else window.addEventListener('load',function(){finish(600);});
+  }
+  var seen=false;try{seen=sessionStorage.getItem('wbzIntro')==='1';}catch(e){}
+  var c=navigator.connection||{};
+  var skipVideo=seen||!v||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)||c.saveData||/(^|-)2g$/.test(c.effectiveType||'');
+  if(skipVideo){if(v)v.remove();if(skip)skip.remove();classic();return;}
+  function fallback(){if(started||done)return;if(v)v.remove();if(skip)skip.remove();classic();}
+  function onPlaying(){if(started||done)return;started=true;clearTimeout(startTimer);loader.classList.add('video-on');}
+  startTimer=setTimeout(fallback,4000);                 // video didn't start within 4s -> normal site
+  v.addEventListener('playing',onPlaying);
+  v.addEventListener('ended',function(){finish(0);});
+  if(skip)skip.addEventListener('click',function(){finish(0);});
+  if(!v.paused&&v.readyState>2)onPlaying();
+  var p=v.play();if(p&&p.catch)p.catch(fallback);       // autoplay blocked -> normal site
+  setTimeout(function(){finish(0);},12000);             // hard cap if playback stalls mid-way
+})();
 
 // ── BACK TO TOP + WA POPUP TRIGGER ──
 window.addEventListener('scroll',()=>{

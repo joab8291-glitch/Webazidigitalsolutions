@@ -4,6 +4,8 @@
     { "source": "/admin/", "destination": "/webazi-admin.html" }
   ],
   "headers": [
+    { "source": "/intro.mp4", "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }] },
+    { "source": "/intro.webm", "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }] },
     {
       "source": "/(.*)",
       "headers": [
