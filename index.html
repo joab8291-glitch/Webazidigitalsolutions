@@ -283,18 +283,18 @@ nav{position:sticky;top:0;z-index:2000;background:var(--bg2);border-bottom:1px s
 /* ── FOOTER ── */
 footer{background:#070e20;padding:70px 5% 28px;}
 .fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:32px;margin-bottom:50px;}
-.fbrand p{color:rgba(255,255,255,.4);font-size:.82rem;line-height:1.75;margin:14px 0 22px;max-width:260px;}
+.fbrand p{color:#c2cad8;font-size:.82rem;line-height:1.75;margin:14px 0 22px;max-width:260px;}
 .fsocs{display:flex;gap:10px;}
 .fsoc{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.45);text-decoration:none;font-size:.82rem;transition:.2s;}
 .fsoc:hover{background:var(--orange);color:#fff;}
-.fcol h4{color:#fff;font-size:.86rem;font-weight:700;margin-bottom:18px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.07);}
+.fcol h3,.fcol h4{color:#fff;font-size:.86rem;font-weight:700;margin-bottom:18px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.07);}
 .fcol ul{list-style:none;}
 .fcol ul li{margin-bottom:9px;}
-.fcol ul li a{color:rgba(255,255,255,.4);text-decoration:none;font-size:.81rem;cursor:pointer;transition:.2s;}
+.fcol ul li a{color:#b8c2d3;text-decoration:none;font-size:.81rem;cursor:pointer;transition:.2s;}
 .fcol ul li a:hover{color:var(--orange);}
 .fbot{border-top:1px solid rgba(255,255,255,.07);padding-top:26px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
-.fbot p{color:rgba(255,255,255,.28);font-size:.77rem;}
-.fbot a{color:rgba(255,255,255,.28);text-decoration:none;font-size:.77rem;margin-left:16px;}
+.fbot p{color:#b8c2d3;font-size:.77rem;}
+.fbot a{color:#b8c2d3;text-decoration:none;font-size:.77rem;margin-left:16px;}
 
 /* ── WA FLOAT ── */
 .wa-float{position:fixed;bottom:26px;right:26px;z-index:999;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.5rem;text-decoration:none;box-shadow:0 6px 24px rgba(37,211,102,.4);animation:pulse 2.5s infinite;}
@@ -481,7 +481,12 @@ button,input,select,textarea{max-width:100%}
   body{background:#fff!important;color:#000!important;}
   .page{display:block!important;}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase client is loaded on demand only when a database-backed action is used. -->
+
+<style>
+@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:900;font-display:swap;src:url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/webfonts/fa-solid-900.woff2") format("woff2");}
+@font-face{font-family:"Font Awesome 6 Brands";font-style:normal;font-weight:400;font-display:swap;src:url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/webfonts/fa-brands-400.woff2") format("woff2");}
+</style>
 </head>
 <body>
 
@@ -600,7 +605,7 @@ button,input,select,textarea{max-width:100%}
         <div class="stat"><p class="stat-number">14</p><p>Days Avg. Launch</p></div>
         <div class="stat"><p class="stat-number">5<i class="fas fa-star"></i></p><p>Rated Agency</p></div>
       </div>
-      <img class="gr-badge-img" src="/assets/images/google-reviews-badge-7c2b1b2c.jpg" width="598" height="350" alt="Google Verified Reviews - 5 star rating" decoding="async"/>
+      <img class="gr-badge-img" src="/assets/images/google-reviews-badge-7c2b1b2c.jpg" width="144" height="84" alt="Google Verified Reviews - 5 star rating" decoding="async"/>
       <div class="visitor-badge"><span class="pulse-dot"></span> <span id="visitorCount">7</span> people viewing this page now</div>
     </div>
   </section>
@@ -1268,14 +1273,14 @@ button,input,select,textarea{max-width:100%}
         <span class="fsoc" aria-hidden="true"><i class="fab fa-instagram"></i></span>
       </div>
     </div>
-    <div class="fcol"><h4>Services</h4><ul>
+    <div class="fcol"><h3>Services</h3><ul>
       <li><a href="/#page-services" onclick="showPage('services');return false;">Web Design</a></li>
       <li><a href="/#page-services" onclick="showPage('services');return false;">SEO Optimisation</a></li>
       <li><a href="/#page-services" onclick="showPage('services');return false;">Social Media</a></li>
       <li><a href="/#page-services" onclick="showPage('services');return false;">Graphics Design</a></li>
       <li><a href="/#page-services" onclick="showPage('services');return false;">M-Pesa Integration</a></li>
     </ul></div>
-    <div class="fcol"><h4>Company</h4><ul>
+    <div class="fcol"><h3>Company</h3><ul>
       <li><a href="/#page-about" onclick="showPage('about');return false;">About Us</a></li>
       <li><a href="/#page-portfolio" onclick="showPage('portfolio');return false;">Portfolio</a></li>
       <li><a href="/#page-blog" onclick="showPage('blog');return false;">Blog</a></li>
@@ -1283,14 +1288,14 @@ button,input,select,textarea{max-width:100%}
       <li><a href="/#page-faq" onclick="showPage('faq');return false;">FAQ</a></li>
       <li><a href="/#page-tracker" onclick="showPage('tracker');return false;">Track Project</a></li>
     </ul></div>
-    <div class="fcol"><h4>Pricing</h4><ul>
+    <div class="fcol"><h3>Pricing</h3><ul>
       <li><a href="/#page-pricing" onclick="showPage('pricing');return false;">Website Packages</a></li>
       <li><a href="/#page-pricing" onclick="showPage('pricing');return false;">Graphics Packages</a></li>
       <li><a href="/#page-pricing" onclick="showPage('pricing');return false;">Social Media Plans</a></li>
       <li><a href="/#page-pricing" onclick="showPage('pricing');return false;">Bundle Deals</a></li>
       <li><a href="/#page-contact" onclick="showPage('contact');return false;">Custom Quote</a></li>
     </ul></div>
-    <div class="fcol"><h4>Contact</h4><ul>
+    <div class="fcol"><h3>Contact</h3><ul>
       <li><span><i class="fas fa-map-marker-alt" style="color:var(--orange);margin-right:6px;"></i>Parklands, Nairobi</span></li>
       <li><a href="tel:+254729914983"><i class="fas fa-phone" style="color:var(--orange);margin-right:6px;"></i>0729 914 983</a></li>
       <li><a href="mailto:info@webazi.co.ke"><i class="fas fa-envelope" style="color:var(--orange);margin-right:6px;"></i>info@webazi.co.ke</a></li>
@@ -1350,7 +1355,23 @@ button,input,select,textarea{max-width:100%}
 // ── SUPABASE CLIENT ──
 const SUPABASE_URL = 'https://ezyvuipabbhckplhlvxz.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV6eXZ1aXBhYmJoY2twbGhsdnh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg3MjEwMjQsImV4cCI6MjEwNDI5NzAyNH0.ILSsrEwjwFVreMAPcR7k-jmYoDnX0KDHMnmK-QdFb1k';
-const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let supabaseClientPromise;
+function getSupabaseClient(){
+  if(window.supabase?.createClient)return Promise.resolve(window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY));
+  if(!supabaseClientPromise){
+    supabaseClientPromise=new Promise((resolve,reject)=>{
+      const script=document.createElement('script');
+      script.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+      script.async=true;
+      script.onload=()=>window.supabase?.createClient
+        ?resolve(window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY))
+        :reject(new Error('Supabase client did not initialise'));
+      script.onerror=()=>reject(new Error('Unable to load the project service. Please try again.'));
+      document.head.appendChild(script);
+    });
+  }
+  return supabaseClientPromise;
+}
 
 // ── PAGE NAVIGATION ──
 function showPage(id){
@@ -1444,7 +1465,8 @@ async function sendWhatsApp(){
   const msg=(document.getElementById('w-msg').value||'').slice(0,1000);
   const code=genCode();
   try{
-    const { error } = await sb.from('projects').insert({
+    const client=await getSupabaseClient();
+    const { error } = await client.from('projects').insert({
       code: code,
       client: name,
       service: service,
@@ -1557,9 +1579,10 @@ async function trackProject(){
     // Preferred: server-side function that returns only this one project's public fields.
     // Falls back to the original lookup until that function exists in the database.
     let data=null,error=null;
-    const rp=await sb.rpc('track_project',{p_code:code});
+    const client=await getSupabaseClient();
+    const rp=await client.rpc('track_project',{p_code:code});
     if(rp.error&&(rp.error.code==='PGRST202'||rp.error.code==='42883'||/could not find the function/i.test(rp.error.message||''))){
-      const q=await sb.from('projects').select('*').eq('code',code).maybeSingle();data=q.data;error=q.error;
+      const q=await client.from('projects').select('*').eq('code',code).maybeSingle();data=q.data;error=q.error;
     }else{data=Array.isArray(rp.data)?rp.data[0]:rp.data;error=rp.error;}
     document.getElementById('trLoading').style.display='none';
     if(error || !data){document.getElementById('trNotFound').style.display='block';return;}
