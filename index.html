@@ -76,7 +76,13 @@ html,body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text
 
 /* ── NAV ── */
 nav{position:sticky;top:0;z-index:2000;background:var(--bg2);border-bottom:1px solid var(--border);padding:0 5%;}
-.nav-inner{height:68px;display:flex;align-items:center;justify-content:space-between;}
+.nav-inner{height:68px;display:flex;align-items:center;justify-content:space-between;gap:clamp(18px,2.5vw,40px);}
+@media(min-width:1131px){
+  .nav-inner{width:100%;}
+  .nav-links{flex:1;justify-content:space-between;gap:clamp(4px,1vw,14px);min-width:0;}
+  .nav-links a{padding:8px clamp(8px,1vw,15px);white-space:nowrap;}
+  .nav-right{flex:0 0 auto;margin-left:clamp(8px,1vw,18px);}
+}
 .logo{display:flex;align-items:center;gap:11px;text-decoration:none;cursor:pointer;}
 .logo-icon{width:42px;height:42px;background:var(--navy);border-radius:10px;display:flex;align-items:center;justify-content:center;}
 .logo-icon svg{width:28px;height:28px;}
@@ -542,7 +548,7 @@ button,input,select,textarea{max-width:100%}
       <li><a href="/#page-pricing" onclick="showPage('pricing');return false;" id="n-pricing">Pricing</a></li>
       <li><a href="/#page-about" onclick="showPage('about');return false;" id="n-about">About</a></li>
       <li><a href="/#page-blog" onclick="showPage('blog');return false;" id="n-blog">Blog</a></li>
-      <li><a href="https://portfolio.webazi.co.ke" target="_blank" rel="noopener noreferrer">Portfolio</a></li>
+      <li><a href="https://portfolio.webazi.co.ke" target="_blank" rel="noopener noreferrer">My Work</a></li>
       <li><a href="/#page-contact" onclick="showPage('contact');return false;" id="n-contact" class="nav-cta">Contact</a></li>
     </ul>
     <div class="nav-right">
@@ -566,7 +572,7 @@ button,input,select,textarea{max-width:100%}
   <a href="/#page-pricing" onclick="navGo('pricing');return false;"><i class="fas fa-tags"></i>Pricing</a>
   <a href="/#page-about" onclick="navGo('about');return false;"><i class="fas fa-users"></i>About Us</a>
   <a href="/#page-blog" onclick="navGo('blog');return false;"><i class="fas fa-newspaper"></i>Blog</a>
-  <a href="https://portfolio.webazi.co.ke" target="_blank" rel="noopener noreferrer"><i class="fas fa-briefcase"></i>Portfolio</a>
+  <a href="https://portfolio.webazi.co.ke" target="_blank" rel="noopener noreferrer"><i class="fas fa-briefcase"></i>My Work</a>
   <a href="/#page-faq" onclick="navGo('faq');return false;"><i class="fas fa-question-circle"></i>FAQ</a>
   <a href="/#page-tracker" onclick="navGo('tracker');return false;"><i class="fas fa-tasks"></i>Track Project</a>
   <a href="/#page-contact" onclick="navGo('contact');return false;" class="D-Da"> Get a Quote</a>
