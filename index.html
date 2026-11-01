@@ -418,9 +418,6 @@ footer{background:#070e20;padding:70px 5% 28px;}
 .mcb-btn i{font-size:1.1rem;color:var(--orange);}
 @media(max-width:768px){.mobile-call-bar{display:flex;}.wa-float{bottom:80px;}.sticky-quote{display:none;}}
 
-/* VISITOR COUNTER */
-.visitor-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.3);color:#00C853;padding:6px 14px;border-radius:20px;font-size:.75rem;font-weight:600;margin-top:16px;}
-.visitor-badge .pulse-dot{width:8px;height:8px;background:#00C853;border-radius:50%;}
 
 /* VIEWPORT FIT PATCH — preserve existing design while preventing horizontal overflow */
 html,body{width:100%;max-width:100%;overflow-x:clip}
@@ -605,9 +602,7 @@ button,input,select,textarea{max-width:100%}
         <div class="stat"><p class="stat-number">50+</p><p>Projects Done</p></div>
         <div class="stat"><p class="stat-number">98%</p><p>Satisfaction</p></div>
         <div class="stat"><p class="stat-number">14</p><p>Days Avg. Launch</p></div>
-        <div class="stat"><p class="stat-number">5<i class="fas fa-star"></i></p><p>Rated Agency</p></div>
       </div>
-      <div class="visitor-badge"><span class="pulse-dot"></span> <span id="visitorCount">7</span> people viewing this page now</div>
     </div>
   </section>
 
@@ -1716,11 +1711,6 @@ function sendCalcQuote(){
   window.open(`https://wa.me/254729914983?text=${text}`,'_blank','noopener,noreferrer');
 }
 
-// ── VISITOR COUNTER (simulated) ──
-setInterval(()=>{
-  const el=document.getElementById('visitorCount');
-  if(el) el.textContent=Math.floor(Math.random()*8)+4;
-},8000);
 </script>
 </body>
 </html>
