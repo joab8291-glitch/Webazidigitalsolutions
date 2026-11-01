@@ -1665,6 +1665,12 @@ function updateScrollProgress(){
 window.addEventListener('scroll',updateScrollProgress,{passive:true});
 window.addEventListener('resize',refreshScrollMetrics,{passive:true});
 window.addEventListener('load',refreshScrollMetrics,{once:true});
+// Content can grow after load as images/fonts resolve or a hidden page is opened.
+// Observe size changes asynchronously instead of reading layout during scroll.
+if('ResizeObserver' in window){
+  const scrollSizeObserver=new ResizeObserver(refreshScrollMetrics);
+  scrollSizeObserver.observe(document.documentElement);
+}
 refreshScrollMetrics();
 
 // ── EXIT INTENT POPUP ──
