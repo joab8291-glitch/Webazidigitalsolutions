@@ -523,6 +523,75 @@ button,input,select,textarea{max-width:100%}
 }
 .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;}
 
+
+/* ── PREMIUM GROWTH CTA ── */
+.growth-cta{
+  position:relative;isolation:isolate;overflow:hidden;
+  display:grid;place-items:center;min-height:390px;
+  padding:clamp(76px,9vw,116px) 7%;
+  text-align:center;background:
+    radial-gradient(ellipse at 50% 115%,rgba(30,117,255,.22),transparent 52%),
+    linear-gradient(125deg,#080f25 0%,#101b3b 48%,#11142f 100%);
+  border-top:1px solid rgba(129,174,255,.14);
+  border-bottom:1px solid rgba(129,174,255,.12);
+}
+.growth-cta::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(ellipse at 18% 12%,rgba(0,207,255,.13),transparent 38%),
+    radial-gradient(ellipse at 86% 78%,rgba(124,92,255,.17),transparent 42%);
+}
+.growth-cta-grid{
+  position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.19;
+  background-image:linear-gradient(rgba(161,190,255,.12) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(161,190,255,.12) 1px,transparent 1px);
+  background-size:54px 54px;
+  mask-image:linear-gradient(to bottom,transparent 0%,#000 22%,#000 78%,transparent 100%);
+}
+.growth-cta-orb{position:absolute;z-index:-1;pointer-events:none;border-radius:50%;filter:blur(2px);}
+.growth-cta-orb-one{width:330px;height:330px;top:-225px;left:12%;background:radial-gradient(circle,rgba(0,213,255,.24),transparent 70%);}
+.growth-cta-orb-two{width:390px;height:390px;right:4%;bottom:-300px;background:radial-gradient(circle,rgba(132,91,255,.25),transparent 70%);}
+.growth-cta-content{width:min(100%,900px);margin:auto;position:relative;z-index:1;}
+.growth-cta-kicker{
+  display:inline-flex;align-items:center;gap:10px;margin-bottom:22px;
+  color:#8feaff;font-size:.72rem;font-weight:800;letter-spacing:2.8px;
+}
+.growth-cta-kicker span{width:7px;height:7px;border-radius:50%;background:#37d9f5;box-shadow:0 0 16px #37d9f5;}
+.growth-cta h2{
+  max-width:850px;margin:0 auto 18px;color:#f8fbff;
+  font-size:clamp(2.1rem,5vw,4.25rem);font-weight:900;line-height:1.1;
+  letter-spacing:-.045em;text-wrap:balance;
+}
+.growth-cta h2 span{
+  background:linear-gradient(95deg,#65e5f4 5%,#82aaff 52%,#c2a0ff 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.growth-cta p{
+  max-width:650px;margin:0 auto 32px;color:rgba(226,235,255,.74);
+  font-size:clamp(.94rem,1.5vw,1.08rem);line-height:1.85;text-wrap:balance;
+}
+.growth-cta-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:13px;
+  min-height:54px;padding:0 30px;border:1px solid rgba(255,255,255,.34);
+  border-radius:999px;color:#07152b;font:700 .94rem 'Poppins',sans-serif;
+  background:linear-gradient(105deg,#6be7f2,#91baff 58%,#bca2ff);
+  box-shadow:0 10px 34px rgba(62,178,255,.24),inset 0 1px 0 rgba(255,255,255,.7);
+  cursor:pointer;transition:transform .25s ease,box-shadow .25s ease,filter .25s ease;
+}
+.growth-cta-btn i{font-size:.85rem;transition:transform .25s ease;}
+.growth-cta-btn:hover{transform:translateY(-3px);filter:brightness(1.06);box-shadow:0 16px 42px rgba(62,178,255,.34),inset 0 1px 0 rgba(255,255,255,.8);}
+.growth-cta-btn:hover i{transform:translateX(4px);}
+.growth-cta-btn:focus-visible{outline:3px solid #fff;outline-offset:5px;}
+.growth-cta-note{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:22px;color:rgba(220,233,255,.56);font-size:.75rem;}
+.growth-cta-note i{color:#6ce4c0;}
+@media(max-width:600px){
+  .growth-cta{min-height:360px;padding:72px 7%;}
+  .growth-cta-kicker{font-size:.64rem;letter-spacing:2px;margin-bottom:18px;}
+  .growth-cta p{margin-bottom:26px;}
+  .growth-cta-btn{width:100%;max-width:310px;}
+  .growth-cta-note{font-size:.68rem;line-height:1.6;}
+}
+@media(prefers-reduced-motion:reduce){.growth-cta-btn,.growth-cta-btn i{transition:none;}}
+
 </style>
 
 <style media="print">
@@ -724,11 +793,18 @@ button,input,select,textarea{max-width:100%}
     </div>
   </section>
 
-  <!-- CTA BAND -->
-  <section class="sec" style="background:linear-gradient(135deg,var(--orange),var(--orange2));text-align:center;">
-    <h2 style="color:#fff;font-size:2rem;font-weight:900;margin-bottom:14px;">Ready to Grow Your Business Online?</h2>
-    <p style="color:rgba(255,255,255,.85);margin-bottom:32px;font-size:1rem;">Let's build something amazing together. Your brand deserves to be seen.</p>
-    <button class="btn-o" style="border-color:#fff;color:#fff;" onclick="showPage('contact')">Request a Free Quote</button>
+  <!-- PREMIUM GROWTH CTA -->
+  <section class="growth-cta" aria-labelledby="growth-cta-title">
+    <div class="growth-cta-orb growth-cta-orb-one" aria-hidden="true"></div>
+    <div class="growth-cta-orb growth-cta-orb-two" aria-hidden="true"></div>
+    <div class="growth-cta-grid" aria-hidden="true"></div>
+    <div class="growth-cta-content">
+      <span class="growth-cta-kicker"><span></span> LET'S BUILD WHAT'S NEXT</span>
+      <h2 id="growth-cta-title">Ready to grow your business <span>online?</span></h2>
+      <p>Let's turn your next big idea into a powerful digital experience. Your brand deserves to stand out.</p>
+      <button class="growth-cta-btn" onclick="showPage('contact')">Request a Free Quote <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
+      <div class="growth-cta-note"><i class="fas fa-check-circle" aria-hidden="true"></i> No pressure. Just a conversation about your goals.</div>
+    </div>
   </section>
 </div>
 
