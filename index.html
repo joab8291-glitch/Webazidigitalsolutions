@@ -58,7 +58,7 @@
   --bg:#f4f7fa;--bg2:#fff;--card:#fff;--text:#0D1B3E;--sub:#5a6272;
   --border:#e0e8f0;--light-card:#f9fbfd;--input:#fff;--navy:#0D1B3E;
 }
-*{margin:0;padding:0;box-sizing:border-box;transition:background .1s,color .1s;}
+*{margin:0;padding:0;box-sizing:border-box;}
 html,body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;scroll-behavior:smooth;}
 
 /* ── TOP BAR ── */
@@ -125,7 +125,7 @@ nav{position:sticky;top:0;z-index:2000;background:var(--bg2);border-bottom:1px s
 .btn-o{border:2px solid rgba(255,255,255,.3);color:#fff;padding:14px 32px;border-radius:30px;text-decoration:none;font-weight:600;font-size:.93rem;transition:.3s;cursor:pointer;background:none;}
 .btn-o:hover{border-color:var(--orange);color:var(--orange);}
 .hero-stats{display:flex;gap:40px;margin-top:52px;padding-top:40px;border-top:1px solid rgba(255,255,255,.1);flex-wrap:wrap;justify-content:center;}
-.stat h3{font-size:2rem;font-weight:900;color:var(--orange);}
+.stat h3,.stat-number{font-size:2rem;font-weight:900;color:var(--orange);}
 .stat p{font-size:.75rem;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase;}
 
 /* ── SECTION ── */
@@ -179,7 +179,7 @@ nav{position:sticky;top:0;z-index:2000;background:var(--bg2);border-bottom:1px s
 .pcard:hover img{transform:scale(1.06);}
 .pcard-over{position:absolute;inset:0;background:linear-gradient(to top,rgba(13,27,62,.95),transparent 50%);opacity:0;transition:.3s;display:flex;align-items:flex-end;padding:22px;}
 .pcard:hover .pcard-over{opacity:1;}
-.pcard-over h4{color:#fff;font-size:.97rem;font-weight:700;}
+.pcard-over h3,.pcard-over h4{color:#fff;font-size:.97rem;font-weight:700;}
 .pcard-over span{color:var(--orange);font-size:.78rem;display:block;margin-bottom:10px;}
 .pcard-over a{display:inline-block;padding:7px 16px;border-radius:20px;background:var(--orange);color:#fff;font-size:.78rem;font-weight:600;text-decoration:none;margin-right:8px;}
 
@@ -211,7 +211,7 @@ nav{position:sticky;top:0;z-index:2000;background:var(--bg2);border-bottom:1px s
 .tc p{color:var(--sub);font-size:.88rem;line-height:1.75;font-style:italic;margin-bottom:22px;}
 .tc-auth{display:flex;align-items:center;gap:12px;}
 .tc-av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--orange2));display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:.9rem;flex-shrink:0;}
-.tc-auth h4{font-size:.88rem;font-weight:700;}
+.tc-auth h3,.tc-auth h4{font-size:.88rem;font-weight:700;}
 .tc-auth span{font-size:.76rem;color:var(--sub);}
 
 /* ── ABOUT ── */
@@ -464,6 +464,16 @@ button,input,select,textarea{max-width:100%}
 .service-page-links .service-page-link:hover .service-link-arrow{color:var(--orange)}
 @media(max-width:760px){.service-page-links{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:9px;margin-top:20px}.service-page-links .service-page-link{min-height:64px;padding:10px;gap:9px;font-size:.78rem}.service-page-links .service-link-icon{width:34px;height:34px;flex-basis:34px;font-size:.92rem}.service-page-links .service-link-arrow{font-size:.62rem}}
 @media(max-width:360px){.service-page-links{grid-template-columns:1fr}.service-page-links .service-page-link{min-height:58px}}
+
+/* Accessible contrast for the orange brand accent and orange action surfaces. */
+:root{--on-orange:#0D1B3E;}
+[data-theme="light"]{--orange:#B94700;--orange2:#983A00;--on-orange:#FFFFFF;}
+.tb-soc:hover,.fsoc:hover,.nav-cta,.drawer .d-cta,.btn-p,.pnum,.ptab.active,.ptab:hover,
+.pcard-over a,.pop-badge,.btn-buy,.tc-av,.about-badge,.call-btn,.ci-icon,.sticky-quote{
+  color:var(--on-orange)!important;
+}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;}
+
 </style>
 
 <style media="print">
@@ -477,19 +487,9 @@ button,input,select,textarea{max-width:100%}
 
 <div id="scrollBar"></div>
 
-<!-- EXIT POPUP -->
-<div class="exit-overlay" id="exitOverlay">
-  <div class="exit-box">
-    <button class="exit-close" type="button" aria-label="Close discount offer" onclick="closeExitPopup()"><i class="fas fa-times"></i></button>
-    <h2>Wait! Don't Leave <span>Empty-Handed</span> <i class="fas fa-gift"></i></h2>
-    <p>Get <strong>10% OFF</strong> your first project when you reach out today. Limited time offer for new clients.</p>
-    <button class="btn-p" style="border:none;width:100%;" onclick="claimOffer()">Claim My 10% Discount</button>
-  </div>
-</div>
-
 <!-- LOADER -->
-<div id="loader">
-  <video id="introVideo" muted playsinline autoplay preload="auto" disablepictureinpicture aria-hidden="true" tabindex="-1">
+<div id="loader" aria-hidden="true">
+  <video id="introVideo" muted playsinline autoplay preload="metadata" disablepictureinpicture aria-hidden="true" tabindex="-1">
     <source src="intro.mp4" type="video/mp4"/>
     <source src="intro.webm" type="video/webm"/>
   </video>
@@ -500,7 +500,7 @@ button,input,select,textarea{max-width:100%}
 <div id="cookieBar" style="display:none;position:fixed;bottom:0;left:0;right:0;background:var(--navy);border-top:1px solid var(--border);padding:14px 5%;display:flex;justify-content:space-between;align-items:center;z-index:9990;flex-wrap:wrap;gap:12px;">
   <p style="color:#ffffff;font-size:.82rem;margin:0;font-weight:500;"> We use cookies to enhance your experience. <a href="/#page-privacy" onclick="showPage('privacy');return false;" style="color:var(--orange);cursor:pointer;">Learn more</a></p>
   <div style="display:flex;gap:10px;">
-    <button onclick="acceptCookie()" style="padding:8px 20px;border-radius:20px;border:none;background:var(--orange);color:#fff;font-family:'Poppins',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer;">Accept</button>
+    <button onclick="acceptCookie()" style="padding:8px 20px;border-radius:20px;border:none;background:var(--orange);color:var(--on-orange);font-family:'Poppins',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer;">Accept</button>
     <button onclick="declineCookie()" style="padding:8px 20px;border-radius:20px;border:1px solid rgba(255,255,255,.2);background:none;color:rgba(255,255,255,.6);font-family:'Poppins',sans-serif;font-size:.8rem;cursor:pointer;">Decline</button>
   </div>
 </div>
@@ -595,10 +595,10 @@ button,input,select,textarea{max-width:100%}
         <a href="https://portfolio.webazi.co.ke" target="_blank" rel="noopener noreferrer" class="btn-o" style="display:inline-flex;align-items:center;gap:8px;"><i class="fas fa-briefcase"></i> Our Portfolio</a>
       </div>
       <div class="hero-stats">
-        <div class="stat"><h3>50+</h3><p>Projects Done</p></div>
-        <div class="stat"><h3>98%</h3><p>Satisfaction</p></div>
-        <div class="stat"><h3>14</h3><p>Days Avg. Launch</p></div>
-        <div class="stat"><h3>5<i class="fas fa-star"></i></h3><p>Rated Agency</p></div>
+        <div class="stat"><p class="stat-number">50+</p><p>Projects Done</p></div>
+        <div class="stat"><p class="stat-number">98%</p><p>Satisfaction</p></div>
+        <div class="stat"><p class="stat-number">14</p><p>Days Avg. Launch</p></div>
+        <div class="stat"><p class="stat-number">5<i class="fas fa-star"></i></p><p>Rated Agency</p></div>
       </div>
       <img class="gr-badge-img" src="/assets/images/google-reviews-badge-7c2b1b2c.jpg" width="598" height="350" alt="Google Verified Reviews - 5 star rating" decoding="async"/>
       <div class="visitor-badge"><span class="pulse-dot"></span> <span id="visitorCount">7</span> people viewing this page now</div>
@@ -606,6 +606,7 @@ button,input,select,textarea{max-width:100%}
   </section>
 
   <!-- VALUE STRIP -->
+  <h2 class="sr-only">Why choose Webazi</h2>
   <div class="vstrip">
     <div class="vgrid">
       <div class="vc"><div class="vc-icon"><i class="fas fa-mobile-alt"></i></div><h3>Mobile-Responsive</h3><p>Perfect on every screen — phone, tablet, and desktop.</p></div>
@@ -657,9 +658,9 @@ button,input,select,textarea{max-width:100%}
       <h2 class="sec-title">What Our Clients Say</h2>
     </div>
     <div class="tgrid">
-      <div class="tc"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p>"Webazi transformed our online presence completely. Professional, responsive and delivered exactly on time."</p><div class="tc-auth"><div class="tc-av">MK</div><div><h4>Mary Kamau</h4><span>Director, Kamau Enterprises</span></div></div></div>
-      <div class="tc"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p>"Social media management has been a game changer. Followers grew and we're getting real customer engagement every week."</p><div class="tc-auth"><div class="tc-av">JO</div><div><h4>James Otieno</h4><span>CEO, Otieno Logistics</span></div></div></div>
-      <div class="tc"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p>"Our brand looks completely professional now. Quality exceeded expectations at this price point."</p><div class="tc-auth"><div class="tc-av">FW</div><div><h4>Faith Wanjiku</h4><span>Founder, Blossom Boutique</span></div></div></div>
+      <div class="tc"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p>"Webazi transformed our online presence completely. Professional, responsive and delivered exactly on time."</p><div class="tc-auth"><div class="tc-av">MK</div><div><h3>Mary Kamau</h3><span>Director, Kamau Enterprises</span></div></div></div>
+      <div class="tc"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p>"Social media management has been a game changer. Followers grew and we're getting real customer engagement every week."</p><div class="tc-auth"><div class="tc-av">JO</div><div><h3>James Otieno</h3><span>CEO, Otieno Logistics</span></div></div></div>
+      <div class="tc"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p>"Our brand looks completely professional now. Quality exceeded expectations at this price point."</p><div class="tc-auth"><div class="tc-av">FW</div><div><h3>Faith Wanjiku</h3><span>Founder, Blossom Boutique</span></div></div></div>
     </div>
   </section>
 
@@ -729,12 +730,12 @@ button,input,select,textarea{max-width:100%}
       <button class="ptab">Branding</button>
     </div>
     <div class="port-grid">
-      <div class="pcard"><img loading="lazy" src="https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=1964&auto=format&fit=crop" alt="Web design portfolio project for a Kenyan business" decoding="async"/ width="640" height="360"><div class="pcard-over"><span>E-Commerce Website</span><h4>Airtime Hub</h4><a href="https://joabairtimehub.netlify.app" target="_blank" rel="noopener noreferrer">View Live</a></div></div>
+      <div class="pcard"><img loading="lazy" src="https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=1964&auto=format&fit=crop" alt="Web design portfolio project for a Kenyan business" decoding="async" width="640" height="360"/><div class="pcard-over"><span>E-Commerce Website</span><h3>Airtime Hub</h3><a href="https://joabairtimehub.netlify.app" target="_blank" rel="noopener noreferrer">View Live</a></div></div>
       <div class="pcard"><img loading="lazy" src="/assets/images/portfolio-airtime-hub-164966bb.png" width="1110" height="550" alt="Airtime Hub e-commerce website project preview" decoding="async"/><div class="pcard-over"><span>Logo & Branding</span><h4>Brand Identity</h4><a href="/#page-contact" onclick="showPage('contact');return false;">Order Similar</a></div></div>
-      <div class="pcard"><img loading="lazy" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop" alt="Brand identity and logo design portfolio project" decoding="async"/ width="640" height="360"><div class="pcard-over"><span>Digital Marketing</span><h4>SEO Campaign</h4><a href="/#page-contact" onclick="showPage('contact');return false;">Order Similar</a></div></div>
-      <div class="pcard"><img loading="lazy" src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1974&auto=format&fit=crop" alt="Digital marketing and SEO campaign portfolio project" decoding="async"/ width="640" height="360"><div class="pcard-over"><span>Graphics Design</span><h4>Social Media Kit</h4><a href="/#page-contact" onclick="showPage('contact');return false;">Order Similar</a></div></div>
-      <div class="pcard"><img loading="lazy" src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2070&auto=format&fit=crop" alt="Social media graphic design portfolio project" decoding="async"/ width="640" height="360"><div class="pcard-over"><span>Web Development</span><h4>Corporate Website</h4><a href="/#page-contact" onclick="showPage('contact');return false;">Order Similar</a></div></div>
-      <div class="pcard"><img loading="lazy" src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=2070&auto=format&fit=crop" alt="Corporate website development portfolio project" decoding="async"/ width="640" height="360"><div class="pcard-over"><span>NGO Website</span><h4>PathFix Africa</h4><a href="/#page-contact" onclick="showPage('contact');return false;">Order Similar</a></div></div>
+      <div class="pcard"><img loading="lazy" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop" alt="Brand identity and logo design portfolio project" decoding="async" width="640" height="360"/><div class="pcard-over"><span>Digital Marketing</span><h4>SEO Campaign</h4><a href="/#page-contact" onclick="showPage('contact');return false;">Order Similar</a></div></div>
+      <div class="pcard"><img loading="lazy" src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1974&auto=format&fit=crop" alt="Digital marketing and SEO campaign portfolio project" decoding="async" width="640" height="360"/><div class="pcard-over"><span>Graphics Design</span><h4>Social Media Kit</h4><a href="/#page-contact" onclick="showPage('contact');return false;">Order Similar</a></div></div>
+      <div class="pcard"><img loading="lazy" src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2070&auto=format&fit=crop" alt="Social media graphic design portfolio project" decoding="async" width="640" height="360"/><div class="pcard-over"><span>Web Development</span><h4>Corporate Website</h4><a href="/#page-contact" onclick="showPage('contact');return false;">Order Similar</a></div></div>
+      <div class="pcard"><img loading="lazy" src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=2070&auto=format&fit=crop" alt="Corporate website development portfolio project" decoding="async" width="640" height="360"/><div class="pcard-over"><span>NGO Website</span><h4>PathFix Africa</h4><a href="/#page-contact" onclick="showPage('contact');return false;">Order Similar</a></div></div>
     </div>
   </section>
 </div>
@@ -1334,6 +1335,17 @@ button,input,select,textarea{max-width:100%}
   <a href="https://wa.me/254729914983?text=Hi%20Webazi%2C%20I%20have%20a%20question" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> Chat Now</a>
 </div>
 
+<!-- EXIT POPUP -->
+<div class="exit-overlay" id="exitOverlay">
+  <div class="exit-box" role="dialog" aria-modal="true" aria-labelledby="exitOfferTitle">
+    <button class="exit-close" type="button" aria-label="Close discount offer" onclick="closeExitPopup()"><i class="fas fa-times"></i></button>
+    <h2 id="exitOfferTitle">Wait! Don't Leave <span>Empty-Handed</span> <i class="fas fa-gift"></i></h2>
+    <p>Get <strong>10% OFF</strong> your first project when you reach out today. Limited time offer for new clients.</p>
+    <button class="btn-p" style="border:none;width:100%;" onclick="claimOffer()">Claim My 10% Discount</button>
+  </div>
+</div>
+
+
 <script>
 // ── SUPABASE CLIENT ──
 const SUPABASE_URL = 'https://ezyvuipabbhckplhlvxz.supabase.co';
@@ -1492,12 +1504,12 @@ document.querySelectorAll('.card,.pstep,.tc,.bc,.vc,.gc,.price-card').forEach(el
   if(skipVideo){if(v)v.remove();classic();return;}
   function fallback(){if(started||done)return;if(v)v.remove();classic();}
   function onPlaying(){if(started||done)return;started=true;clearTimeout(startTimer);loader.classList.add('video-on');}
-  startTimer=setTimeout(fallback,3000);                 // video didn't start within 3s -> show the site
+  startTimer=setTimeout(fallback,1500);                 // video didn't start within 3s -> show the site
   v.addEventListener('playing',onPlaying);
   v.addEventListener('ended',function(){finish(0);});
   if(!v.paused&&v.readyState>2)onPlaying();
   var p=v.play();if(p&&p.catch)p.catch(fallback);       // autoplay blocked -> normal site
-  setTimeout(function(){finish(0);},12000);             // hard cap if playback stalls mid-way
+  setTimeout(function(){finish(0);},2500);             // short intro cap so the page becomes visible quickly
 })();
 
 // ── BACK TO TOP + WA POPUP TRIGGER ──
