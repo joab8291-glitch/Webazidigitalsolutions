@@ -80,9 +80,7 @@ nav{position:sticky;top:0;z-index:2000;background:var(--bg2);border-bottom:1px s
 .logo{display:flex;align-items:center;gap:11px;text-decoration:none;cursor:pointer;}
 .logo-icon{width:42px;height:42px;background:var(--navy);border-radius:10px;display:flex;align-items:center;justify-content:center;}
 .logo-icon svg{width:28px;height:28px;}
-.logo-name{font-size:1.2rem;font-weight:900;color:var(--text);}
-.logo-name span{color:var(--orange);}
-.logo-tag{font-size:.58rem;color:var(--sub);letter-spacing:2px;text-transform:uppercase;display:block;}
+.logo-name{font-size:1.28rem;font-weight:900;letter-spacing:.5px;color:var(--text);}
 .nav-links{display:flex;gap:2px;list-style:none;align-items:center;}
 .nav-links a{color:var(--sub);text-decoration:none;font-size:.83rem;font-weight:500;padding:7px 13px;border-radius:8px;transition:.2s;cursor:pointer;}
 .nav-links a:hover,.nav-links a.active{color:var(--orange);background:rgba(255,107,0,.08);}
@@ -515,10 +513,9 @@ button,input,select,textarea{max-width:100%}
     <a href="mailto:info@webazi.co.ke"><i class="fas fa-envelope"></i>info@webazi.co.ke</a>
   </div>
   <div class="tb-right">
-    <a href="https://wa.me/254729914983" class="tb-soc" aria-label="Whatsapp"><i class="fab fa-whatsapp"></i></a>
-    <span class="tb-soc" aria-hidden="true"><i class="fab fa-facebook-f"></i></span>
-    <span class="tb-soc" aria-hidden="true"><i class="fab fa-instagram"></i></span>
+    <a href="https://wa.me/254729914983" class="tb-soc" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
     <a href="https://linkedin.com/in/joab-ndego-488ab940b" class="tb-soc" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    <span class="tb-soc" aria-hidden="true"><i class="fab fa-instagram"></i></span>
   </div>
 </div>
 
@@ -537,10 +534,7 @@ button,input,select,textarea{max-width:100%}
           <polyline points="7,7 7,25 16,16 25,25 25,7" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      <div style="margin-left:10px;">
-        <div class="logo-name">WEBAZI <span>Digital</span></div>
-        <span class="logo-tag">Marketing</span>
-      </div>
+      <div class="logo-name">WEBAZI</div>
     </div>
     <ul class="nav-links" id="navLinks">
       <li><a href="/#page-home" onclick="showPage('home');return false;" id="n-home" class="active">Home</a></li>
