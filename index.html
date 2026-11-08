@@ -187,7 +187,7 @@ nav{position:sticky;top:0;z-index:2000;background:var(--bg2);border-bottom:1px s
   .stat-number{font-size:clamp(2rem,2.6vw,2.7rem);}
 }
 
-.stat h3,.stat-number{font-size:2rem;font-weight:900;color:var(--orange);}
+.stat h3,.stat-number{font-size:clamp(1.15rem,1.8vw,1.65rem);font-weight:900;color:var(--orange);letter-spacing:0;}
 .stat p{font-size:.75rem;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase;}
 
 /* ── SECTION ── */
@@ -457,6 +457,8 @@ footer{background:#070e20;padding:70px 5% 28px;}
 .calc-total{text-align:center;padding:24px;background:rgba(255,107,0,.08);border-radius:16px;margin-top:20px;}
 .calc-total h3{font-size:2rem;font-weight:900;color:var(--orange);}
 .calc-total p{color:var(--sub);font-size:.8rem;margin-top:4px;}
+.calc-total .calc-monthly{color:var(--text);font-size:1rem;font-weight:800;margin-top:12px;}
+.calc-total .calc-note{font-size:.74rem;}
 
 /* REVIEWS */
 
@@ -720,10 +722,10 @@ button,input,select,textarea{max-width:100%}
         <button class="btn-o" onclick="showPage('contact')">Get Free Quote</button>
         <a href="https://portfolio.webazi.co.ke" target="_blank" rel="noopener noreferrer" class="btn-o" style="display:inline-flex;align-items:center;gap:8px;"><i class="fas fa-briefcase"></i> Our Portfolio</a>
       </div>
-      <div class="hero-stats">
-        <div class="stat"><p class="stat-number">50+</p><p>Projects Done</p></div>
-        <div class="stat"><p class="stat-number">98%</p><p>Satisfaction</p></div>
-        <div class="stat"><p class="stat-number">14</p><p>Days Avg. Launch</p></div>
+      <div class="hero-stats" aria-label="Webazi service commitments">
+        <div class="stat"><p class="stat-number">Kenya</p><p>Wide Service</p></div>
+        <div class="stat"><p class="stat-number">M-Pesa</p><p>Payment Integration</p></div>
+        <div class="stat"><p class="stat-number">30 Days</p><p>Post-Launch Support</p></div>
       </div>
     </div>
   </section>
@@ -774,16 +776,13 @@ button,input,select,textarea{max-width:100%}
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
+  <!-- PORTFOLIO PROOF -->
   <section class="sec">
     <div class="center">
-      <span class="sec-eyebrow">Client Feedback</span>
-      <h2 class="sec-title">What Our Clients Say</h2>
-    </div>
-    <div class="tgrid">
-      <div class="tc"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p>"Webazi transformed our online presence completely. Professional, responsive and delivered exactly on time."</p><div class="tc-auth"><div class="tc-av">MK</div><div><h3>Mary Kamau</h3><span>Director, Kamau Enterprises</span></div></div></div>
-      <div class="tc"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p>"Social media management has been a game changer. Followers grew and we're getting real customer engagement every week."</p><div class="tc-auth"><div class="tc-av">JO</div><div><h3>James Otieno</h3><span>CEO, Otieno Logistics</span></div></div></div>
-      <div class="tc"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p>"Our brand looks completely professional now. Quality exceeded expectations at this price point."</p><div class="tc-auth"><div class="tc-av">FW</div><div><h3>Faith Wanjiku</h3><span>Founder, Blossom Boutique</span></div></div></div>
+      <span class="sec-eyebrow">See the Work</span>
+      <h2 class="sec-title">Explore Webazi Projects</h2>
+      <p class="sec-sub">Browse our project portfolio for live examples of websites, brands and digital experiences.</p>
+      <a class="btn-p" href="https://portfolio.webazi.co.ke" target="_blank" rel="noopener noreferrer" style="display:inline-flex;margin-top:24px;">View Full Portfolio <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
     </div>
   </section>
 
@@ -853,20 +852,10 @@ button,input,select,textarea{max-width:100%}
       <h2 class="sec-title">Portfolio</h2>
       <p class="sec-sub">Websites, brands and digital experiences we've built for clients across Kenya.</p>
     </div>
-    <div class="port-tabs">
-      <button class="ptab active">All</button>
-      <button class="ptab">Web Design</button>
-      <button class="ptab">Graphics</button>
-      <button class="ptab">Branding</button>
+    <div class="port-grid" style="max-width:620px;margin-left:auto;margin-right:auto;">
+      <div class="pcard"><img loading="lazy" src="/assets/images/portfolio-airtime-hub-164966bb.png" width="1110" height="550" alt="Screenshot of the Webazi Airtime Hub e-commerce website" decoding="async"/><div class="pcard-over"><span>Live E-Commerce Project</span><h3>Airtime Hub</h3><a href="https://airtime.webazi.co.ke" target="_blank" rel="noopener noreferrer">View Live</a></div></div>
     </div>
-    <div class="port-grid">
-      <div class="pcard"><img loading="lazy" src="https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=1964&auto=format&fit=crop" alt="Web design portfolio project for a Kenyan business" decoding="async" width="640" height="360"/><div class="pcard-over"><span>E-Commerce Website</span><h3>Airtime Hub</h3><a href="https://joabairtimehub.netlify.app" target="_blank" rel="noopener noreferrer">View Live</a></div></div>
-      <div class="pcard"><img loading="lazy" src="/assets/images/portfolio-airtime-hub-164966bb.png" width="1110" height="550" alt="Airtime Hub e-commerce website project preview" decoding="async"/><div class="pcard-over"><span>Logo & Branding</span><h4>Brand Identity</h4><a href="/#page-contact" onclick="showPage('contact');return false;">Order Similar</a></div></div>
-      <div class="pcard"><img loading="lazy" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop" alt="Brand identity and logo design portfolio project" decoding="async" width="640" height="360"/><div class="pcard-over"><span>Digital Marketing</span><h4>SEO Campaign</h4><a href="/#page-contact" onclick="showPage('contact');return false;">Order Similar</a></div></div>
-      <div class="pcard"><img loading="lazy" src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1974&auto=format&fit=crop" alt="Digital marketing and SEO campaign portfolio project" decoding="async" width="640" height="360"/><div class="pcard-over"><span>Graphics Design</span><h4>Social Media Kit</h4><a href="/#page-contact" onclick="showPage('contact');return false;">Order Similar</a></div></div>
-      <div class="pcard"><img loading="lazy" src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2070&auto=format&fit=crop" alt="Social media graphic design portfolio project" decoding="async" width="640" height="360"/><div class="pcard-over"><span>Web Development</span><h4>Corporate Website</h4><a href="/#page-contact" onclick="showPage('contact');return false;">Order Similar</a></div></div>
-      <div class="pcard"><img loading="lazy" src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=2070&auto=format&fit=crop" alt="Corporate website development portfolio project" decoding="async" width="640" height="360"/><div class="pcard-over"><span>NGO Website</span><h4>PathFix Africa</h4><a href="/#page-contact" onclick="showPage('contact');return false;">Order Similar</a></div></div>
-    </div>
+    <div class="center" style="margin-top:30px;"><a class="btn-p" href="https://portfolio.webazi.co.ke" target="_blank" rel="noopener noreferrer" style="display:inline-flex;">Explore Full Portfolio <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div>
   </section>
 </div>
 
@@ -932,14 +921,16 @@ button,input,select,textarea{max-width:100%}
         <label>Number of Pages <span id="calcPagesVal">5</span></label>
         <input type="range" id="calcPages" min="1" max="30" value="5" oninput="updateCalc()"/>
       </div>
-      <label class="calc-check"><input type="checkbox" id="calcSEO" onchange="updateCalc()"/> Add SEO launch setup (+KES 15,000 one-time; monthly SEO quoted separately)</label>
-      <label class="calc-check"><input type="checkbox" id="calcSocial" onchange="updateCalc()"/> Add Social Media Management (+KES 15,000/month starting package)</label>
+      <label class="calc-check"><input type="checkbox" id="calcSEO" onchange="updateCalc()"/> Add SEO launch setup (+KES 15,000 one-time; ongoing SEO from KES 15,000/month)</label>
+      <label class="calc-check"><input type="checkbox" id="calcSocial" onchange="updateCalc()"/> Add Social Media Management (from KES 15,000/month)</label>
       <label class="calc-check"><input type="checkbox" id="calcGraphics" onchange="updateCalc()"/> Add Logo & Brand Kit (+KES 12,000 one-time)</label>
-      <label class="calc-check"><input type="checkbox" id="calcMpesa" onchange="updateCalc()"/> Add M-Pesa Integration (+KES 25,000)</label>
-      <label class="calc-check"><input type="checkbox" id="calcEcommerce" onchange="updateCalc()"/> Add e-commerce functionality (+KES 60,000; minimum typical website + store from KES 80,000)</label>
+      <label class="calc-check"><input type="checkbox" id="calcMpesa" onchange="updateCalc()"/> Add M-Pesa Integration (+KES 25,000 one-time)</label>
+      <label class="calc-check"><input type="checkbox" id="calcEcommerce" onchange="updateCalc()"/> Add e-commerce functionality (+KES 60,000; website + store from KES 80,000)</label>
       <div class="calc-total">
-        <h3 id="calcTotal">KES 20,000</h3>
-        <p>Estimated one-time setup cost. Recurring monthly services are quoted separately.</p>
+        <h3 id="calcTotal">KES 25,000</h3>
+        <p>Estimated one-time setup total.</p>
+        <p class="calc-monthly" id="calcMonthlyTotal">Recurring services: KES 0 / month</p>
+        <p class="calc-note">Monthly charges are calculated separately and are not added to the setup total.</p>
       </div>
       <button class="btn-p" style="width:100%;border:none;margin-top:18px;" onclick="sendCalcQuote()">Get This Quote on WhatsApp</button>
     </div>
@@ -965,7 +956,7 @@ button,input,select,textarea{max-width:100%}
     <div class="grid-2">
       <div class="about-img">
         <img loading="lazy" src="/assets/images/about-team-e9f46633.png" width="1024" height="576" alt="Webazi Digital Solutions Team" decoding="async"/>
-        <div class="about-badge"><h3>5+</h3><p>Years Experience</p></div>
+        <div class="about-badge"><h3>Kenya</h3><p>Service Coverage</p></div>
       </div>
       <div>
         <span class="sec-eyebrow">About Webazi</span>
@@ -983,33 +974,6 @@ button,input,select,textarea{max-width:100%}
       </div>
     </div>
   </section>
-  <!-- ANIMATED STATS WALL -->
-  <section class="sec pbg">
-    <div class="center">
-      <span class="sec-eyebrow">Our Impact</span>
-      <h2 class="sec-title">Numbers That Speak</h2>
-    </div>
-    <div class="ggrid" style="margin-top:48px;">
-      <div class="gc" style="text-align:center;"><div class="gc-icon"><i class="fas fa-rocket"></i></div><p class="counter" role="heading" aria-level="3" data-target="50">0</p>Projects Delivered</p></div>
-      <div class="gc" style="text-align:center;"><div class="gc-icon"><i class="fas fa-smile"></i></div><p class="counter" role="heading" aria-level="3" data-target="98">0</p>% Client Satisfaction</p></div>
-      <div class="gc" style="text-align:center;"><div class="gc-icon"><i class="fas fa-bolt"></i></div><p class="counter" role="heading" aria-level="3" data-target="14">0</p>Avg. Days to Launch</p></div>
-      
-    </div>
-  </section>
-
-  <!-- CASE STUDIES -->
-  <section class="sec">
-    <div class="center">
-      <span class="sec-eyebrow">Real Results</span>
-      <h2 class="sec-title">Client Success Stories</h2>
-    </div>
-    <div class="grid-3">
-      <div class="card"><div class="card-icon"><i class="fas fa-store"></i></div><h3>Retail Business Online</h3><p><strong>Problem:</strong> No online presence, losing customers to competitors.<br/><strong>Solution:</strong> Built a 15-page website with SEO.<br/><strong>Result:</strong> 3x more enquiries within 60 days.</p></div>
-      <div class="card"><div class="card-icon"><i class="fas fa-truck"></i></div><h3>Logistics Company Growth</h3><p><strong>Problem:</strong> Weak social media presence, low engagement.<br/><strong>Solution:</strong> Monthly content + management.<br/><strong>Result:</strong> Follower growth and real leads weekly.</p></div>
-      <div class="card"><div class="card-icon"><i class="fas fa-tshirt"></i></div><h3>Boutique Brand Refresh</h3><p><strong>Problem:</strong> Unprofessional, inconsistent branding.<br/><strong>Solution:</strong> Full logo + brand kit design.<br/><strong>Result:</strong> Stronger brand trust & repeat customers.</p></div>
-    </div>
-  </section>
-
   <!-- TOOLS WE USE -->
   <section class="sec pbg">
     <div class="center">
@@ -1260,7 +1224,7 @@ button,input,select,textarea{max-width:100%}
       <h3 style="color:var(--text);margin:24px 0 10px;font-size:1.05rem;">24/7 Revenue Without Staff</h3>
       <p style="margin-bottom:20px;">Once M-Pesa is on your website, your business collects money while you sleep. Orders are processed automatically, payments confirmed instantly, and receipts sent — all without a single phone call or manual transfer.</p>
       <h3 style="color:var(--text);margin:24px 0 10px;font-size:1.05rem;">Real Business Impact</h3>
-      <p style="margin-bottom:28px;">Our clients who add M-Pesa integration see an average 40% increase in completed online orders within the first month. The investment pays for itself quickly — and keeps paying.</p>
+      <p style="margin-bottom:28px;">The impact depends on your products, pricing, customer experience and existing traffic. We focus on a reliable checkout flow, clear payment confirmation and a process that makes it easier for customers to complete an order.</p>
       <div style="background:rgba(255,107,0,.08);border-left:4px solid var(--orange);padding:20px 24px;border-radius:0 12px 12px 0;">
         <p style="color:var(--text);font-weight:600;">Add M-Pesa to your website from KES 25,000. One-time setup, lifetime revenue.</p>
         <button class="btn-p" onclick="showPage('contact')" style="border:none;margin-top:14px;">Integrate M-Pesa Now <i class="fas fa-arrow-right"></i></button>
@@ -1827,29 +1791,35 @@ function claimOffer(){
 
 // ── PRICING CALCULATOR ──
 function updateCalc(){
-  const pages=+document.getElementById('calcPages').value;
+  const pages=Number(document.getElementById('calcPages').value);
   document.getElementById('calcPagesVal').textContent=pages;
-  let base = pages<=1?20000 : pages<=5?35000 : pages<=15?55000 : 100000;
-  let total=base;
-  if(document.getElementById('calcSEO').checked) total+=15000;
-  if(document.getElementById('calcSocial').checked) total+=15000;
-  if(document.getElementById('calcGraphics').checked) total+=12000;
-  if(document.getElementById('calcMpesa').checked) total+=25000;
-  if(document.getElementById('calcEcommerce').checked) total+=60000;
-  document.getElementById('calcTotal').textContent='KES '+total.toLocaleString();
+  const base=pages<=1?20000:pages<=5?25000:pages<=15?55000:100000;
+  let setupTotal=base;
+  let monthlyTotal=0;
+  if(document.getElementById('calcSEO').checked){setupTotal+=15000;monthlyTotal+=15000;}
+  if(document.getElementById('calcSocial').checked)monthlyTotal+=15000;
+  if(document.getElementById('calcGraphics').checked)setupTotal+=12000;
+  if(document.getElementById('calcMpesa').checked)setupTotal+=25000;
+  if(document.getElementById('calcEcommerce').checked)setupTotal+=60000;
+  document.getElementById('calcTotal').textContent='KES '+setupTotal.toLocaleString('en-KE');
+  document.getElementById('calcMonthlyTotal').textContent='Recurring services: KES '+monthlyTotal.toLocaleString('en-KE')+' / month';
 }
 function sendCalcQuote(){
   const pages=document.getElementById('calcPages').value;
-  const total=document.getElementById('calcTotal').textContent;
+  const setupTotal=document.getElementById('calcTotal').textContent;
+  const monthlyTotal=document.getElementById('calcMonthlyTotal').textContent.replace('Recurring services: ','');
   const extras=[];
-  if(document.getElementById('calcSEO').checked) extras.push('SEO launch setup (KES 15,000 one-time; monthly SEO quoted separately)');
-  if(document.getElementById('calcSocial').checked) extras.push('Social Media (from KES 15,000/month; recurring)');
+  if(document.getElementById('calcSEO').checked) extras.push('SEO launch setup (KES 15,000 one-time) + SEO retainer (from KES 15,000/month)');
+  if(document.getElementById('calcSocial').checked) extras.push('Social Media Management (from KES 15,000/month)');
   if(document.getElementById('calcGraphics').checked) extras.push('Logo & Brand Kit (KES 12,000 one-time)');
-  if(document.getElementById('calcMpesa').checked) extras.push('M-Pesa Integration (from KES 25,000)');
-  if(document.getElementById('calcEcommerce').checked) extras.push('E-commerce functionality (KES 60,000 add-on; standalone stores from KES 80,000)');
-  const text=`Hi Webazi! I used your calculator.%0A%0APages: ${pages}%0AExtras: ${encodeURIComponent(extras.join(', ')||'None')}%0AEstimated: ${encodeURIComponent(total)}%0A%0APlease confirm this quote.`;
+  if(document.getElementById('calcMpesa').checked) extras.push('M-Pesa Integration (KES 25,000 one-time)');
+  if(document.getElementById('calcEcommerce').checked) extras.push('E-commerce functionality (KES 60,000 add-on; website + store from KES 80,000)');
+  const text=`Hi Webazi! I used your project calculator.%0A%0APages: ${pages}%0AExtras: ${encodeURIComponent(extras.join('; ')||'None')}%0AEstimated one-time setup: ${encodeURIComponent(setupTotal)}%0ARecurring monthly services: ${encodeURIComponent(monthlyTotal)}%0A%0APlease confirm the final scope and quotation.`;
   window.open(`https://wa.me/254729914983?text=${text}`,'_blank','noopener,noreferrer');
 }
+
+// Keep the calculator's first render aligned with the five-page Business package.
+updateCalc();
 
 </script>
 </body>
