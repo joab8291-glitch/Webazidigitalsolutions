@@ -154,5 +154,12 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/webazi-admin.html",
+      "destination": "/admin",
+      "permanent": true
+    }
   ]
 }
