@@ -1684,12 +1684,16 @@ async function trackProject(){
 
 // ── BOOKING ──
 function bookConsultation(){
-  const name=document.getElementById('bk-name').value||'there';
-  const date=document.getElementById('bk-date').value||'N/A';
-  const time=document.getElementById('bk-time').value||'N/A';
-  const msg=document.getElementById('bk-msg').value||'N/A';
-  const text=`Hi Webazi! I'd like to book a free consultation.%0A%0AName: ${encodeURIComponent(name)}%0ADate: ${date}%0ATime: ${time}%0ATopic: ${encodeURIComponent(msg)}`;
-  window.open(`https://wa.me/254729914983?text=${text}`,'_blank','noopener,noreferrer');
+  const name=document.getElementById('bk-name').value.trim();
+  const date=document.getElementById('bk-date').value;
+  const time=document.getElementById('bk-time').value;
+  const msg=document.getElementById('bk-msg').value.trim();
+  if(!name){alert('Please enter your full name.');document.getElementById('bk-name').focus();return;}
+  if(!date){alert('Please choose your preferred consultation date.');document.getElementById('bk-date').focus();return;}
+  if(!time){alert('Please choose your preferred consultation time.');document.getElementById('bk-time').focus();return;}
+  const details=`Free consultation booking request\\nPreferred date: ${date}\\nPreferred time: ${time}\\nTopic: ${msg || 'Not specified'}`;
+  const params=new URLSearchParams({name,service:'Free Consultation',message:details});
+  window.location.href='/request?'+params.toString();
 }
 
 // ── NEWSLETTER ──
