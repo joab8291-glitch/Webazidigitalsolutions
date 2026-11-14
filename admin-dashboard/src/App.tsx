@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Activity, ArrowDownRight, ArrowUpRight, BriefcaseBusiness, Building2, CalendarDays, CheckCircle2, ChevronDown, CircleDollarSign, ClipboardList, FileText, FolderKanban, LayoutDashboard, LifeBuoy, LogOut, Menu, Plus, Search, Settings, ShieldCheck, Users, X } from 'lucide-react';
+import type { FormEvent } from 'react';
+import { Activity, ArrowDownRight, ArrowUpRight, BriefcaseBusiness, Building2, CalendarDays, CircleDollarSign, ClipboardList, FileText, FolderKanban, LayoutDashboard, LifeBuoy, LogOut, Menu, Plus, Search, ShieldCheck, Users, X } from 'lucide-react';
 import { isSupabaseConfigured, requireAgencyAdmin, supabase } from './lib/supabase';
 
 type Section = 'Overview' | 'Enquiries' | 'Clients' | 'Projects' | 'Tasks' | 'Invoices' | 'Services';
@@ -63,7 +64,7 @@ export default function App() {
         if (allowed) setSession(data.session); else { await supabase.auth.signOut(); setError('This account is not authorised for Webazi administration.'); }
       }
     });
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, next) => { setSession(next); });
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, next) => { if (!next) setSession(null); });
     return () => listener.subscription.unsubscribe();
   }, []);
 
@@ -71,7 +72,7 @@ export default function App() {
 
   const visibleRows = useMemo(() => rows.filter(row => Object.values(row).some(v => String(v ?? '').toLowerCase().includes(search.toLowerCase()))), [rows, search]);
 
-  async function signIn(e: React.FormEvent) {
+  async function signIn(e: FormEvent) {
     e.preventDefault(); setError('');
     if (!supabase) return;
     const { data, error: authError } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
