@@ -40,9 +40,14 @@ function PublicRequestForm() {
  const [name,setName]=useState(''); const [phone,setPhone]=useState(''); const [email,setEmail]=useState('');
  const [service,setService]=useState('Web Design'); const [message,setMessage]=useState('');
  const [busy,setBusy]=useState(false); const [sent,setSent]=useState(false); const [error,setError]=useState('');
- async function submit(e:FormEvent){e.preventDefault();if(!supabase)return;setBusy(true);setError('');
- const {error:err}=await supabase.from('agency_chat_requests').insert({name:name.trim(),phone:phone.trim(),email:email.trim()||null,service,message:message.trim(),status:'New'});
- setBusy(false);if(err){setError('We could not send your request. Please try again shortly.');return;}setSent(true);}
+ async function submit(e:FormEvent){e.preventDefault();if(!supabase){setError('The request form is temporarily unavailable. Please call Webazi directly.');return;}setBusy(true);setError('');
+ try {
+  const {error:err}=await supabase.from('agency_chat_requests').insert({name:name.trim(),phone:phone.trim(),email:email.trim()||null,service,message:message.trim(),status:'New'});
+  if(err){console.error('Webazi customer request submission failed:',err);setError('We could not send your request. Please try again shortly, or call Webazi directly.');return;}
+  setSent(true);
+ } catch(err) { console.error('Webazi customer request submission failed:',err);setError('A connection problem stopped your request from sending. Please try again, or call Webazi directly.'); }
+ finally {setBusy(false);}
+ }
  return <div className="request-screen"><form className="request-card" onSubmit={submit}>
  <img className="brand-logo request-logo" src="/icon-192.png" alt="Webazi Digital Solutions"/>
  <span className="eyebrow">WEBAZI DIGITAL SOLUTIONS</span><h1>How can we help your business?</h1>
