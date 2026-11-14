@@ -1,3 +1,5 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-export default defineConfig({ plugins: [react()] });
+
+// The admin app is served through the main Webazi domain at /admin.
+export default defineConfig({ base: '/admin/', plugins: [react()] });
