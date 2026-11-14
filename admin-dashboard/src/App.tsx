@@ -36,22 +36,24 @@ export default function App() {
   const [search, setSearch] = useState('');
 
   const loadOverview = useCallback(async () => {
-    if (!supabase) return;
+    const client = supabase;
+    if (!client) return;
     setLoading(true); setError('');
     const names = ['agency_enquiries', 'agency_clients', 'agency_projects', 'agency_tasks', 'agency_invoices'];
-    const results = await Promise.all(names.map(t => supabase.from(t).select('*', { count: 'exact', head: true })));
+    const results = await Promise.all(names.map(t => client.from(t).select('*', { count: 'exact', head: true })));
     const next: Record<string, number> = {};
     results.forEach((r, i) => { next[names[i]] = r.count ?? 0; });
-    const inv = await supabase.from('agency_invoices').select('total_kes').eq('status', 'Paid');
+    const inv = await client.from('agency_invoices').select('total_kes').eq('status', 'Paid');
     setRevenue((inv.data || []).reduce((sum: number, item: any) => sum + Number(item.total_kes || 0), 0));
     setCounts(next); setLoading(false);
   }, []);
 
   const loadRows = useCallback(async (target: Section) => {
-    if (!supabase || target === 'Overview') return;
+    const client = supabase;
+    if (!client || target === 'Overview') return;
     setLoading(true); setError('');
     const config = tables[target];
-    const { data, error: queryError } = await supabase.from(config.table).select('*').order('created_at', { ascending: false }).limit(100);
+    const { data, error: queryError } = await client.from(config.table).select('*').order('created_at', { ascending: false }).limit(100);
     if (queryError) setError(queryError.message); else setRows((data || []) as RowData[]);
     setLoading(false);
   }, []);
