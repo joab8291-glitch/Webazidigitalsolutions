@@ -1,0 +1,22 @@
+name: Webazi admin build
+on:
+  pull_request:
+    paths:
+      - 'admin-dashboard/**'
+  push:
+    branches: [main]
+    paths:
+      - 'admin-dashboard/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: admin-dashboard
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - run: npm run build
