@@ -161,5 +161,7 @@
       "destination": "/admin",
       "permanent": true
     }
-  ]
+  ],
+  "buildCommand": "npm run build",
+  "outputDirectory": "site-dist"
 }
