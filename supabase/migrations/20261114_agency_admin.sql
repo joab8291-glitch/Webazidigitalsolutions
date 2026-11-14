@@ -122,7 +122,28 @@ create policy "public can submit agency enquiry" on public.agency_enquiries
 commit;
 
 -- Add the intended administrator AFTER creating that person in Supabase Auth.
--- Replace the email below with the exact login email, then run this statement:
--- insert into public.agency_admin_users (user_id)
--- select id from auth.users where lower(email) = lower('YOUR_ADMIN_LOGIN_EMAIL');
--- Verify exactly one row was inserted. Keep public Auth sign-ups disabled.
+-- Intended first administrator login: info@webazi.co.ke
+-- After creating this exact email in Supabase Authentication > Users, run:
+do $$
+declare
+  admin_id uuid;
+begin
+  select id into admin_id
+  from auth.users
+  where lower(email) = lower('info@webazi.co.ke');
+
+  if admin_id is null then
+    raise exception 'No Supabase Auth user found for info@webazi.co.ke. Create the Auth user first, then rerun this block.';
+  end if;
+
+  insert into public.agency_admin_users (user_id)
+  values (admin_id)
+  on conflict (user_id) do nothing;
+end $$;
+
+-- Verify membership:
+-- select u.email, a.user_id
+-- from public.agency_admin_users a
+-- join auth.users u on u.id = a.user_id
+-- where lower(u.email) = lower('info@webazi.co.ke');
+-- Keep public Auth sign-ups disabled. Never put a service-role key in browser/mobile code.
