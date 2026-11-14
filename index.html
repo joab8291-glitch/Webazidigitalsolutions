@@ -1573,14 +1573,14 @@ async function sendWhatsApp(){
     if(leadError)console.error('Agency enquiry save failed:',leadError.message);
   }catch(e){console.error(e);}
   const text=`Hi Webazi Digital Solutions!%0A%0AName: ${encodeURIComponent(name)}%0AService: ${encodeURIComponent(service)}%0A%0A${encodeURIComponent(msg)}%0A%0AProject Code: *${code}*%0A(Use this code to track your project on our website)`;
-  window.open(`/request`,'_blank','noopener,noreferrer');
+  window.location.href='/request';
   alert(`Your project code is: ${code}\n\nSave this code to track your project progress on our website.`);
 }
 
 // ── ORDER VIA WA ──
 function waOrder(pkg){
   const text=`Hi Webazi! I'd like to order:%0A%0A${encodeURIComponent(pkg)}%0A%0APlease send me more details.`;
-  window.open(`/request`,'_blank','noopener,noreferrer');
+  window.location.href='/request';
 }
 
 // ── CALLBACK ──
@@ -1589,7 +1589,7 @@ function requestCallback(){
   const phone=document.getElementById('c-phone').value||'N/A';
   const time=document.getElementById('c-time').value||'as soon as possible';
   const text=`Hi Webazi! I'd like a call back.%0A%0AName: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0APreferred time: ${encodeURIComponent(time)}`;
-  window.open(`/request`,'_blank','noopener,noreferrer');
+  window.location.href='/request';
 }
 
 // ── PORTFOLIO TABS ──
@@ -1770,7 +1770,7 @@ document.addEventListener('mouseleave',(e)=>{
 function closeExitPopup(){document.getElementById('exitOverlay').classList.remove('show');}
 function claimOffer(){
   closeExitPopup();
-  window.open('/request','_blank','noopener,noreferrer');
+  window.location.href='/request';
 }
 
 // ── PRICING CALCULATOR ──
@@ -1799,7 +1799,7 @@ function sendCalcQuote(){
   if(document.getElementById('calcMpesa').checked) extras.push('M-Pesa Integration (KES 25,000 one-time)');
   if(document.getElementById('calcEcommerce').checked) extras.push('E-commerce functionality (KES 60,000 add-on; website + store from KES 80,000)');
   const text=`Hi Webazi! I used your project calculator.%0A%0APages: ${pages}%0AExtras: ${encodeURIComponent(extras.join('; ')||'None')}%0AEstimated one-time setup: ${encodeURIComponent(setupTotal)}%0ARecurring monthly services: ${encodeURIComponent(monthlyTotal)}%0A%0APlease confirm the final scope and quotation.`;
-  window.open(`/request`,'_blank','noopener,noreferrer');
+  window.location.href='/request';
 }
 
 // Keep the calculator's first render aligned with the five-page Business package.
