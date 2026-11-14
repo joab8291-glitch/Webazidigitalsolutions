@@ -1528,13 +1528,18 @@ function showContact(method){
 }
 
 // ── SEND EMAIL ──
-function sendEmail(){
-  const name=document.getElementById('e-name').value;
-  const email=document.getElementById('e-email').value;
-  const phone=document.getElementById('e-phone').value;
+async function sendEmail(){
+  const name=document.getElementById('e-name').value.trim();
+  const email=document.getElementById('e-email').value.trim();
+  const phone=document.getElementById('e-phone').value.trim();
   const service=document.getElementById('e-service').value;
-  const msg=document.getElementById('e-msg').value;
+  const msg=document.getElementById('e-msg').value.trim();
   if(!name||!email||!msg){alert('Please fill in all required fields.');return;}
+  try{
+    const client=await getSupabaseClient();
+    const {error}=await client.from('agency_enquiries').insert({name,email,phone:phone||null,service:service||'General enquiry',message:msg,status:'New'});
+    if(error)console.error('Agency enquiry save failed:',error.message);
+  }catch(error){console.error('Agency enquiry could not be saved:',error);}
   const subject=encodeURIComponent(`Website Inquiry - ${service}`);
   const body=encodeURIComponent(`Name: ${name}\nPhone: ${phone}\nService: ${service}\n\nMessage:\n${msg}`);
   window.open(`mailto:info@webazi.co.ke?subject=${subject}&body=${body}`,'_blank');
@@ -1559,6 +1564,13 @@ async function sendWhatsApp(){
       note: 'Your quote has been received. We will contact you shortly.'
     });
     if(error) console.error('Supabase insert error:', error.message);
+    const {error:leadError}=await client.from('agency_enquiries').insert({
+      name:name,
+      service:service,
+      message:msg,
+      status:'New'
+    });
+    if(leadError)console.error('Agency enquiry save failed:',leadError.message);
   }catch(e){console.error(e);}
   const text=`Hi Webazi Digital Solutions!%0A%0AName: ${encodeURIComponent(name)}%0AService: ${encodeURIComponent(service)}%0A%0A${encodeURIComponent(msg)}%0A%0AProject Code: *${code}*%0A(Use this code to track your project on our website)`;
   window.open(`https://wa.me/254729914983?text=${text}`,'_blank','noopener,noreferrer');
