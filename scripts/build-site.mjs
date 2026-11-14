@@ -60,7 +60,7 @@ for (const entry of await readdir(siteDist, { withFileTypes: true })) {
   const filePath = join(siteDist, entry.name);
   const html = await readFile(filePath, 'utf8');
   const updated = html
-    .replace('</head>', enquiryStyles + '\\n</head>')
+    .replace('</head>', enquiryStyles + '\n</head>')
     // Route every public WhatsApp destination to the shared Webazi request form.
     .replace(/https?:\/\/(?:api\.)?whatsapp\.com\/send\?[^\s"'`<>]*/gi, '/request')
     .replace(/https?:\/\/wa\.me\/[^\s"'`<>]*/gi, '/request')
