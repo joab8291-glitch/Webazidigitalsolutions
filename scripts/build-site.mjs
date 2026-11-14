@@ -24,7 +24,7 @@ for (const entry of await readdir(root, { withFileTypes: true })) {
 }
 await cp(adminDist, join(siteDist, 'admin'), { recursive: true });
 
-const enquiryStyles = `
+const enquiryStyles = `<style id="webazi-request-cta-styles">
 /* Consistent request CTA and message-icon alignment */
 .wa-btn,.call-btn,.btn-buy,.btn-p,.wa-popup a{
   display:inline-flex;align-items:center;justify-content:center;gap:.65rem;
@@ -52,6 +52,7 @@ const enquiryStyles = `
   .wa-float{width:54px;height:54px;right:16px;bottom:82px;}
   .wa-popup{right:16px;bottom:145px;max-width:min(280px,calc(100vw - 32px));}
 }
+</style>
 `;
 
 // Route website enquiry and quote CTAs into the no-login request form instead of WhatsApp.
