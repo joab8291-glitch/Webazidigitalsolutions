@@ -57,14 +57,15 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (!supabase) return;
-    supabase.auth.getSession().then(async ({ data }) => {
+    const client = supabase;
+    if (!client) return;
+    client.auth.getSession().then(async ({ data }) => {
       if (data.session) {
         const allowed = await requireAgencyAdmin(data.session.user.id);
-        if (allowed) setSession(data.session); else { await supabase.auth.signOut(); setError('This account is not authorised for Webazi administration.'); }
+        if (allowed) setSession(data.session); else { await client.auth.signOut(); setError('This account is not authorised for Webazi administration.'); }
       }
     });
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, next) => { if (!next) setSession(null); });
+    const { data: listener } = client.auth.onAuthStateChange((_event, next) => { if (!next) setSession(null); });
     return () => listener.subscription.unsubscribe();
   }, []);
 
@@ -74,12 +75,13 @@ export default function App() {
 
   async function signIn(e: FormEvent) {
     e.preventDefault(); setError('');
-    if (!supabase) return;
-    const { data, error: authError } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+    const client = supabase;
+    if (!client) return;
+    const { data, error: authError } = await client.auth.signInWithPassword({ email: email.trim(), password });
     setPassword('');
     if (authError) { setError('Sign-in failed. Check your email and password.'); return; }
     if (data.user && !(await requireAgencyAdmin(data.user.id))) {
-      await supabase.auth.signOut(); setError('Your account is not authorised for Webazi administration.');
+      await client.auth.signOut(); setError('Your account is not authorised for Webazi administration.');
     } else setSession(data.session);
   }
   async function signOut() { if (supabase) await supabase.auth.signOut(); setSession(null); }
