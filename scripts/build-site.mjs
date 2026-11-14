@@ -7,9 +7,9 @@ const adminDir = join(root, 'admin-dashboard');
 const adminDist = join(adminDir, 'dist');
 const siteDist = join(root, 'site-dist');
 const excluded = new Set([
-  '.git', '.vercel', 'node_modules', 'admin-dashboard', 'site-dist',
+  '.git', '.github', '.vercel', 'node_modules', 'admin-dashboard', 'site-dist',
   'supabase', 'scripts', 'package.json', 'package-lock.json',
-  'SECURITY.md', 'vercel.json'
+  '.gitignore', '.vercelignore', 'README.md', 'SECURITY.md', 'vercel.json'
 ]);
 
 const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
@@ -19,7 +19,7 @@ execFileSync(npm, ['run', 'build'], { cwd: adminDir, stdio: 'inherit' });
 await rm(siteDist, { recursive: true, force: true });
 await mkdir(siteDist, { recursive: true });
 for (const entry of await readdir(root, { withFileTypes: true })) {
-  if (excluded.has(entry.name)) continue;
+  if (excluded.has(entry.name) || entry.name.startsWith('.env')) continue;
   await cp(join(root, entry.name), join(siteDist, entry.name), { recursive: true, force: true });
 }
 await cp(adminDist, join(siteDist, 'admin'), { recursive: true });
