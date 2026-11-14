@@ -37,8 +37,9 @@ const defaults: Record<string, unknown> = { priority:'Normal', budget_kes:0, tot
 
 
 function PublicRequestForm() {
- const [name,setName]=useState(''); const [phone,setPhone]=useState(''); const [email,setEmail]=useState('');
- const [service,setService]=useState('Web Design'); const [message,setMessage]=useState('');
+ const bookingParams = new URLSearchParams(window.location.search);
+ const [name,setName]=useState(bookingParams.get('name') || ''); const [phone,setPhone]=useState(''); const [email,setEmail]=useState('');
+ const [service,setService]=useState(bookingParams.get('service') || 'Web Design'); const [message,setMessage]=useState(bookingParams.get('message') || '');
  const [busy,setBusy]=useState(false); const [sent,setSent]=useState(false); const [error,setError]=useState('');
  async function submit(e:FormEvent){e.preventDefault();if(!supabase){setError('The request form is temporarily unavailable. Please call Webazi directly.');return;}setBusy(true);setError('');
  try {
