@@ -10,7 +10,8 @@ const sections: { name: Section; icon: typeof LayoutDashboard }[] = [
   { name: 'Clients', icon: Users }, { name: 'Projects', icon: FolderKanban },
   { name: 'Tasks', icon: ClipboardList }, { name: 'Invoices', icon: FileText }, { name: 'Services', icon: BriefcaseBusiness }
 ];
-const tables: Record<Exclude<Section, 'Overview'>, { table: string; columns: string[] }> = {\n  'Chat Inbox': { table: 'agency_chat_requests', columns: ['name', 'phone', 'service', 'status', 'created_at'] },
+const tables: Record<Exclude<Section, 'Overview'>, { table: string; columns: string[] }> = {
+  'Chat Inbox': { table: 'agency_chat_requests', columns: ['name', 'phone', 'service', 'status', 'created_at'] },
   Enquiries: { table: 'agency_enquiries', columns: ['name', 'email', 'phone', 'service', 'status'] },
   Clients: { table: 'agency_clients', columns: ['name', 'business_name', 'email', 'phone', 'created_at'] },
   Projects: { table: 'agency_projects', columns: ['name', 'service', 'status', 'budget_kes', 'due_date'] },
@@ -22,7 +23,8 @@ const money = (value: unknown) => new Intl.NumberFormat('en-KE', { style: 'curre
 const label = (key: string) => key.replaceAll('_', ' ').replace(/\b\w/g, c => c.toUpperCase());
 const display = (v: unknown) => v == null || v === '' ? '—' : typeof v === 'boolean' ? (v ? 'Yes' : 'No') : String(v);
 type Field = { key: string; label: string; type?: 'text' | 'email' | 'tel' | 'number' | 'date' | 'textarea' | 'select'; required?: boolean; options?: string[] };
-const fields: Record<Exclude<Section, 'Overview'>, Field[]> = {\n  'Chat Inbox': [{key:'name',label:'Customer name',required:true},{key:'phone',label:'Contact number',type:'tel',required:true},{key:'email',label:'Email',type:'email'},{key:'service',label:'Service requested'},{key:'message',label:'Customer message',type:'textarea'},{key:'admin_reply',label:'Your reply / response',type:'textarea'},{key:'status',label:'Status',type:'select',options:['New','In Progress','Replied','Closed']}],
+const fields: Record<Exclude<Section, 'Overview'>, Field[]> = {
+  'Chat Inbox': [{key:'name',label:'Customer name',required:true},{key:'phone',label:'Contact number',type:'tel',required:true},{key:'email',label:'Email',type:'email'},{key:'service',label:'Service requested'},{key:'message',label:'Customer message',type:'textarea'},{key:'admin_reply',label:'Your reply / response',type:'textarea'},{key:'status',label:'Status',type:'select',options:['New','In Progress','Replied','Closed']}],
   Enquiries: [{key:'name',label:'Contact name',required:true},{key:'email',label:'Email',type:'email',required:true},{key:'phone',label:'Phone',type:'tel',required:true},{key:'business_name',label:'Business name'},{key:'service',label:'Service required',required:true},{key:'budget_kes',label:'Budget (KES)',type:'number'},{key:'status',label:'Status',type:'select',options:['New','Contacted','Quoted','Converted','Closed']},{key:'message',label:'Message',type:'textarea'}],
   Clients: [{key:'name',label:'Client name',required:true},{key:'business_name',label:'Business name'},{key:'email',label:'Email',type:'email'},{key:'phone',label:'Phone',type:'tel'},{key:'location',label:'Location'},{key:'notes',label:'Notes',type:'textarea'}],
   Projects: [{key:'name',label:'Project name',required:true},{key:'service',label:'Service',required:true},{key:'status',label:'Status',type:'select',options:['Not Started','In Progress','Awaiting Client','In Review','Completed','On Hold','Cancelled']},{key:'budget_kes',label:'Project value (KES)',type:'number'},{key:'start_date',label:'Start date',type:'date'},{key:'due_date',label:'Due date',type:'date'},{key:'description',label:'Description',type:'textarea'}],
@@ -55,7 +57,8 @@ function PublicRequestForm() {
  <div className="secure-note"><ShieldCheck size={15}/> No customer account required</div></>}
  </form></div>;
 }
-\nexport default function App() {
+
+export default function App() {
   const [session, setSession] = useState<any>(null);
   const [section, setSection] = useState<Section>('Overview');
   const [rows, setRows] = useState<RowData[]>([]);
@@ -168,7 +171,9 @@ function PublicRequestForm() {
 
   async function signOut() { if (supabase) await supabase.auth.signOut(); setSession(null); }
 
-  if ((window.location.pathname === '/request' || window.location.pathname === '/request/') && isSupabaseConfigured) return <PublicRequestForm />;\n\n  if (!isSupabaseConfigured) return <div className="setup-screen"><div className="login-card"><img className="brand-logo" src="/icon-192.png" alt="Webazi Digital Solutions" /><h1>Connect your admin database</h1><p>Add the Supabase project URL and public anon key to the Vercel environment variables for this project.</p><code>VITE_SUPABASE_URL<br/>VITE_SUPABASE_ANON_KEY</code><p className="muted">Never place a service-role key or admin secret in frontend environment variables.</p></div></div>;
+  if ((window.location.pathname === '/request' || window.location.pathname === '/request/') && isSupabaseConfigured) return <PublicRequestForm />;
+
+  if (!isSupabaseConfigured) return <div className="setup-screen"><div className="login-card"><img className="brand-logo" src="/icon-192.png" alt="Webazi Digital Solutions" /><h1>Connect your admin database</h1><p>Add the Supabase project URL and public anon key to the Vercel environment variables for this project.</p><code>VITE_SUPABASE_URL<br/>VITE_SUPABASE_ANON_KEY</code><p className="muted">Never place a service-role key or admin secret in frontend environment variables.</p></div></div>;
 
   if (!session) return <div className="login-screen"><form className="login-card" onSubmit={signIn}><div className="brand-mark">W</div><span className="eyebrow">WEBazi DIGITAL SOLUTIONS</span><h1>Welcome back</h1><p>Sign in to your private business workspace.</p><label>Email address<input type="email" value={email} onChange={e => setEmail(e.target.value)} required autoComplete="username" /></label><label>Password<input type="password" value={password} onChange={e => setPassword(e.target.value)} required autoComplete="current-password" /></label>{error && <div className="error">{error}</div>}<button className="primary full">Sign in securely</button><div className="secure-note"><ShieldCheck size={15}/> Protected administrator access</div></form></div>;
 
