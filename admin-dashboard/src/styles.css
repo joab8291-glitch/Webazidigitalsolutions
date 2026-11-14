@@ -15,3 +15,5 @@
 /* Keep the official orange-and-navy Webazi mark crisp on the dark admin shell */
 .brand .sidebar-logo{object-fit:contain;background:#101d36;}
 .login-card .brand-mark{background:#101d36;}
+
+.pdf-action{display:inline-flex;align-items:center;gap:5px!important;padding:6px 9px!important;border:1px solid #d96b45!important;border-radius:7px!important;background:#3b2826!important;color:#ffad8c!important;font-weight:700}.pdf-action:hover{background:#55342d!important;color:#fff!important}
