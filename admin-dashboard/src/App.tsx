@@ -21,6 +21,17 @@ const tables: Record<Exclude<Section, 'Overview'>, { table: string; columns: str
 const money = (value: unknown) => new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES', maximumFractionDigits: 0 }).format(Number(value || 0));
 const label = (key: string) => key.replaceAll('_', ' ').replace(/\b\w/g, c => c.toUpperCase());
 const display = (v: unknown) => v == null || v === '' ? '—' : typeof v === 'boolean' ? (v ? 'Yes' : 'No') : String(v);
+type Field = { key: string; label: string; type?: 'text' | 'email' | 'tel' | 'number' | 'date' | 'textarea' | 'select'; required?: boolean; options?: string[] };
+const fields: Record<Exclude<Section, 'Overview'>, Field[]> = {
+  Enquiries: [{key:'name',label:'Contact name',required:true},{key:'email',label:'Email',type:'email',required:true},{key:'phone',label:'Phone',type:'tel',required:true},{key:'business_name',label:'Business name'},{key:'service',label:'Service required',required:true},{key:'budget_kes',label:'Budget (KES)',type:'number'},{key:'status',label:'Status',type:'select',options:['New','Contacted','Quoted','Converted','Closed']},{key:'message',label:'Message',type:'textarea'}],
+  Clients: [{key:'name',label:'Client name',required:true},{key:'business_name',label:'Business name'},{key:'email',label:'Email',type:'email'},{key:'phone',label:'Phone',type:'tel'},{key:'location',label:'Location'},{key:'notes',label:'Notes',type:'textarea'}],
+  Projects: [{key:'name',label:'Project name',required:true},{key:'service',label:'Service',required:true},{key:'status',label:'Status',type:'select',options:['Not Started','In Progress','Awaiting Client','In Review','Completed','On Hold','Cancelled']},{key:'budget_kes',label:'Project value (KES)',type:'number'},{key:'start_date',label:'Start date',type:'date'},{key:'due_date',label:'Due date',type:'date'},{key:'description',label:'Description',type:'textarea'}],
+  Tasks: [{key:'title',label:'Task title',required:true},{key:'status',label:'Status',type:'select',options:['To Do','In Progress','Blocked','Done']},{key:'priority',label:'Priority',type:'select',options:['Low','Normal','High','Urgent']},{key:'due_date',label:'Due date',type:'date'},{key:'description',label:'Description',type:'textarea'}],
+  Invoices: [{key:'invoice_number',label:'Invoice number',required:true},{key:'client_name',label:'Client name',required:true},{key:'total_kes',label:'Total (KES)',type:'number',required:true},{key:'status',label:'Status',type:'select',options:['Draft','Sent','Partially Paid','Paid','Overdue','Cancelled']},{key:'due_date',label:'Due date',type:'date'},{key:'notes',label:'Notes',type:'textarea'}],
+  Services: [{key:'name',label:'Service name',required:true},{key:'category',label:'Category',required:true},{key:'starting_price_kes',label:'Starting price (KES)',type:'number'},{key:'active',label:'Visibility',type:'select',options:['Active','Inactive']},{key:'description',label:'Description',type:'textarea'}]
+};
+const defaults: Record<string, unknown> = { status:'New', priority:'Normal', budget_kes:0, total_kes:0, starting_price_kes:0, active:'Active' };
+
 
 export default function App() {
   const [session, setSession] = useState<any>(null);
@@ -34,6 +45,10 @@ export default function App() {
   const [password, setPassword] = useState('');
   const [mobileNav, setMobileNav] = useState(false);
   const [search, setSearch] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [formValues, setFormValues] = useState<Record<string, unknown>>({});
+  const [saving, setSaving] = useState(false);
 
   const loadOverview = useCallback(async () => {
     const client = supabase;
@@ -86,6 +101,49 @@ export default function App() {
       await client.auth.signOut(); setError('Your account is not authorised for Webazi administration.');
     } else setSession(data.session);
   }
+
+  function openCreate() {
+    if (section === 'Overview') return;
+    const initial: Record<string, unknown> = {};
+    fields[section].forEach(field => { initial[field.key] = defaults[field.key] ?? (field.type === 'select' ? field.options?.[0] ?? '' : ''); });
+    setEditingId(null); setFormValues(initial); setModalOpen(true);
+  }
+  function openEdit(row: RowData) {
+    if (section === 'Overview') return;
+    const initial: Record<string, unknown> = {};
+    fields[section].forEach(field => {
+      const value = row[field.key];
+      initial[field.key] = field.key === 'active' ? (value ? 'Active' : 'Inactive') : value ?? '';
+    });
+    setEditingId(String(row.id)); setFormValues(initial); setModalOpen(true);
+  }
+  async function saveRecord(e: FormEvent) {
+    e.preventDefault();
+    const client = supabase;
+    if (!client || section === 'Overview') return;
+    setSaving(true); setError('');
+    const payload: Record<string, unknown> = {};
+    fields[section].forEach(field => {
+      const value = formValues[field.key];
+      if (field.key === 'active') payload.active = value === 'Active';
+      else if (field.type === 'number') payload[field.key] = value === '' ? 0 : Number(value);
+      else payload[field.key] = value === '' ? null : value;
+    });
+    const table = tables[section].table;
+    const result = editingId ? await client.from(table).update(payload).eq('id', editingId) : await client.from(table).insert(payload);
+    setSaving(false);
+    if (result.error) { setError(result.error.message); return; }
+    setModalOpen(false); await loadRows(section); await loadOverview();
+  }
+  async function removeRecord(row: RowData) {
+    const client = supabase;
+    if (!client || section === 'Overview' || !row.id) return;
+    if (!window.confirm('Delete this record permanently?')) return;
+    const { error: deleteError } = await client.from(tables[section].table).delete().eq('id', row.id);
+    if (deleteError) setError(deleteError.message);
+    else { await loadRows(section); await loadOverview(); }
+  }
+
   async function signOut() { if (supabase) await supabase.auth.signOut(); setSession(null); }
 
   if (!isSupabaseConfigured) return <div className="setup-screen"><div className="login-card"><div className="brand-mark">W</div><h1>Connect your admin database</h1><p>Add the Supabase project URL and public anon key to the Vercel environment variables for this project.</p><code>VITE_SUPABASE_URL<br/>VITE_SUPABASE_ANON_KEY</code><p className="muted">Never place a service-role key or admin secret in frontend environment variables.</p></div></div>;
