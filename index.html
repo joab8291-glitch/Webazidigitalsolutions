@@ -1548,48 +1548,27 @@ async function sendEmail(){
 // ── SEND WHATSAPP + GENERATE PROJECT CODE ──
 // Unguessable project code (30 bits of crypto randomness, ambiguous characters removed)
 function genCode(){const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',b=new Uint8Array(6);crypto.getRandomValues(b);return 'WBZ-'+new Date().getFullYear()+'-'+Array.from(b,x=>a[x%32]).join('');}
-async function sendWhatsApp(){
-  try{const last=+sessionStorage.getItem('wbzLastQuote')||0;if(Date.now()-last<20000){alert('Please wait a few seconds before sending another request.');return;}sessionStorage.setItem('wbzLastQuote',Date.now());}catch(e){}
-  const name=(document.getElementById('w-name').value||'Client').trim().slice(0,80);
-  const service=(document.getElementById('w-service').value||'General Inquiry').trim().slice(0,80);
-  const msg=(document.getElementById('w-msg').value||'').slice(0,1000);
-  const code=genCode();
-  try{
-    const client=await getSupabaseClient();
-    const { error } = await client.from('projects').insert({
-      code: code,
-      client: name,
-      service: service,
-      status: 'Received',
-      note: 'Your quote has been received. We will contact you shortly.'
-    });
-    if(error) console.error('Supabase insert error:', error.message);
-    const {error:leadError}=await client.from('agency_enquiries').insert({
-      name:name,
-      service:service,
-      message:msg,
-      status:'New'
-    });
-    if(leadError)console.error('Agency enquiry save failed:',leadError.message);
-  }catch(e){console.error(e);}
-  const text=`Hi Webazi Digital Solutions!%0A%0AName: ${encodeURIComponent(name)}%0AService: ${encodeURIComponent(service)}%0A%0A${encodeURIComponent(msg)}%0A%0AProject Code: *${code}*%0A(Use this code to track your project on our website)`;
-  window.location.href='/request';
-  alert(`Your project code is: ${code}\n\nSave this code to track your project progress on our website.`);
+function sendWhatsApp(){
+  const name=(document.getElementById('w-name').value||'').trim();
+  const service=(document.getElementById('w-service').value||'General Inquiry').trim();
+  const msg=(document.getElementById('w-msg').value||'').trim();
+  const params=new URLSearchParams({name,service,message:msg});
+  window.location.href='/request?'+params.toString();
 }
 
 // ── ORDER VIA WA ──
 function waOrder(pkg){
-  const text=`Hi Webazi! I'd like to order:%0A%0A${encodeURIComponent(pkg)}%0A%0APlease send me more details.`;
-  window.location.href='/request';
+  const params=new URLSearchParams({service:'Package enquiry',message:'I would like more information about: '+pkg});
+  window.location.href='/request?'+params.toString();
 }
 
 // ── CALLBACK ──
 function requestCallback(){
-  const name=document.getElementById('c-name').value||'there';
-  const phone=document.getElementById('c-phone').value||'N/A';
-  const time=document.getElementById('c-time').value||'as soon as possible';
-  const text=`Hi Webazi! I'd like a call back.%0A%0AName: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0APreferred time: ${encodeURIComponent(time)}`;
-  window.location.href='/request';
+  const name=(document.getElementById('c-name').value||'').trim();
+  const phone=(document.getElementById('c-phone').value||'').trim();
+  const time=(document.getElementById('c-time').value||'').trim();
+  const params=new URLSearchParams({name,service:'Request a callback',message:'Preferred callback time: '+(time||'As soon as possible')+'; Phone: '+(phone||'To be provided')});
+  window.location.href='/request?'+params.toString();
 }
 
 // ── PORTFOLIO TABS ──
@@ -1793,13 +1772,14 @@ function sendCalcQuote(){
   const setupTotal=document.getElementById('calcTotal').textContent;
   const monthlyTotal=document.getElementById('calcMonthlyTotal').textContent.replace('Recurring services: ','');
   const extras=[];
-  if(document.getElementById('calcSEO').checked) extras.push('SEO launch setup (KES 15,000 one-time) + SEO retainer (from KES 15,000/month)');
-  if(document.getElementById('calcSocial').checked) extras.push('Social Media Management (from KES 15,000/month)');
-  if(document.getElementById('calcGraphics').checked) extras.push('Logo & Brand Kit (KES 12,000 one-time)');
-  if(document.getElementById('calcMpesa').checked) extras.push('M-Pesa Integration (KES 25,000 one-time)');
-  if(document.getElementById('calcEcommerce').checked) extras.push('E-commerce functionality (KES 60,000 add-on; website + store from KES 80,000)');
-  const text=`Hi Webazi! I used your project calculator.%0A%0APages: ${pages}%0AExtras: ${encodeURIComponent(extras.join('; ')||'None')}%0AEstimated one-time setup: ${encodeURIComponent(setupTotal)}%0ARecurring monthly services: ${encodeURIComponent(monthlyTotal)}%0A%0APlease confirm the final scope and quotation.`;
-  window.location.href='/request';
+  if(document.getElementById('calcSEO').checked) extras.push('SEO launch setup + monthly retainer');
+  if(document.getElementById('calcSocial').checked) extras.push('Social Media Management');
+  if(document.getElementById('calcGraphics').checked) extras.push('Logo & Brand Kit');
+  if(document.getElementById('calcMpesa').checked) extras.push('M-Pesa Integration');
+  if(document.getElementById('calcEcommerce').checked) extras.push('E-commerce functionality');
+  const message='Project calculator enquiry. Pages: '+pages+'. Extras: '+(extras.join(', ')||'None')+'. Estimated one-time setup: '+setupTotal+'. '+monthlyTotal+'. Please confirm the final scope and quotation.';
+  const params=new URLSearchParams({service:'Website project quotation',message});
+  window.location.href='/request?'+params.toString();
 }
 
 // Keep the calculator's first render aligned with the five-page Business package.
