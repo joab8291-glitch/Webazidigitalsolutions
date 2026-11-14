@@ -24,21 +24,58 @@ for (const entry of await readdir(root, { withFileTypes: true })) {
 }
 await cp(adminDist, join(siteDist, 'admin'), { recursive: true });
 
+const enquiryStyles = `
+/* Consistent request CTA and message-icon alignment */
+.wa-btn,.call-btn,.btn-buy,.btn-p,.wa-popup a{
+  display:inline-flex;align-items:center;justify-content:center;gap:.65rem;
+  text-align:center;line-height:1.35;vertical-align:middle;white-space:normal;
+}
+.wa-btn,.call-btn{width:100%;min-height:50px;padding:14px 18px;}
+.btn-buy{width:100%;min-height:44px;padding:12px 14px;}
+.btn-p{min-height:46px;padding:13px 22px;}
+.wa-btn i,.call-btn i,.btn-buy i,.btn-p i,.wa-popup a i{
+  display:inline-block;flex:0 0 auto;line-height:1;font-size:1.05em;
+}
+.tb-soc,.fsoc,.ci-icon,.wa-float{
+  display:inline-flex;align-items:center;justify-content:center;line-height:1;
+}
+.tb-soc i,.fsoc i,.ci-icon i,.wa-float i{display:block;line-height:1;}
+.mcb-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;line-height:1.25;text-align:center;}
+.mcb-btn i{display:block;line-height:1;font-size:1.15rem;}
+.cm-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;line-height:1.35;}
+.cm-btn i{display:block;line-height:1;font-size:1.35rem;}
+.ci-item{display:flex;align-items:center;gap:14px;min-width:0;}
+.ci-item>div:last-child{min-width:0;}
+.wa-popup a{min-height:42px;padding:10px 14px;text-decoration:none;}
+@media(max-width:600px){
+  .wa-btn,.call-btn,.btn-buy,.btn-p,.wa-popup a{gap:9px;font-size:14px;}
+  .wa-float{width:54px;height:54px;right:16px;bottom:82px;}
+  .wa-popup{right:16px;bottom:145px;max-width:min(280px,calc(100vw - 32px));}
+}
+`;
+
 // Route website enquiry and quote CTAs into the no-login request form instead of WhatsApp.
 for (const entry of await readdir(siteDist, { withFileTypes: true })) {
   if (!entry.isFile() || !entry.name.endsWith('.html')) continue;
   const filePath = join(siteDist, entry.name);
   const html = await readFile(filePath, 'utf8');
   const updated = html
+    .replace('</head>', enquiryStyles + '\\n</head>')
     // Route every public WhatsApp destination to the shared Webazi request form.
     .replace(/https?:\/\/(?:api\.)?whatsapp\.com\/send\?[^\s"'`<>]*/gi, '/request')
     .replace(/https?:\/\/wa\.me\/[^\s"'`<>]*/gi, '/request')
     .replace(/whatsapp:\/\/send\?[^\s"'`<>]*/gi, '/request')
+    .replaceAll('fab fa-whatsapp', 'fas fa-comment-dots')
     .replaceAll('fa-whatsapp', 'fa-comment-dots')
+    .replaceAll('fab fa-comment-dots', 'fas fa-comment-dots')
     .replaceAll('Open WhatsApp Chat', 'Send Request')
     .replaceAll('WhatsApp Us', 'Send a Request')
     .replaceAll('Chat Now', 'Send a Request')
-    .replaceAll('aria-label="WhatsApp"', 'aria-label="Send a request"');
+    .replaceAll('aria-label="WhatsApp"', 'aria-label="Send a request"')
+    .replaceAll('Order via WhatsApp', 'Send Enquiry')
+    .replaceAll('Get This Quote on WhatsApp', 'Request This Quote')
+    .replaceAll('Confirm Booking via WhatsApp', 'Confirm Booking')
+    .replaceAll('Request Call Back via WhatsApp', 'Request a Call Back');
   if (updated !== html) await writeFile(filePath, updated, 'utf8');
 }
 console.log('Webazi static website and private /admin app assembled in site-dist.');
