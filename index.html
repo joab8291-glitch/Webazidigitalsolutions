@@ -644,7 +644,7 @@ button,input,select,textarea{max-width:100%}
     <a href="mailto:info@webazi.co.ke"><i class="fas fa-envelope"></i>info@webazi.co.ke</a>
   </div>
   <div class="tb-right">
-    <a href="https://wa.me/254729914983" class="tb-soc" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+    <a href="/request" class="tb-soc" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
     <a href="https://linkedin.com/in/joab-ndego-488ab940b" class="tb-soc" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
   </div>
 </div>
@@ -674,7 +674,7 @@ button,input,select,textarea{max-width:100%}
       <li><a href="/#page-about" onclick="showPage('about');return false;" id="n-about">About</a></li>
       <li><a href="/#page-blog" onclick="showPage('blog');return false;" id="n-blog">Blog</a></li>
       <li><a href="https://portfolio.webazi.co.ke" target="_blank" rel="noopener noreferrer">My Work</a></li>
-      <li><a href="/#page-contact" onclick="showPage('contact');return false;" id="n-contact" class="nav-cta">Contact</a></li>
+      <li><a href="/request"  id="n-contact" class="nav-cta">Contact</a></li>
     </ul>
     <div class="nav-right">
       <button class="theme-btn" type="button" aria-label="Toggle colour theme" onclick="toggleTheme()" id="themeBtn"><i class="fas fa-moon"></i></button>
@@ -700,7 +700,7 @@ button,input,select,textarea{max-width:100%}
   <a href="https://portfolio.webazi.co.ke" target="_blank" rel="noopener noreferrer"><i class="fas fa-briefcase"></i>My Work</a>
   <a href="/#page-faq" onclick="navGo('faq');return false;"><i class="fas fa-question-circle"></i>FAQ</a>
   <a href="/#page-tracker" onclick="navGo('tracker');return false;"><i class="fas fa-tasks"></i>Track Project</a>
-  <a href="/#page-contact" onclick="navGo('contact');return false;" class="D-Da"> Get a Quote</a>
+  <a href="/request"  class="D-Da"> Get a Quote</a>
 </div>
 
 <!-- ═══════════════════════════════════════ PAGES ═══════════════════════════════ -->
@@ -719,7 +719,7 @@ button,input,select,textarea{max-width:100%}
       <p>From stunning websites to powerful SEO and social media management — Webazi Digital Solutions delivers results-driven digital services that grow your business across Kenya.</p>
       <div class="hero-btns">
         <button class="btn-p" onclick="showPage('services')">Explore Services</button>
-        <button class="btn-o" onclick="showPage('contact')">Get Free Quote</button>
+        <button class="btn-o" onclick="window.location.assign('/request')">Get Free Quote</button>
         <a href="https://portfolio.webazi.co.ke" target="_blank" rel="noopener noreferrer" class="btn-o" style="display:inline-flex;align-items:center;gap:8px;"><i class="fas fa-briefcase"></i> Our Portfolio</a>
       </div>
       <div class="hero-stats" aria-label="Webazi service commitments">
@@ -809,7 +809,7 @@ button,input,select,textarea{max-width:100%}
       <span class="growth-cta-kicker"><span></span> LET'S BUILD WHAT'S NEXT</span>
       <h2 id="growth-cta-title">Ready to grow your business <span>online?</span></h2>
       <p>Let's turn your next big idea into a powerful digital experience. Your brand deserves to stand out.</p>
-      <button class="growth-cta-btn" onclick="showPage('contact')">Request a Free Quote <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
+      <button class="growth-cta-btn" onclick="window.location.assign('/request')">Request a Free Quote <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
       <div class="growth-cta-note"><i class="fas fa-check-circle" aria-hidden="true"></i> No pressure. Just a conversation about your goals.</div>
     </div>
   </section>
@@ -840,7 +840,7 @@ button,input,select,textarea{max-width:100%}
       <div class="card"><div class="card-icon"><i class="fas fa-envelope"></i></div><h3>Email Marketing</h3><p>Branded email campaigns, automated sequences, list management and performance tracking.</p><div class="card-price">KES 8,000 / month</div></div>
       <div class="card"><div class="card-icon"><i class="fas fa-video"></i></div><h3>Content Creation</h3><p>Professional photos, short videos, reels and written content for your business social channels.</p><div class="card-price">From KES 5,000</div></div>
     </div>
-    <div style="text-align:center;margin-top:40px;"><button class="btn-p" onclick="showPage('contact')">Get a Custom Quote <i class="fas fa-arrow-right"></i></button></div>
+    <div style="text-align:center;margin-top:40px;"><button class="btn-p" onclick="window.location.assign('/request')">Get a Custom Quote <i class="fas fa-arrow-right"></i></button></div>
   </section>
 </div>
 
@@ -957,7 +957,7 @@ button,input,select,textarea{max-width:100%}
           <li><i class="fas fa-check-circle"></i>Dedicated support after every project launch</li>
           <li><i class="fas fa-check-circle"></i>Serving clients across Nairobi and all Kenya</li>
         </ul>
-        <button class="btn-p" onclick="showPage('contact')">Let's Discuss Your Project</button>
+        <button class="btn-p" onclick="window.location.assign('/request')">Let's Discuss Your Project</button>
       </div>
     </div>
   </section>
@@ -1085,7 +1085,7 @@ button,input,select,textarea{max-width:100%}
           </select>
         </div>
         <div class="fg"><label>Message (Optional)</label><textarea id="w-msg" placeholder="Briefly describe your project..."></textarea></div>
-        <a href="https://wa.me/254729914983" class="wa-btn" onclick="sendWhatsApp();return false;">
+        <a href="/request" class="wa-btn" >
           <i class="fab fa-whatsapp" style="font-size:1.2rem;"></i> Open WhatsApp Chat
         </a>
       </div>
@@ -1125,7 +1125,7 @@ button,input,select,textarea{max-width:100%}
       <div class="ci-grid" style="margin-top:60px;">
         <div>
           <h3 style="font-weight:700;margin-bottom:24px;">Direct Contact Info</h3>
-          <div class="ci-item"><div class="ci-icon"><i class="fab fa-whatsapp"></i></div><div><h4>WhatsApp</h4><a href="https://wa.me/254729914983">+254 729 914 983</a></div></div>
+          <div class="ci-item"><div class="ci-icon"><i class="fab fa-whatsapp"></i></div><div><h4>WhatsApp</h4><a href="/request">+254 729 914 983</a></div></div>
           <div class="ci-item"><div class="ci-icon"><i class="fas fa-phone"></i></div><div><h4>Phone</h4><a href="tel:+254729914983">+254 729 914 983</a></div></div>
           <div class="ci-item"><div class="ci-icon"><i class="fas fa-envelope"></i></div><div><h4>Email</h4><a href="mailto:info@webazi.co.ke">info@webazi.co.ke</a></div></div>
           <div class="ci-item"><div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div><div><h4>Location</h4><p>Parklands, Nairobi, Kenya</p></div></div>
@@ -1166,7 +1166,7 @@ button,input,select,textarea{max-width:100%}
       <p style="margin-bottom:28px;">Heavy, cluttered websites are dying. Clean, fast pages with clear CTAs and focused content win — both with users and Google. Page speed is a confirmed ranking factor, and every second of delay costs conversions.</p>
       <div style="background:rgba(255,107,0,.08);border-left:4px solid var(--orange);padding:20px 24px;border-radius:0 12px 12px 0;margin-top:12px;">
         <p style="color:var(--text);font-weight:600;">Ready to give your business a modern, trend-setting website?</p>
-        <button class="btn-p" onclick="showPage('contact')" style="border:none;margin-top:14px;">Get a Free Quote <i class="fas fa-arrow-right"></i></button>
+        <button class="btn-p" onclick="window.location.assign('/request')" style="border:none;margin-top:14px;">Get a Free Quote <i class="fas fa-arrow-right"></i></button>
       </div>
     </div>
   </section>
@@ -1190,7 +1190,7 @@ button,input,select,textarea{max-width:100%}
       <p style="margin-bottom:28px;">Useful articles, service pages and FAQs can answer customer questions and create more relevant entry points from search. Publish when you have something genuinely helpful to say, then review which pages attract qualified visits and enquiries.</p>
       <div style="background:rgba(255,107,0,.08);border-left:4px solid var(--orange);padding:20px 24px;border-radius:0 12px 12px 0;">
         <p style="color:var(--text);font-weight:600;">Want to rank higher on Google? Our ongoing SEO packages start at KES 15,000/month.</p>
-        <button class="btn-p" onclick="showPage('contact')" style="border:none;margin-top:14px;">Start Your SEO Journey <i class="fas fa-arrow-right"></i></button>
+        <button class="btn-p" onclick="window.location.assign('/request')" style="border:none;margin-top:14px;">Start Your SEO Journey <i class="fas fa-arrow-right"></i></button>
       </div>
     </div>
   </section>
@@ -1214,7 +1214,7 @@ button,input,select,textarea{max-width:100%}
       <p style="margin-bottom:28px;">The impact depends on your products, pricing, customer experience and existing traffic. We focus on a reliable checkout flow, clear payment confirmation and a process that makes it easier for customers to complete an order.</p>
       <div style="background:rgba(255,107,0,.08);border-left:4px solid var(--orange);padding:20px 24px;border-radius:0 12px 12px 0;">
         <p style="color:var(--text);font-weight:600;">Add M-Pesa to your website from KES 25,000. One-time setup, lifetime revenue.</p>
-        <button class="btn-p" onclick="showPage('contact')" style="border:none;margin-top:14px;">Integrate M-Pesa Now <i class="fas fa-arrow-right"></i></button>
+        <button class="btn-p" onclick="window.location.assign('/request')" style="border:none;margin-top:14px;">Integrate M-Pesa Now <i class="fas fa-arrow-right"></i></button>
       </div>
     </div>
   </section>
@@ -1238,7 +1238,7 @@ button,input,select,textarea{max-width:100%}
       <p style="margin-bottom:28px;">Well-branded businesses can charge more for the same service. Customers perceive higher quality and are willing to pay for it. A KES 12,000 brand kit from Webazi could directly translate to significantly higher prices you can charge your own clients.</p>
       <div style="background:rgba(255,107,0,.08);border-left:4px solid var(--orange);padding:20px 24px;border-radius:0 12px 12px 0;">
         <p style="color:var(--text);font-weight:600;">Get your complete brand kit — logo, business card, social profile images and brand guide — for KES 12,000.</p>
-        <button class="btn-p" onclick="showPage('contact')" style="border:none;margin-top:14px;">Start Your Brand <i class="fas fa-arrow-right"></i></button>
+        <button class="btn-p" onclick="window.location.assign('/request')" style="border:none;margin-top:14px;">Start Your Brand <i class="fas fa-arrow-right"></i></button>
       </div>
     </div>
   </section>
@@ -1351,7 +1351,7 @@ button,input,select,textarea{max-width:100%}
       </div>
       <p>A Parklands, Nairobi-based digital agency helping businesses thrive online through web design, SEO, social media and branding.</p>
       <div class="fsocs">
-        <a href="https://wa.me/254729914983" class="fsoc" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="/request" class="fsoc" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
         <a href="https://linkedin.com/in/joab-ndego-488ab940b" class="fsoc" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
         <a href="mailto:info@webazi.co.ke" class="fsoc" aria-label="Email us"><i class="fas fa-envelope"></i></a>
         <span class="fsoc" aria-hidden="true"><i class="fab fa-facebook-f"></i></span>
@@ -1378,13 +1378,13 @@ button,input,select,textarea{max-width:100%}
       <li><a href="/#page-pricing" onclick="showPage('pricing');return false;">Graphics Packages</a></li>
       <li><a href="/#page-pricing" onclick="showPage('pricing');return false;">Social Media Plans</a></li>
       <li><a href="/#page-pricing" onclick="showPage('pricing');return false;">Bundle Deals</a></li>
-      <li><a href="/#page-contact" onclick="showPage('contact');return false;">Custom Quote</a></li>
+      <li><a href="/request" >Custom Quote</a></li>
     </ul></div>
     <div class="fcol"><h3>Contact</h3><ul>
       <li><span><i class="fas fa-map-marker-alt" style="color:var(--orange);margin-right:6px;"></i>Parklands, Nairobi</span></li>
       <li><a href="tel:+254729914983"><i class="fas fa-phone" style="color:var(--orange);margin-right:6px;"></i>0729 914 983</a></li>
       <li><a href="mailto:info@webazi.co.ke"><i class="fas fa-envelope" style="color:var(--orange);margin-right:6px;"></i>info@webazi.co.ke</a></li>
-      <li><a href="https://wa.me/254729914983"><i class="fab fa-whatsapp" style="color:var(--orange);margin-right:6px;"></i>WhatsApp Us</a></li>
+      <li><a href="/request"><i class="fab fa-whatsapp" style="color:var(--orange);margin-right:6px;"></i>WhatsApp Us</a></li>
     </ul></div>
   </div>
   <div class="fbot">
@@ -1399,13 +1399,13 @@ button,input,select,textarea{max-width:100%}
 <!-- Mobile Call Bar -->
 <div class="mobile-call-bar">
   <a href="tel:+254729914983" class="mcb-btn"><i class="fas fa-phone"></i>Call</a>
-  <a href="https://wa.me/254729914983" class="mcb-btn"><i class="fab fa-whatsapp"></i>WhatsApp</a>
+  <a href="/request" class="mcb-btn"><i class="fab fa-whatsapp"></i>WhatsApp</a>
   <a href="mailto:info@webazi.co.ke" class="mcb-btn"><i class="fas fa-envelope"></i>Email</a>
-  <a href="/#page-contact" onclick="showPage('contact');return false;" class="mcb-btn" style="cursor:pointer;"><i class="fas fa-paper-plane"></i>Quote</a>
+  <a href="/request"  class="mcb-btn" style="cursor:pointer;"><i class="fas fa-paper-plane"></i>Quote</a>
 </div>
 
 <!-- WhatsApp Float -->
-<a href="https://wa.me/254729914983?text=Hi%20Webazi%20I%20would%20like%20to%20discuss%20a%20project" 
+<a href="/request" 
    class="wa-float" 
    target="_blank" rel="noopener noreferrer" 
    aria-label="Chat with us on WhatsApp">
@@ -1413,7 +1413,7 @@ button,input,select,textarea{max-width:100%}
 </a>
 
 <!-- Sticky Quote -->
-<button class="sticky-quote" onclick="showPage('contact')"><i class="fas fa-paper-plane"></i> Get a Quote</button>
+<button class="sticky-quote" onclick="window.location.assign('/request')"><i class="fas fa-paper-plane"></i> Get a Quote</button>
 
 <!-- Back to Top -->
 <button class="back-top" type="button" aria-label="Back to top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
@@ -1422,7 +1422,7 @@ button,input,select,textarea{max-width:100%}
 <div class="wa-popup" id="waPopup">
   <button class="wa-popup-close" type="button" aria-label="Close WhatsApp message" onclick="closeWaPopup()"><i class="fas fa-times"></i></button>
   <p> Hi! Need a website or digital help? Chat with us now.</p>
-  <a href="https://wa.me/254729914983?text=Hi%20Webazi%2C%20I%20have%20a%20question" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> Chat Now</a>
+  <a href="/request" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> Chat Now</a>
 </div>
 
 <!-- EXIT POPUP -->
