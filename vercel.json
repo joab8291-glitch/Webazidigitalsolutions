@@ -1,6 +1,14 @@
 {
   "rewrites": [
     {
+      "source": "/request",
+      "destination": "/admin/index.html"
+    },
+    {
+      "source": "/request/",
+      "destination": "/admin/index.html"
+    },
+    {
       "source": "/admin",
       "destination": "/admin/index.html"
     },
@@ -143,6 +151,19 @@
     },
     {
       "source": "/webazi-admin.html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    },
+    {
+      "source": "/request",
       "headers": [
         {
           "key": "X-Robots-Tag",
