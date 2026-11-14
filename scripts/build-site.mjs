@@ -25,6 +25,26 @@ for (const entry of await readdir(root, { withFileTypes: true })) {
 await cp(adminDist, join(siteDist, 'admin'), { recursive: true });
 
 const enquiryStyles = `<style id="webazi-request-cta-styles">
+/* Repair uneven desktop card rows and prevent text overflow */
+#page-services .grid-4{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:22px;}
+#page-services .grid-4>.card{height:100%;min-width:0;}
+.vgrid{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:2px;}
+.vc{height:100%;min-width:0;overflow-wrap:anywhere;}
+.vc h3,.card h3,.price-card h3{line-height:1.35;overflow-wrap:break-word;text-wrap:pretty;}
+.vc p,.card p,.price-card p,.plist li{line-height:1.65;overflow-wrap:break-word;word-break:normal;}
+.card,.price-card{min-width:0;}
+.card-icon,.vc-icon{flex:0 0 auto;}
+@media(min-width:761px) and (max-width:1100px){
+  #page-services .grid-4{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .vgrid{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:760px){
+  #page-services .grid-4,.vgrid{grid-template-columns:minmax(0,1fr);gap:14px;}
+  .vc{padding:24px 20px;}
+  .vc h3,.card h3{font-size:1rem;}
+  .vc p,.card p{font-size:.88rem;line-height:1.7;}
+}
+body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
 /* Consistent request CTA and message-icon alignment */
 .wa-btn,.call-btn,.btn-buy,.btn-p,.wa-popup a{
   display:inline-flex;align-items:center;justify-content:center;gap:.65rem;
