@@ -10,7 +10,7 @@
     },
     {
       "source": "/admin/:path*",
-      "destination": "https://webazi-admin.vercel.app/admin/:path*"
+      "destination": "https://webazi-admin.vercel.app/:path*"
     },
     {
       "source": "/supabase/:path*",
