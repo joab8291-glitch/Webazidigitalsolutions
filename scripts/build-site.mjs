@@ -29,7 +29,12 @@ for (const entry of await readdir(siteDist, { withFileTypes: true })) {
   if (!entry.isFile() || !entry.name.endsWith('.html')) continue;
   const filePath = join(siteDist, entry.name);
   const html = await readFile(filePath, 'utf8');
-  const updated = html.replaceAll('https://wa.me/254729914983', 'https://webazi.co.ke/request');
+  const updated = html.replaceAll('https://wa.me/254729914983', 'https://webazi.co.ke/request')
+    .replaceAll('fa-whatsapp', 'fa-comment-dots')
+    .replaceAll('Open WhatsApp Chat', 'Send Request')
+    .replaceAll('WhatsApp Us', 'Send a Request')
+    .replaceAll('Chat Now', 'Send a Request')
+    .replaceAll('aria-label=\"WhatsApp\"', 'aria-label=\"Send a request\"');
   if (updated !== html) await writeFile(filePath, updated, 'utf8');
 }
 console.log('Webazi static website and private /admin app assembled in site-dist.');
