@@ -25,6 +25,45 @@ for (const entry of await readdir(root, { withFileTypes: true })) {
 await cp(adminDist, join(siteDist, 'admin'), { recursive: true });
 
 const enquiryStyles = `<style id="webazi-request-cta-styles">
+/* Correct section intro alignment: heading, supporting sentence and CTA belong together */
+.sec>.center{
+  width:min(100%,780px);
+  margin:0 auto 8px!important;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center!important;
+}
+.sec>.center .sec-eyebrow,
+.sec>.center .sec-title,
+.sec>.center .sec-sub{display:block;width:100%;text-align:center!important;}
+.sec>.center .sec-title{
+  max-width:100%;
+  margin:0 auto 12px;
+  line-height:1.18;
+  text-wrap:balance;
+}
+.sec>.center .sec-sub{
+  max-width:620px;
+  margin:0 auto;
+  padding:0 12px;
+  line-height:1.65;
+  font-size:clamp(.92rem,1.2vw,1rem);
+  text-wrap:pretty;
+  overflow-wrap:normal;
+  word-break:normal;
+}
+.sec>.center .btn-p{align-self:center;margin-left:auto;margin-right:auto;}
+/* Undo overly aggressive global word splitting; only URLs and long tokens may break */
+p,li,h1,h2,h3,h4{word-break:normal;overflow-wrap:break-word;}
+a,button{word-break:normal;overflow-wrap:anywhere;}
+.sec>.center p{max-width:620px;}
+@media(max-width:600px){
+  .sec>.center{width:100%;padding-inline:4px;}
+  .sec>.center .sec-title{font-size:clamp(1.55rem,7vw,2rem);line-height:1.2;}
+  .sec>.center .sec-sub{font-size:.9rem;line-height:1.65;padding-inline:8px;}
+}
 /* Repair uneven desktop card rows and prevent text overflow */
 #page-services .grid-4{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:22px;}
 #page-services .grid-4>.card{height:100%;min-width:0;}
