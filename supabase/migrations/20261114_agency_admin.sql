@@ -24,8 +24,8 @@ grant execute on function public.is_agency_admin() to authenticated;
 create table if not exists public.agency_enquiries (
   id uuid primary key default gen_random_uuid(),
   name text not null check (char_length(name) between 1 and 100),
-  email text not null check (char_length(email) <= 254),
-  phone text not null check (char_length(phone) <= 30),
+  email text check (email is null or char_length(email) <= 254),
+  phone text check (phone is null or char_length(phone) <= 30),
   business_name text,
   service text not null check (char_length(service) <= 100),
   budget_kes numeric(12,2) check (budget_kes is null or budget_kes >= 0),
@@ -115,8 +115,8 @@ create policy "public can submit agency enquiry" on public.agency_enquiries
   for insert to anon with check (
     status = 'New'
     and char_length(name) between 1 and 100
-    and char_length(email) between 3 and 254
-    and char_length(phone) between 5 and 30
+    and (email is null or char_length(email) between 3 and 254)
+    and (phone is null or char_length(phone) between 5 and 30)
   );
 
 commit;
