@@ -2,15 +2,11 @@
   "rewrites": [
     {
       "source": "/admin",
-      "destination": "https://webazi-admin.vercel.app/"
+      "destination": "/admin/index.html"
     },
     {
       "source": "/admin/",
-      "destination": "https://webazi-admin.vercel.app/"
-    },
-    {
-      "source": "/admin/:path*",
-      "destination": "https://webazi-admin.vercel.app/:path*"
+      "destination": "/admin/index.html"
     },
     {
       "source": "/supabase/:path*",
