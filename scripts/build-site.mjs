@@ -31,9 +31,9 @@ for (const entry of await readdir(siteDist, { withFileTypes: true })) {
   const html = await readFile(filePath, 'utf8');
   const updated = html
     // Route every public WhatsApp destination to the shared Webazi request form.
-    .replace(/https?:\/\/(?:api\.)?whatsapp\.com\/send\?[^\s"'<>]*/gi, '/request')
-    .replace(/https?:\/\/wa\.me\/[^\s"'<>]*/gi, '/request')
-    .replace(/whatsapp:\/\/send\?[^\s"'<>]*/gi, '/request')
+    .replace(/https?:\/\/(?:api\.)?whatsapp\.com\/send\?[^\s"'`<>]*/gi, '/request')
+    .replace(/https?:\/\/wa\.me\/[^\s"'`<>]*/gi, '/request')
+    .replace(/whatsapp:\/\/send\?[^\s"'`<>]*/gi, '/request')
     .replaceAll('fa-whatsapp', 'fa-comment-dots')
     .replaceAll('Open WhatsApp Chat', 'Send Request')
     .replaceAll('WhatsApp Us', 'Send a Request')
