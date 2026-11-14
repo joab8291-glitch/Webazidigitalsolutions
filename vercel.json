@@ -1,6 +1,18 @@
 {
   "rewrites": [
     {
+      "source": "/admin",
+      "destination": "https://webazi-admin.vercel.app/"
+    },
+    {
+      "source": "/admin/",
+      "destination": "https://webazi-admin.vercel.app/"
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "https://webazi-admin.vercel.app/admin/:path*"
+    },
+    {
       "source": "/supabase/:path*",
       "destination": "/__not_public__"
     },
@@ -11,14 +23,6 @@
     {
       "source": "/vercel.json",
       "destination": "/__not_public__"
-    },
-    {
-      "source": "/admin",
-      "destination": "/webazi-admin.html"
-    },
-    {
-      "source": "/admin/",
-      "destination": "/webazi-admin.html"
     },
     {
       "source": "/web-design",
